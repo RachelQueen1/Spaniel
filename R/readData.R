@@ -97,6 +97,7 @@ readSCE <- function(Counts,
     sce <- scater::calculateQCMetrics(
         sce
     )
+   
     return(sce)
     
 }
