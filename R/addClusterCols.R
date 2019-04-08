@@ -1,4 +1,5 @@
 #' markClusterCol
+#' 
 #' A function to mark the columns containing cluster information in the metadata
 #' or colData of a Seurat or SCE object. Columns are marked with "cluster_" 
 #' prefix.

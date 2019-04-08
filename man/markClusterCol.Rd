@@ -2,10 +2,7 @@
 % Please edit documentation in R/addClusterCols.R
 \name{markClusterCol}
 \alias{markClusterCol}
-\title{markClusterCol
-A function to mark the columns containing cluster information in the metadata
-or colData of a Seurat or SCE object. Columns are marked with "cluster_" 
-prefix.}
+\title{markClusterCol}
 \usage{
 markClusterCol(Object, Pattern)
 }
@@ -15,7 +12,6 @@ markClusterCol(Object, Pattern)
 \item{Pattern}{pattern indicating which columns contain cluster information}
 }
 \description{
-markClusterCol
 A function to mark the columns containing cluster information in the metadata
 or colData of a Seurat or SCE object. Columns are marked with "cluster_" 
 prefix.
