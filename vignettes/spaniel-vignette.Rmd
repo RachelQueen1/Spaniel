@@ -162,7 +162,7 @@ image <- parseImage(imgFile)
 
 ## Spatial Transcriptomics using Seurat
 
-The rest of this vignette will focus on a Seurat workflow. 
+The rest of this vignette will focus on using a Seurat workflow. 
 
 
 ## Quality Control
@@ -215,7 +215,7 @@ package. For more details see:
 https://satijalab.org/seurat/get_started.html
 
 
-```{r, find_clusters}
+```{r, find_clusters, message=F, warning=F }
 
 
 
@@ -253,8 +253,8 @@ will be taken from the logcounts slot.
 ```{r, genePlot, fig.height = 8, fig.width = 8, fig.align = "center", warning= F, message = F}
 
 
-gene = "ENSMUSG00000050010.8"
-ST_plot(Object = SeuratFiltered, Grob = imgFile, 
+gene = "Nrgn"
+ST_plot(Object = SeuratFiltered, Grob = image, 
         PlotType = "Gene", 
         Gene = gene)
 
@@ -282,8 +282,10 @@ ST_plot(Object = SeuratFiltered,
 
 ## ShinySpaniel
 
+## Using the RunShinySpaniel function in R
+
 Spaniel includes a shiny app designed to share preprocessed data. The app is 
-included in 
+included as the runShinySpaniel function. 
 
 ### Mark Cluster Columns
 
@@ -293,33 +295,62 @@ marked in the meta.dat with the prefix "cluster_"  so that Spaniel knows where
 to look for them. 
 
 ```{r, markClusters}
-
+SeuratFiltered = markClusterCol(SeuratFiltered, "res")
 ```
 
 ### Save data object
 
 ```{r}
-
-#path to example data
-
+saveRDS(SeuratFiltered, "data.rds")
 ```
 
+An example of processed data set can be found:
 
+```{r, eval = F}
+file.path(system.file(package = "Spaniel"), "data/SeuratData.rds" )
+```
 
 ### Save image object
 
 ```{r}
-
-#path to example data
+saveRDS(SeuratFiltered, "image.rds")
 
 ```
+An example of processed image file  can be found:
 
+```{r, eval = F}
+file.path(system.file(package = "Spaniel"), "data/image.rds" )
+```
 
 ### Run shinySpaniel!
 ```{r, markclusterCols}
 runShinySpaniel()
 
 ```
+
+## Deploying ShinySpaniel
+For sharing analysis it is also possible to deploy the ShinySpaniel app to 
+Shiny.io or any other server running R Server. The standalone app is located:
+
+```{r, eval = F}
+SpanielApp = file.path(system.file(package = "Spaniel"), "ShinySpaniel/app.rds" )
+```
+
+You can sign up for a shinyapps.io account:
+
+https://www.shinyapps.io/
+
+Sign into your account and follow the getting started instructions. 
+
+
+```{r, eval = F}
+library(rsconnect)
+rsconnect::deployApp(SpanielApp)
+
+```
+
+
+
 
 
 
