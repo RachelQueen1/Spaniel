@@ -16,3 +16,7 @@ devtools::install_github(repo = 'satijalab/seurat', ref = 'release/3.0')
 ```{r}
 devtools::install_github(repo = "RachelQueen1/Spaniel")
 ```
+
+# View Vignette:
+
+https://rachelqueen1.github.io/Spaniel/
