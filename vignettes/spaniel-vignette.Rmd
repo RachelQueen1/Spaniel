@@ -185,7 +185,7 @@ pass filtering thresholds. We create a filter to show spots which have greater
 than 2000 genes and a minimum of 300000. These parameters will be experiment 
 specific and should be adjusted as necessary.
 
-```{r, qcplotting,  fig.height = 8, fig.width = 8, fig.align = "center", warning= F, message = F}
+```{r, qcplotting,  fig.height = 8, fig.width = 8, fig.align = "center", warning= F, message = F, results = "hide" }
 minGenes = 2000
 minUMI = 300000
 
@@ -217,7 +217,7 @@ package. For more details see:
 https://satijalab.org/seurat/get_started.html
 
 
-```{r, find_clusters, message=F, warning=F }
+```{r, find_clusters, message=F, warning=F, echo=T, results = "hide" }
 
 
 
@@ -252,7 +252,7 @@ NOTE: if this plot is used with a SingleCellExperiment object expression data
 will be taken from the logcounts slot.
 
 
-```{r, genePlot, fig.height = 8, fig.width = 8, fig.align = "center", warning= F, message = F}
+```{r, genePlot, fig.height = 8, fig.width = 8, fig.align = "center", warning= F, message = F, results = "hide" }
 
 
 gene = "Nrgn"
@@ -272,7 +272,7 @@ ClusterRes argument should match a name in the meta.data to plot.
 
 NOTE: if this plot is used with a SingleCellExperiment object ClusterRes should match a column name within the colData.
 
-```{r, clusterPlot, fig.height = 8, fig.width = 8, fig.align = "center", warning= F, message = F}
+```{r, clusterPlot, fig.height = 8, fig.width = 8, fig.align = "center", warning= F, message = F, results = "hide" }
 
 ST_plot(Object = SeuratFiltered, 
         Grob = image, 
