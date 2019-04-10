@@ -22,7 +22,9 @@ if (!require("devtools"))
 if (!require("Seurat")) 
     devtools::install_github(repo = 'satijalab/seurat', ref = 'release/3.0')
 if (!require("Spaniel")) 
-    devtools::install_github(repo = "RachelQueen1/Spaniel", build_vignettes = TRUE)
+    devtools::install_github(repo = "RachelQueen1/Spaniel", 
+                             build_opts = c("--no-resave-data", "--no-manual"), 
+                             build_vignettes = TRUE)
 
 library(Spaniel)
 
