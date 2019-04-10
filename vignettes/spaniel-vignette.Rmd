@@ -350,7 +350,7 @@ Then run the following code:
 
 ```{r, eval = F}
 library(rsconnect)
-rsconnect::deployApp(SpanielApp, account = "spaniel")
+rsconnect::deployApp(SpanielApp)
 
 ```
 
