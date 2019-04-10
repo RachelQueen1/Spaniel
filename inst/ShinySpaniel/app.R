@@ -1,3 +1,7 @@
+options(repos = BiocManager::repositories())
+options(shiny.maxRequestSize=100*1024^2)
+#setRepositories(addURLs = c(BioC = "https://bioconductor.org/packages/3.8/bioc"))
+
 if(!require("shiny"))
   install.packages("shiny")
 if(!require("dplyr"))
@@ -6,9 +10,6 @@ if(!require("ggplot2"))
   install.packages("ggplot2")
 if (!require("devtools")) 
     install.packages("devtools")
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-BiocManager::install("Rhdf5lib", version = "3.8")
 if (!require("Seurat")) 
     devtools::install_github(repo = 'satijalab/seurat', ref = 'release/3.0')
 if (!require("Spaniel")) 
@@ -19,7 +20,7 @@ library(Seurat)
 library(Spaniel)
 library(ggplot2)
 library(dplyr)
-options(shiny.maxRequestSize=100*1024^2)
+
 
 
 ############ ui #################################
