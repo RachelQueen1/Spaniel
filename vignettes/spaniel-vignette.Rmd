@@ -333,14 +333,17 @@ For sharing analysis it is also possible to deploy the ShinySpaniel app to
 Shiny.io or any other server running R Server. The standalone app is located:
 
 ```{r, eval = F}
-SpanielApp = file.path(system.file(package = "Spaniel"), "ShinySpaniel/app.rds" )
+SpanielApp = file.path(system.file(package = "Spaniel"), "ShinySpaniel" )
 ```
 
 You can sign up for a shinyapps.io account:
 
 https://www.shinyapps.io/
 
-Sign into your account and follow the getting started instructions. 
+Sign into your account and follow steps 1 and and 2 to authorise your account 
+in the getting started instructions. 
+
+Then run 
 
 
 ```{r, eval = F}
