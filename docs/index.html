@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0069)file:///tmp/RtmpC34htS/preview-2a67684169d9.dir/spaniel-vignette.html -->
+<!-- saved from url=(0069)file:///tmp/RtmpN9jgsZ/preview-201d698bea1d.dir/spaniel-vignette.html -->
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 
@@ -205,6 +205,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="load-data" class="section level2">
 <h2>Load data</h2>
+<p>The data used in this vignette was published in Science (AAAS) under the title <a href="https://science.sciencemag.org/content/353/6294/78">“Visualization and analysis of gene expression in tissue sections by spatial transcriptomics”</a> on July 1st 2016. A subset of the data that is used in this vignette is included in the package.</p>
+<p>To download the full dataset vist:</p>
+<p><a href="http://www.spatialtranscriptomicsresearch.org/datasets/doi-10-1126science-aaf2403/" class="uri">http://www.spatialtranscriptomicsresearch.org/datasets/doi-10-1126science-aaf2403/</a></p>
 <div id="expression-matrix" class="section level3">
 <h3>Expression Matrix</h3>
 <p>Spaniel requires a data frame of counts where the genes equate to the rows and the columns equate to a Spatial Transcriptomics spot/barcode.</p>
@@ -452,7 +455,7 @@ SeuratFiltered &lt;-<span class="st"> </span><span class="kw">FindClusters</span
 </div>
 <div id="save-image-object" class="section level3">
 <h3>Save image object</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">saveRDS</span>(SeuratFiltered, <span class="st">"image.rds"</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">saveRDS</span>(image, <span class="st">"image.rds"</span>)</code></pre></div>
 <p>An example of processed image file can be found:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">file.path</span>(<span class="kw">system.file</span>(<span class="dt">package =</span> <span class="st">"Spaniel"</span>), <span class="st">"data/image.rds"</span> )</code></pre></div>
 </div>

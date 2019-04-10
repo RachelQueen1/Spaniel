@@ -32,6 +32,17 @@ library(Spaniel)
 
 ## Load data
 
+The data used in this vignette was published in Science (AAAS) under the title 
+[“Visualization and analysis of gene expression in tissue sections by 
+spatial transcriptomics”](https://science.sciencemag.org/content/353/6294/78) 
+on July 1st 2016. A subset of the data that is used in this vignette is included 
+in the package.
+
+To download the full dataset vist:
+
+http://www.spatialtranscriptomicsresearch.org/datasets/doi-10-1126science-aaf2403/
+
+
 ### Expression Matrix
 
 Spaniel requires a data frame of counts where the genes equate to the rows and 
@@ -315,7 +326,7 @@ file.path(system.file(package = "Spaniel"), "data/SeuratData.rds" )
 ### Save image object
 
 ```{r, eval = F}
-saveRDS(SeuratFiltered, "image.rds")
+saveRDS(image, "image.rds")
 
 ```
 An example of processed image file  can be found:
