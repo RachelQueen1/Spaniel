@@ -22,7 +22,7 @@ if (!require("devtools"))
 if (!require("Seurat")) 
     devtools::install_github(repo = 'satijalab/seurat', ref = 'release/3.0')
 if (!require("Spaniel")) 
-    devtools::install_github(repo = "RachelQueen1/Spaniel")
+    devtools::install_github(repo = "RachelQueen1/Spaniel", build_vignettes = TRUE)
 
 library(Spaniel)
 
@@ -201,7 +201,7 @@ ST_plot(Object = SeuratObj,
 
 Spots which don't pass QC thresholds can then be filtered from the data:
 
-```{r, qcplotting }
+```{r, filter_seurat }
 SeuratFiltered <- subset(x = SeuratObj, subset = nFeature_RNA > minGenes &
                              nCount_RNA > minUMI)
 
@@ -300,7 +300,7 @@ SeuratFiltered = markClusterCol(SeuratFiltered, "res")
 
 ### Save data object
 
-```{r}
+```{r, eval = F}
 saveRDS(SeuratFiltered, "data.rds")
 ```
 
@@ -312,7 +312,7 @@ file.path(system.file(package = "Spaniel"), "data/SeuratData.rds" )
 
 ### Save image object
 
-```{r}
+```{r, eval = F}
 saveRDS(SeuratFiltered, "image.rds")
 
 ```
@@ -323,7 +323,7 @@ file.path(system.file(package = "Spaniel"), "data/image.rds" )
 ```
 
 ### Run shinySpaniel!
-```{r, markclusterCols}
+```{r, markclusterCols, eval = F}
 runShinySpaniel()
 
 ```
@@ -340,8 +340,8 @@ You can sign up for a shinyapps.io account:
 
 https://www.shinyapps.io/
 
-Sign into your account and follow steps 1 and and 2 to authorise your account 
-in the getting started instructions. 
+Sign into your account and follow steps 1 and and 2 in the getting started 
+instructions to authorise your account in R. 
 
 Then run the following code:
 
