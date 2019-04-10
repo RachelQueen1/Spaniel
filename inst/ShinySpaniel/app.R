@@ -1,6 +1,6 @@
 options(repos = BiocManager::repositories())
 options(shiny.maxRequestSize=100*1024^2)
-#setRepositories(addURLs = c(BioC = "https://bioconductor.org/packages/3.8/bioc"))
+
 
 if(!require("shiny"))
   install.packages("shiny")
