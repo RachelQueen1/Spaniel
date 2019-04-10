@@ -13,7 +13,8 @@ Depends: Seurat,
          ggplot2,
          SingleCellExperiment,
          scater, 
-         shiny
+         shiny, 
+         jpeg
 Suggests: 
     knitr,
     rmarkdown
