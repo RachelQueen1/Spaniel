@@ -19,8 +19,8 @@ experiments. To install and load Spaniel:
 
 if (!require("devtools")) 
     install.packages("devtools")
-if (!require("Seurat")) 
-    devtools::install_github(repo = 'satijalab/seurat', ref = 'release/3.0')
+
+
 if (!require("Spaniel")) 
     devtools::install_github(repo = "RachelQueen1/Spaniel", 
                              build_opts = c("--no-resave-data", "--no-manual"), 
@@ -226,7 +226,7 @@ After filtering some spots remain which fall outside of the tissue area.
 Spaniel includes a shiny apply to select these spots. This can be run by issuing the command:
 
 
-```{r, select_spots }
+```{r, select_spots, eval = F }
  selectSpots(SeuratFiltered, imgObj)
 
 ```
