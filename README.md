@@ -13,11 +13,10 @@ xcode-select --install
 ## All operating systems
 
 ### Seurat
-Spaniel requires Seurat v3.0. This will be released on Cran on 16th April. Before then it can be installed: <br/><br/>
+Spaniel requires Seurat v3.0. This can be installed: <br/><br/>
 
 ```{r}
-install.packages("devtools") 
-devtools::install_github(repo = 'satijalab/seurat', ref = 'release/3.0')
+install.packages('Seurat')
 ```
 
 ### SingleCellExperiment
