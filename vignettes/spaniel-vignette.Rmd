@@ -220,6 +220,36 @@ SeuratFiltered <- subset(x = SeuratObj, subset = nFeature_RNA > minGenes &
 
 ```
 
+### Remove additional spots
+
+After filtering some spots remain which fall outside of the tissue area. 
+Spaniel includes a shiny apply to select these spots. This can be run by issuing the command:
+
+
+```{r, select_spots }
+ selectSpots(SeuratFiltered, imgObj)
+
+```
+
+
+This opens an interactive plot allowing you to click on any spots to be removed from downstream analysis. Once all the spots have been selected close the shiny app window. 
+A list of spots is stored in a text file called points_to_remove.txt
+in the working directory. As this is an interactive step it is not run in this vignette. Instead we can load a list of points to remove and run the function removeSpots to remove
+the points that fall outside of the tissue area.
+
+
+
+```{r, remove_spots }
+
+spotsToRemove <- file.path(system.file(package = "Spaniel"), 
+                            "points_to_remove.txt")
+
+SeuratFiltered <- removeSpots(SeuratFiltered, 
+                                pointsToRemove = spotsToRemove)
+
+```
+
+
 ## Cluster Spots
 
 A clustering analysis can now be performed using methods found in Seurat 

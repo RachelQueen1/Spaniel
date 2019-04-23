@@ -12,7 +12,7 @@ getExprs <- function(Object){
 getMetadata <- function(Object){
     if (class(Object) == "Seurat"){
         MetaData <- Object@meta.data
-        print("got meta data")}
+    }
     if (class(Object) == "SingleCellExperiment"){
         MetaData <- Object@colData %>% data.frame()}
     
@@ -47,7 +47,7 @@ plotImage = function(Grob, Tmp, Colour, Size, ShowSizeLegend = TRUE,
         ggplot2::ylim(1, 35) +
         ggplot2::annotation_custom(Grob, xmin = 1, xmax = 33, 
                                    ymin = 1, ymax = 35) +
-        ggplot2::geom_point()  +
+        ggplot2::geom_point(alpha = 0.6)  +
         ggplot2::labs(title = PlotTitle) +
         ggplot2::theme(axis.title.x=ggplot2::element_blank(),
                        axis.text.x=ggplot2::element_blank(),
