@@ -12,6 +12,9 @@ xcode-select --install
 
 ## All operating systems
 
+### DevTools
+install.packages('devtools')
+
 ### Seurat
 Spaniel requires Seurat v3.0. This can be installed: <br/><br/>
 
