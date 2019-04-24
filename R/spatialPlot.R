@@ -162,7 +162,9 @@ ST_plot <- function (Object,  Grob,
         scale_size(range=c(1,5)) +
         guides(color=guide_legend(), size = guide_legend())
     }
-    
+    if (PlotType == "Cluster"){
+        p = p + ggplot2::guides(size=FALSE)
+    } 
     
     p
     
