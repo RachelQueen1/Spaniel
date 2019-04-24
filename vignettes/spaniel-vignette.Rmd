@@ -239,7 +239,7 @@ the points that fall outside of the tissue area.
 
 
 
-```{r, remove_spots }
+```{r, remove_spots, fig.height = 8, fig.width = 8, fig.align = "center", warning= F, message = F }
 
 spotsToRemove <- file.path(system.file(package = "Spaniel"), 
                             "points_to_remove.txt")
@@ -250,7 +250,7 @@ SeuratFiltered <- removeSpots(SeuratFiltered,
 
 ST_plot(Object = SeuratFiltered, 
         Grob = image, 
-        PlotType = "NoGenes")
+        PlotType = "NoGenes") 
 
 
 
