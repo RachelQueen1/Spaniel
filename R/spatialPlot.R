@@ -150,11 +150,22 @@ ST_plot <- function (Object,  Grob,
     }
     print(show_size_legend)
     #tmp$y = tmp$y * -1
-    plotImage(Grob, tmp, 
+    p = plotImage(Grob, tmp, 
               Colour = cl, 
               Size = sz, 
               PlotTitle = plotTitle, 
               ShowSizeLegend = show_size_legend)
+    
+    if (PlotType != "Cluster"){
+    p = p +
+        scale_colour_gradient(low="#ff3300", high="#ffff00")+
+        scale_size(range=c(1,5)) +
+        guides(color=guide_legend(), size = guide_legend())}
+    
+    p
+    
+    
+    
 }
 
 
