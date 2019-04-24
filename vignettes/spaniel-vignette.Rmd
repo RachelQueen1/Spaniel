@@ -218,6 +218,12 @@ Spots which don't pass QC thresholds can then be filtered from the data:
 SeuratFiltered <- subset(x = SeuratObj, subset = nFeature_RNA > minGenes &
                              nCount_RNA > minUMI)
 
+
+ST_plot(Object = SeuratFiltered, 
+        Grob = image, 
+        PlotType = "NoGenes") 
+
+
 ```
 
 ### Remove additional spots
