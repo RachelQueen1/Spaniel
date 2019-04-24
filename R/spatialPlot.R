@@ -156,11 +156,13 @@ ST_plot <- function (Object,  Grob,
               PlotTitle = plotTitle, 
               ShowSizeLegend = show_size_legend)
     
-    if (PlotType != "Cluster"){
+    if (PlotType != "Cluster" & is.null(ShowFilter)){
     p = p +
         scale_colour_gradient(low="#ff3300", high="#ffff00")+
         scale_size(range=c(1,5)) +
-        guides(color=guide_legend(), size = guide_legend())}
+        guides(color=guide_legend(), size = guide_legend())
+    }
+    
     
     p
     
