@@ -227,7 +227,7 @@ Spaniel includes a shiny apply to select these spots. This can be run by issuing
 
 
 ```{r, select_spots, eval = F }
- selectSpots(SeuratFiltered, imgObj)
+ selectSpots(SeuratFiltered, imgage)
 
 ```
 
@@ -246,6 +246,13 @@ spotsToRemove <- file.path(system.file(package = "Spaniel"),
 
 SeuratFiltered <- removeSpots(SeuratFiltered, 
                                 pointsToRemove = spotsToRemove)
+
+
+ST_plot(Object = SeuratFiltered, 
+        Grob = image, 
+        PlotType = "NoGenes")
+
+
 
 ```
 
