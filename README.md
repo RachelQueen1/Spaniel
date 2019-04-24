@@ -38,17 +38,12 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
 BiocManager::install("scater", version = "3.8")
 ```
 
-
-
-
-
-
-
-
 # Install Spaniel:
 
 ```{r}
-devtools::install_github(repo = "RachelQueen1/Spaniel")
+install_github(repo = "RachelQueen1/Spaniel", 
+                             build_opts = c("--no-resave-data", "--no-manual"), 
+                             build_vignettes = TRUE)
 ```
 
 # View Vignette:
