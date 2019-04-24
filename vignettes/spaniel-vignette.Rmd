@@ -214,7 +214,7 @@ ST_plot(Object = SeuratObj,
 
 Spots which don't pass QC thresholds can then be filtered from the data:
 
-```{r, filter_seurat }
+```{r, filter_seurat, fig.height = 8, fig.width = 8, fig.align = "center", warning= F, message = F }
 SeuratFiltered <- subset(x = SeuratObj, subset = nFeature_RNA > minGenes &
                              nCount_RNA > minUMI)
 
