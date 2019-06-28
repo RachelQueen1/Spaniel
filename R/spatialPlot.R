@@ -54,6 +54,7 @@
 #'        Gene = "Pax6")
 
 
+
 ###### FUNCTIONS ############
 ST_plot <- function (Object,  Grob,
                      PlotType = c("NoGenes", 
@@ -64,7 +65,8 @@ ST_plot <- function (Object,  Grob,
                      ClusterRes = NULL, 
                      CustomTitle = NULL,
                      ScaleData = T, 
-                     ShowFilter = NULL)
+                     ShowFilter = NULL, 
+                     pt.size = 2)
     
 {
     MetaData = getMetadata(Object)
@@ -76,6 +78,7 @@ ST_plot <- function (Object,  Grob,
         plotTitle = "Number of Genes Per Spot"
         cl = "No_Of_Genes"
         sz = "No_Of_Genes"
+        shp = NULL
         
         ### get column to plot
         if (class(Object) == "Seurat"){
@@ -97,6 +100,7 @@ ST_plot <- function (Object,  Grob,
     if (PlotType == "CountsPerSpot") {
         cl = "Exprs"
         sz = "Exprs"
+        shp = NULL
         plotTitle = "Total Counts Per Spot"
         
         ### get column to plot
@@ -120,7 +124,8 @@ ST_plot <- function (Object,  Grob,
     if (PlotType == "Cluster") {
         plotTitle = "Spot Clusters"
         cl = "cluster"
-        sz = 2
+        sz = pt.size
+        shp = "cluster"
         show_size_legend = FALSE
         
         tmp = data.frame(cluster = MetaData[, ClusterRes], 
@@ -131,6 +136,7 @@ ST_plot <- function (Object,  Grob,
     if (PlotType == "Gene") {
         cl = "Exp"
         sz = "Exp"
+        shp = NULL
         plotTitle = paste("Expression of", Gene)
         Exprs = getExprs(Object)
         
