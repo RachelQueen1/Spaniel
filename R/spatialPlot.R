@@ -66,7 +66,9 @@ ST_plot <- function (Object,  Grob,
                      CustomTitle = NULL,
                      ScaleData = T, 
                      ShowFilter = NULL, 
-                     pt.size = 2)
+                     pt.size = 2,
+                     pt.size.min = 0, 
+                     pt.size.max = 5)
     
 {
     MetaData = getMetadata(Object)
@@ -165,7 +167,8 @@ ST_plot <- function (Object,  Grob,
     if (PlotType != "Cluster" & is.null(ShowFilter)){
     p = p +
         scale_colour_gradient(low="#ff3300", high="#ffff00")+
-        scale_size(range=c(1,5)) +
+        scale_size(range=c(pt.size.min,
+                           pt.size.min)) +
         guides(color=guide_legend(), size = guide_legend())
     }
     if (PlotType == "Cluster"){
