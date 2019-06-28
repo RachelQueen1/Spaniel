@@ -27,10 +27,13 @@
 #'                       of a SingleCellExperiment object.
 #'                       5) Other - A generic plot to plot any column from the
 #'                       meta.data or colData of an object.
-#'                       
+#'                                             
 #'                       
 #' @param Gene 
 #' @param NoClusters
+#' @param pt.size Point size used for cluster plot default is 2
+#' @param pt.size.min Minimum point size used for QC and Gene Expression plots default is 0
+#' @param pt.size.max Maximum point size used for QC and Gene Expression plots default is 5
 #' @customT
 #' @export
 #' @examples
@@ -164,16 +167,43 @@ ST_plot <- function (Object,  Grob,
               PlotTitle = plotTitle, 
               ShowSizeLegend = show_size_legend)
     
+    ### FOR QC PLOTS
+    if (!is.null(ShowFilter)){
+        p = p +
+        scale_size_continuous(range=c(pt.size.min,
+                                      pt.size.max)) +
+        guides(color=guide_legend(), size = guide_legend())
+    }
+
+    ### FOR GENE PLOTS AND NUMBER READS/COUNTS
     if (PlotType != "Cluster" & is.null(ShowFilter)){
     p = p +
         scale_colour_gradient(low="#ff3300", high="#ffff00")+
-        scale_size(range=c(pt.size.min,
-                           pt.size.min)) +
+        scale_size_continuous(range=c(pt.size.min,
+                           pt.size.max)) +
         guides(color=guide_legend(), size = guide_legend())
+
     }
+    ### FOR CLUSTER PLOTS
     if (PlotType == "Cluster"){
-        p = p + ggplot2::guides(size=FALSE)
-    } 
+        p = p + ggplot2::guides(size=FALSE) +
+            scale_size_continuous(range=c(pt.size,
+                                          pt.size))
+    }
+    
+    # if (PlotType != "Cluster" & is.null(ShowFilter)){
+    #     p = p +
+    #         scale_colour_gradient(low="#ff3300", high="#ffff00")+
+    #         #scale_size_continuous(range=c(pt.size.min,
+    #         #                   pt.size.max)) +
+    #         guides(color=guide_legend(), size = guide_legend())
+    # }
+    # if (PlotType == "Cluster"){
+    #     p = p + ggplot2::guides(size=FALSE)
+    # } 
+    
+    
+    
     
     p
     
