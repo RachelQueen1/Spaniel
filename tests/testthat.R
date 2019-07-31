@@ -3,3 +3,4 @@ library(Spaniel)
 
 test_check("Spaniel")
 
+
