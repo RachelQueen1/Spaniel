@@ -16,3 +16,6 @@ markClusterCol <- function(Object, Pattern){
     Object<-updateMetadata(MetaData, Object)
     return(Object)
 }
+
+
+

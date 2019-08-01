@@ -1,11 +1,11 @@
 # Tests for addClusterCols function
 # ------------------------------------------------------------------------------
 
-context("Testing addClusterCols")
-# These tests were created to ensure that the addClusterCols functions works
+context("Testing markClusterCol")
+# These tests were created to ensure that the markClusterCol functions works
 # correctly and marks the correct column with Cluster_ prefix
 
-# Test getMetadata with Seurat and sce objects 
+# Test markClusterCol with Seurat and sce objects 
 # ------------------------------------------------------------------------------
 
 # Create test data
@@ -30,6 +30,9 @@ md <- counts %>%
            res.0.8 = gene.4,
            res.1.0 = gene.5)
 
+
+# Test with Seurat object
+# ------------------------------------------------------------------------------
 test.seurat <- Seurat::CreateSeuratObject(counts = counts,
                                           meta.data = md)
 
@@ -56,7 +59,7 @@ test.marked.after.other <- colnames(test.md.after)[1:5]%>%
     sum()
 
 test_that("markClusterCol check that columns 
-          are marked with cluster_ correctly", {
+          are marked with cluster_ correctly, Seurat", {
     expect_is(test.seurat, "Seurat")
     expect_is(test.md.before, "data.frame")
     expect_is(test.md.after, "data.frame")
@@ -68,4 +71,41 @@ test_that("markClusterCol check that columns
 })
 
 
-# To do! add sce object to addClusterCols function and create test
+# Test with SingleCellExperiment object
+# ------------------------------------------------------------------------------
+test.sce <- SingleCellExperiment(assays = list(counts = as.matrix(counts)), 
+                                 colData = md)
+
+test.md.before <- getMetadata(test.sce)
+
+### prefix all columns containing patten with "cluster_"
+pattern <- "res"
+test.sce <- markClusterCol(test.sce, Pattern = pattern)
+test.md.after <- getMetadata(test.sce)
+
+# check that no columns are marked before running markClusterCol
+test.marked.before <- colnames(test.md.before) %>% 
+    grepl("cluster_", .) %>% 
+    sum()
+
+#checked that columns containing cluser columns are marked
+test.marked.after <- colnames(test.md.after) %>% 
+    grepl("cluster_", .) %>% 
+    sum()
+
+#check that columns not containing cluster info remain unmarked
+test.marked.after.other <- colnames(test.md.after)[1:2]%>% 
+    grepl("cluster_", .) %>% 
+    sum()
+
+test_that("markClusterCol check that columns 
+          are marked with cluster_ correctly, SCE", {
+              expect_is(test.sce, "SingleCellExperiment")
+              expect_is(test.md.before, "data.frame")
+              expect_is(test.md.after, "data.frame")
+              expect_equal(colnames(test.md.before)[3], "res.0.6")
+              expect_equal(colnames(test.md.after)[3], "cluster_res.0.6")
+              expect_equal(test.marked.before, 0)
+              expect_equal(test.marked.after, 3)
+              expect_equal(test.marked.after.other, 0)
+          })
