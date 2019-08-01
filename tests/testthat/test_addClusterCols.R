@@ -1,4 +1,4 @@
-# Tests for addClusterCols function
+# Tests for markClusterCol function
 # ------------------------------------------------------------------------------
 
 context("Testing markClusterCol")
