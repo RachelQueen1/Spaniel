@@ -78,7 +78,7 @@ test_that("getCoordinates extracts spot coordinates from metadata", {
 })
 
 test.sce <- updateMetadata(md, sce_obj)
-test_that("getCoordinates extracts spot coordinates from metadata", {
+test_that("updateMetadata ", {
     expect_is(colData(test.sce) , "DataFrame")
     expect_equal(colnames(colData(test.sce))[1], "test1")
     expect_equal(rownames(colData(test.sce))[1], "ACAACTATGGGTTGGCGG")
@@ -90,3 +90,19 @@ test_that("getCoordinates extracts spot coordinates from metadata", {
 
 ### Test plot image function
 # ------------------------------------------------------------------------------
+test.cood$plotCols = seq(1, 248)
+test.cood$plotSize = seq(1, 248)
+
+test.plot <- plotImage(Tmp = test.cood,
+               Grob = grid::roundrectGrob(),
+               Colour = "plotCols",
+               Size = "plotSize",
+               PlotTitle = "Title")
+test_that("plotImages test plotting function", {
+            expect_is(test.plot , c("gg","ggplot"))
+            expect_equal(test.plot$data, test.cood)
+            expect_equal(test.plot$labels$title, "Title")
+            expect_equal(test.plot$labels$size, "plotSize")
+            expect_equal(test.plot$labels$colour, "plotCols")
+})
+
