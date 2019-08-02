@@ -88,21 +88,5 @@ test_that("updateMetadata ", {
 
 
 
-### Test plot image function
-# ------------------------------------------------------------------------------
-test.cood$plotCols = seq(1, 248)
-test.cood$plotSize = seq(1, 248)
 
-test.plot <- plotImage(Tmp = test.cood,
-               Grob = grid::roundrectGrob(),
-               Colour = "plotCols",
-               Size = "plotSize",
-               PlotTitle = "Title")
-test_that("plotImages test plotting function", {
-            expect_is(test.plot , c("gg","ggplot"))
-            expect_equal(test.plot$data, test.cood)
-            expect_equal(test.plot$labels$title, "Title")
-            expect_equal(test.plot$labels$size, "plotSize")
-            expect_equal(test.plot$labels$colour, "plotCols")
-})
 
