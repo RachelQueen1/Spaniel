@@ -82,7 +82,7 @@ ST_plot <- function (Object,
     
     ### set title, colour column, and size column according to plotType
     ungroupVars(plotTitle,cl,sz,shp, show_size_legend, colPlot) %=% 
-        setVars(Object, PlotType, pt.size, Gene)
+        setVars(Object, PlotType, pt.size, Gene, ClusterRes)
     
             # convert shp NULL
             if(shp == "NULL"){shp = NULL}

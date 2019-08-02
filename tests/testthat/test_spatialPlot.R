@@ -16,6 +16,9 @@ ClusterRes <- NULL
 test.p <- ST_plot(Object = Object, Grob, PlotType)
 
 
-"CountsPerSpot", 
-"Cluster", 
-"Gene"
+Object = readRDS("../../data/SeuratData.rds")  
+Grob = image 
+PlotType = "Cluster"
+ClusterRes = "cluster_RNA_snn_res.0.6"
+
+test.p <- ST_plot(Object = Object, Grob, PlotType, ClusterRes)

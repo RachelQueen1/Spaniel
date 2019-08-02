@@ -60,6 +60,8 @@ test_that("setVars sets the correct variables: CountsPerSpot", {
 
 # Cluster
 PlotType <- "Cluster"
+ClusterRes <- "cluster_RNA_snn_res.0.6"
+
 ungroupVars(plotTitle,cl,sz,shp, show_size_legend, colPlot) %=% 
     setVars(Object, PlotType, pt.size, Gene, ClusterRes)
 
@@ -142,6 +144,10 @@ test_that("setVars sets the correct variables", {
     expect_equal(dim(test.tmp), c(248, 4))
     expect_equal(colnames(test.tmp), c(cl, "spot", "x", "y"))
 })
+
+
+
+
 
 
 ### Test plot image function
