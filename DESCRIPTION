@@ -15,9 +15,10 @@ Depends: Seurat,
          scater, 
          shiny,
          shinyjs,
-         jpeg
+         jpeg,
+         Matrix
 Suggests: 
     knitr,
     rmarkdown
 VignetteBuilder: knitr
-RoxygenNote: 6.1.1
+RoxygenNote: 6.1.1.9000
