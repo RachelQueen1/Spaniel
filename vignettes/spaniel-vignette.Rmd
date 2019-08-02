@@ -233,7 +233,7 @@ Spaniel includes a shiny apply to select these spots. This can be run by issuing
 
 
 ```{r, select_spots, eval = F }
- selectSpots(SeuratFiltered, imgage)
+ selectSpots(SeuratFiltered, image)
 
 ```
 
