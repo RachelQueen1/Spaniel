@@ -1,3 +1,64 @@
+#' Spatial Transcriptomics Plot
+#'
+#' This function overlays information from a Seurat object or 
+#' SingleCellExperiment object containing barcodes  onto a H & E image. 
+#' There are 4 plots available showing a) the number of
+#' genes detected per spot, b) the number of reads detected per spot,
+#' c) clustering results, d) the gene expression of a selected gene.
+#'
+#' @param Object Either a Seurat object (version 3) or a SingleCellExperiment 
+#' object containing barcode coordinates in the metadata (Seurat) or
+#' colData (SingleCellExperiment). 
+#' @param Grob
+#' @param PlotType There are 5 types of plots avaiable:
+#'                       1) NoGenes - This shows the number of genes per spot 
+#'                       and uses information from "nFeature_RNA" column of 
+#'                       Seurat object or "total_features_by_counts" from a 
+#'                       SingleCellExperiment object.
+#'                       2) CountsPerSpot - This shows the number of counts per
+#'                       spot. It uses information from "nCount_RNA" column of 
+#'                       Seurat object or "total_counts" from a 
+#'                       singleCellExperiment object.
+#'                       3) Cluster - This plot is designed to show clustering
+#'                       results stored in the meta.data or colData of an object
+#'                       4) Gene - This plot shows the expression of a single 
+#'                       gene. This plot uses scaled/normalised expressin data 
+#'                       from the scale.data slot of Seurat object or logcounts 
+#'                       of a SingleCellExperiment object.
+#'                       5) Other - A generic plot to plot any column from the
+#'                       meta.data or colData of an object.
+#'                                             
+#'                       
+#' @param Gene 
+#' @param NoClusters
+#' @param pt.size Point size used for cluster plot default is 2
+#' @param pt.size.min Minimum point size used for QC and Gene Expression plots default is 0
+#' @param pt.size.max Maximum point size used for QC and Gene Expression plots default is 5
+#' @customT
+#' @export
+#' @examples
+#' 
+#' ## Data is taken from DOI: 10.1126/science.aaf2403
+#' exampleCounts <- readRDS(exampleCounts.rds)
+#' exampleBarcodes <- "path to barcode"
+#' ## Counts per spot 
+#' ST_plot(Object = SeuratObj, Grob = imgFile, 
+#'        PlotType = "CountsPerSpot", 
+#'        ShowFilter = filter)
+#'
+#' ## Cluster plot
+#' ST_plot(Object = SeuratFiltered, Grob = imgFile, 
+#'        PlotType = "Cluster", 
+#'        ClusterRes = "RNA_snn_res.0.6")
+#'
+## Gene plot
+#' ST_plot(Object = SeuratFiltered, Grob = imgFile, 
+#'        PlotType = "Gene", 
+#'        Gene = "Pax6")
+
+
+
+
 # Main Spaniel Plot Function
 # ------------------------------------------------------------------------------
 ST_plot <- function (Object,  
