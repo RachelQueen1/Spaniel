@@ -17,75 +17,77 @@ ST_plot <- function (Object,  Grob,
                      pt.size.max = 5)
 
 {
+    ### Validate Object
+    testObject()
+    
+    ### Get Coodinates
     MetaData = getMetadata(Object)
     Coordinates = MetaData[, c("x", "y")]
     Coordinates$spot = rownames(MetaData)
-    show_size_legend = T
     
-    if (PlotType == "NoGenes") {
-        # set plot title, cluster, size and shp
-        ungroupVars(plotTitle,cl,sz) %=% setGeneVars()
-        shp = NULL
-        ### get column to plot
-        colPlot <- getGeneColPlot(Object)
-        tmp <- genePlotDF(Object, Coordinates, colPlot)
-        if (!is.null(ShowFilter)){
-            tmp$Filter = ShowFilter
-            cl = "Filter"
-        }
+    ### set title, colour column, and size column according to plotType
+    ungroupVars(plotTitle,cl,sz,shp) %=% 
+        setVars(PlotType, pt.size, Gene)
+    
+    ## convert shp to NULL
+    if(shp == "NULL"){shp = NULL}
+    
+    ## convert size legend to logical
+    show_size_legend = ifelse(show_size_legend == "TRUE", T, F)
+    
+    ## convert sz to numeric
+    if (suppressWarnings(!is.na(as.numeric(sz)))){
+        sz = as.numeric(sz)
     }
+    
+    
+    ## create data.frame
+    
+    # 1 get column to plot
+    colPlot <- getColPlot(Object, PlotType, ClusterRes)
+    
+    # 2 create tmp
+    
+    ## 3 add QC filter
+    if (!is.null(ShowFilter)){
+        tmp$Filter = ShowFilter
+        cl = "Filter"
+    }
+    
+    
+    
+    
+    
+    
+    ## add QC filter
+    
+    
     
     
     if (PlotType == "CountsPerSpot") {
-        cl = "Exprs"
-        sz = "Exprs"
-        shp = NULL
-        plotTitle = "Total Counts Per Spot"
         
-        ### get column to plot
-        if (class(Object) == "Seurat"){
-            colPlot = "nCount_RNA"}
-        if (class(Object) == "SingleCellExperiment"){
-            colPlot = "total_counts"}
         
-        tmp = data.frame(Exprs = MetaData[, colPlot],
-                         spot = rownames(MetaData)) %>% 
-            as.tbl %>% 
-            inner_join(Coordinates)
-        
-        ## add QC filter
-        if (!is.null(ShowFilter)){
-            tmp$Filter = ShowFilter
-            cl = "Filter"
-        }
-        
+## add QC filter
+if (!is.null(ShowFilter)){
+    tmp$Filter = ShowFilter
+    cl = "Filter"
+}
     }
+    
+    
     if (PlotType == "Cluster") {
-        plotTitle = "Spot Clusters"
-        cl = "cluster"
-        sz = pt.size
-        shp = "cluster"
-        show_size_legend = FALSE
         
-        tmp = data.frame(cluster = MetaData[, ClusterRes], 
-                         spot = rownames(MetaData)) %>%
-            as.tbl %>% inner_join(Coordinates)
     }
     
     if (PlotType == "Gene") {
-        cl = "Exp"
-        sz = "Exp"
-        shp = NULL
-        plotTitle = paste("Expression of", Gene)
         Exprs = getExprs(Object)
-        
         if(Gene %in% rownames(Exprs) == FALSE){
             print(paste(Gene, "not found in data. Check rownames"))
             
         }
-        
         tmp = data.frame(Exp = Exprs[Gene, ])
         tmp$spot = rownames(tmp)
+       
     }
     
     tmp = tmp %>% as.tbl %>% inner_join(Coordinates)
