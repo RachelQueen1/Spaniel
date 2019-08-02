@@ -118,24 +118,26 @@ ST_plot <- function (Object,
     ### FOR QC PLOTS
     if (!is.null(ShowFilter)){
         p = p +
-            scale_size_continuous(range=c(pt.size.min,
+            ggplot2::scale_size_continuous(range=c(pt.size.min,
                                           pt.size.max)) +
-            guides(color=guide_legend(), size = guide_legend())
+            ggplot2::guides(color= ggplot2::guide_legend(), 
+                            size = ggplot2::guide_legend())
     }
     
     ### FOR GENE PLOTS AND NUMBER READS/COUNTS
     if (PlotType != "Cluster" & is.null(ShowFilter)){
         p = p +
-            scale_colour_gradient(low="#ff3300", high="#ffff00")+
-            scale_size_continuous(range=c(pt.size.min,
+            ggplot2::scale_colour_gradient(low="#ff3300", high="#ffff00") +
+            ggplot2::scale_size_continuous(range=c(pt.size.min,
                                           pt.size.max)) +
-            guides(color=guide_legend(), size = guide_legend())
+            ggplot2::guides(color= ggplot2::guide_legend(), 
+                            size = ggplot2::guide_legend())
         
     }
     ### FOR CLUSTER PLOTS
     if (PlotType == "Cluster"){
         p = p + ggplot2::guides(size=FALSE) +
-            scale_size_continuous(range=c(pt.size,
+            ggplot2::scale_size_continuous(range=c(pt.size,
                                           pt.size))
     }
     

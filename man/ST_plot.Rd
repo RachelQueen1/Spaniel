@@ -6,7 +6,8 @@
 \usage{
 ST_plot(Object, Grob, PlotType = c("NoGenes", "CountsPerSpot", "Cluster",
   "Gene"), Gene = NULL, ClusterRes = NULL, CustomTitle = NULL,
-  ScaleData = T, ShowFilter = NULL)
+  ScaleData = T, ShowFilter = NULL, pt.size = 2, pt.size.min = 0,
+  pt.size.max = 5)
 }
 \arguments{
 \item{Object}{Either a Seurat object (version 3) or a SingleCellExperiment 
@@ -32,6 +33,12 @@ of a SingleCellExperiment object.
 meta.data or colData of an object.}
 
 \item{Gene}{}
+
+\item{pt.size}{Point size used for cluster plot default is 2}
+
+\item{pt.size.min}{Minimum point size used for QC and Gene Expression plots default is 0}
+
+\item{pt.size.max}{Maximum point size used for QC and Gene Expression plots default is 5}
 }
 \description{
 This function overlays information from a Seurat object or 

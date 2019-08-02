@@ -9,21 +9,21 @@ library(dplyr)
 # countsFiltered = sObjFiltered@raw.data[, colnames(sObjFiltered@scale.data)]
 # saveRDS(countsFiltered, "testData/countsFiltered.rds")
 
-counts = readRDS("testData/counts.rds")
-countsFiltered = readRDS("testData/countsFiltered.rds")
+counts = readRDS("../../data/counts.rds")
+countsFiltered = readRDS("../../data/countsFiltered.rds")
 
-imgFile = readRDS("testData/image.rds")
+imgFile = readRDS("../../data/image.rds")
 
-barcodesFile = "testData/1000L2_barcodes.txt"
+barcodesFile = "../../inst/1000L2_barcodes.txt"
 #saveRDS(counts, "testData/counts.rds")
 
-SeuratObj = readSeurat(countsFiltered,
+SeuratObj = readSeurat(counts,
                        barcodesFile, 
                        ProjectName = "TestProj", 
                        SectionNumber = 1
                        )
 
-sce = readSCE(Counts = countsFiltered,
+sce = readSCE(Counts = counts,
               BarcodeFile = barcodesFile, 
               ProjectName = "TestProj", 
               SectionNumber = 1)
@@ -31,24 +31,23 @@ sce = readSCE(Counts = countsFiltered,
 
 
 
-sce = scater::calculateQCMetrics(
-    sce
-)
+# sce = scater::calculateQCMetrics(
+#     sce
+# )
+# 
+# sce =  scater::normalise(sce)
+# 
+# 
+# saveRDS(sce, "sceData.rds")
 
-sce =  scater::normalise(sce)
-
-
-saveRDS(sce, "sceData.rds")
-
-
+### how the data was processed
 minGenes = 2000
 minUMI = 300000
 
-# filter = SeuratObj@meta.data$nFeature_RNA > minGenes & 
-#     SeuratObj@meta.data$nCount_RNA > minUMI
-# 
-# 
-# 
+filter = SeuratObj@meta.data$nFeature_RNA > minGenes &
+    SeuratObj@meta.data$nCount_RNA > minUMI
+
+
 SeuratFiltered <- subset(x = SeuratObj, subset = nFeature_RNA > minGenes &
                              nCount_RNA > minUMI)
 
@@ -74,9 +73,24 @@ SeuratFiltered <- FindClusters(object = SeuratFiltered,
 
 
 ### Example plots
+SeuratObj <- readRDS("../../data/SeuratData.rds")
+sce <- readRDS("../../data/sceData.rds")
 
+imgfile <- readRDS("../../data/image.rds")
 
 ## Counts per spot 
+
+minGenes = 5000
+minUMI = 300000
+
+filter = SeuratObj@meta.data$nFeature_RNA > minGenes &
+    SeuratObj@meta.data$nCount_RNA > minUMI
+
+
+
+
+
+
 ST_plot(Object = SeuratObj, 
         Grob = imgFile, 
         PlotType = "NoGenes", 

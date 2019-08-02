@@ -136,6 +136,7 @@ plotImage = function(Grob, Tmp, Colour, Size, ShowSizeLegend = TRUE,
     if (ShowSizeLegend == FALSE){
         p = p + ggplot2::guides(size=FALSE)}
     ### show plot
-    p + guides(color=guide_legend(), size = guide_legend())
+    p + ggplot2::guides(color = ggplot2::guide_legend(), 
+                        size = ggplot2::guide_legend())
 }
 
