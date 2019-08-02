@@ -23,9 +23,6 @@ testObject <- function(Object){
     )
 }
 
-
-
-
 # Set the variables for plot
 # ------------------------------------------------------------------------------
 setVars <- function(Object, 
@@ -66,6 +63,7 @@ setVars <- function(Object,
         cl = "Exp"
         sz = "Exp"
         shp = "NULL"
+        colPlot = Gene
     }
     
     show_size_legend = ifelse(PlotType == "Cluster", F, T)
@@ -82,76 +80,36 @@ setVars <- function(Object,
 
 # Create ggplot df for each plot type
 # ------------------------------------------------------------------------------
-
-
-
 ### Make a generic function for all 4 plot types
-make_ggdf <- function(Object, MetaData, Coordinates, colPlot){
-    tmp = data.frame(No_Of_Genes = MetaData[, colPlot],
-                     spot = rownames(MetaData)) %>% 
-        as.tbl %>% 
-        inner_join(Coordinates)
-    return(tmp)
-}
-
-
-
-#NoGenes
-df_NoGenes <- function(Object, MetaData, Coordinates, colPlot){
-    tmp = data.frame(No_Of_Genes = MetaData[, colPlot],
-                     spot = rownames(MetaData)) %>% 
-        as.tbl %>% 
-        inner_join(Coordinates)
-    return(tmp)
-}
-
-
-#CountsPerSpot
-df_CountsPerSpot <- function(Object, MetaData, Coordinates, colPlot){
-    tmp = data.frame(Exprs = MetaData[, colPlot],
-                     spot = rownames(MetaData)) %>% 
-        as.tbl %>% 
-        inner_join(Coordinates)
+make_ggdf <- function(Object, PlotType, colPlot, cl){
     
-    return(tmp)
-}
-
-#Cluster
-df_Cluster <- function(){
-    tmp = data.frame(cluster = MetaData[, colPlot], 
-                     spot = rownames(MetaData)) %>%
-        as.tbl %>% inner_join(Coordinates)
-    return(tmp)
-}
-
-
-
-
-#Gene
-df_Gene <- function(){
+    ### Get Metadata and Coodinates
+    MetaData = getMetadata(Object)
+    Coordinates = MetaData[, c("x", "y")]
+    Coordinates$spot = rownames(MetaData)
     
-    return(tmp)
-}
-
-
-
-getGeneColPlot <- function(Object){
-    if (class(Object) == "Seurat"){
-        colPlot = "nFeature_RNA"}
-    if (class(Object) == "SingleCellExperiment"){
-        colPlot = "total_features_by_counts"}
-    return(colPlot)}
-
-
-
-
-
-
-
-
-genePlotDF <- function(Object, Coordinates, colPlot){
+    if (PlotType == "Gene"){
+        try(if(!colPlot %in% rownames(Object))  
+            stop(paste0(colPlot,  "not found in rownames(Object"))
+        )
+        # get expression data
+        tmp <- getExprs(Object)
+        tmp <- data.frame(toPlot = tmp[colPlot, ], 
+                          spot = rownames(MetaData))
+    } else {
+        try(if(!colPlot %in% colnames(MetaData))  
+            stop(paste0(colPlot, "not found in colames(Object"))
+        )
+        tmp <- data.frame(toPlot = MetaData[,colPlot],
+                          spot = rownames(MetaData))
+    }
     
+    # join by spot
+    tmp$spot <- tmp$spot %>% as.character()
+    tmp <- tmp %>% 
+        dplyr::inner_join(Coordinates, by = "spot") 
+    # set colname for the to plot column
+    colnames(tmp)[1] <- cl
     return(tmp)
 }
-
 
