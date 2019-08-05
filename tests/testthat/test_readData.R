@@ -9,8 +9,11 @@ context("Testing readData")
 # ------------------------------------------------------------------------------
 # Load test data and set variables for project
 set.seed(1234)
-counts <-  readRDS("../../data/counts.rds")
-barcodefile = "../../inst/1000L2_barcodes.txt"
+
+counts <- readRDS(file.path(system.file(package = "Spaniel"), 
+                        "extdata/counts.rds"))
+barcodefile <- file.path(system.file(package = "Spaniel"), 
+                          "1000L2_barcodes.txt")
 projectname = "test_project"
 sectionNo = "1A"
 

@@ -6,16 +6,16 @@
 # ------------------------------------------------------------------------------
 
 # Grouping the left hand side
-ungroupVars = function(...) {
-    List = as.list(substitute(list(...)))[-1L]
-    class(List) = 'varGroup'
+ungroupVars <- function(...) {
+    List <- as.list(substitute(list(...)))[-1L]
+    class(List) <- 'varGroup'
     return(List)
 }
 
 # Binary Operator
-'%=%' = function(l, r) {
-    Envir = as.environment(-1)
-    for (i in 1:length(l)) {
+'%=%' <- function(l, r) {
+    Envir <- as.environment(-1)
+    for (i in seq_len(length(l))) {
         do.call('<-', list(l[[i]], r[[i]]), envir=Envir)
     }
 }
@@ -39,32 +39,32 @@ setVars <- function(Object,
     }
     
     if (PlotType == "CountsPerSpot") {
-        plotTitle = "Total Counts Per Spot"
-        cl = "Exprs"
-        sz = "Exprs"
-        shp = "NULL"
+        plotTitle <- "Total Counts Per Spot"
+        cl <- "Exprs"
+        sz <- "Exprs"
+        shp <- "NULL"
         colPlot <- ifelse(class(Object) == "Seurat",
                               "nCount_RNA",
                               "total_counts")
     }
     
     if (PlotType == "Cluster") {
-        plotTitle = "Spot Clusters"
-        cl = "Cluster"
-        sz = pt.size
-        shp = "Cluster"
-        colPlot = ClusterRes
+        plotTitle <- "Spot Clusters"
+        cl <- "Cluster"
+        sz <- pt.size
+        shp <- "Cluster"
+        colPlot <- ClusterRes
     }
     
     if (PlotType == "Gene") {
-        plotTitle = paste("Expression of", Gene)
-        cl = "Exp"
-        sz = "Exp"
-        shp = "NULL"
-        colPlot = Gene
+        plotTitle <- paste("Expression of", Gene)
+        cl <- "Exp"
+        sz <- "Exp"
+        shp <- "NULL"
+        colPlot <- Gene
     }
     
-    show_size_legend = ifelse(PlotType == "Cluster", F, T)
+    show_size_legend <- ifelse(PlotType == "Cluster", F, T)
     
     return(c(plotTitle,
              cl,
@@ -79,12 +79,12 @@ setVars <- function(Object,
 # Create ggplot df for each plot type
 # ------------------------------------------------------------------------------
 ### Make a generic function for all 4 plot types
-make_ggdf <- function(Object, PlotType, colPlot, cl){
+makeGGDF <- function(Object, PlotType, colPlot, cl){
     
     ### Get Metadata and Coodinates
-    MetaData = getMetadata(Object)
-    Coordinates = MetaData[, c("x", "y")]
-    Coordinates$spot = rownames(MetaData)
+    MetaData <- getMetadata(Object)
+    Coordinates <- MetaData[, c("x", "y")]
+    Coordinates$spot <- rownames(MetaData)
     
     if (PlotType == "Gene"){
         try(if(!colPlot %in% rownames(Object))  
@@ -110,7 +110,7 @@ make_ggdf <- function(Object, PlotType, colPlot, cl){
     colnames(tmp)[1] <- cl
     
     ## reverse the order of the y coordinates
-    tmp$y = 36 - tmp$y
+    tmp$y <- 36 - tmp$y
     
     return(tmp)
 }
@@ -118,9 +118,9 @@ make_ggdf <- function(Object, PlotType, colPlot, cl){
 
 # Plot image
 # ------------------------------------------------------------------------------
-plotImage = function(Grob, Tmp, Colour, Size, ShowSizeLegend = TRUE, 
+plotImage <- function(Grob, Tmp, Colour, Size, ShowSizeLegend = TRUE, 
                      PlotTitle = NULL){
-    p = ggplot2::ggplot(Tmp ,ggplot2::aes_string("x", "y", color = 
+    p <- ggplot2::ggplot(Tmp ,ggplot2::aes_string("x", "y", color = 
                                                      Colour, size = Size)) +
         ggplot2::xlim(1, 33) +
         ggplot2::ylim(1, 35) +
@@ -138,7 +138,7 @@ plotImage = function(Grob, Tmp, Colour, Size, ShowSizeLegend = TRUE,
     
     ### if show size false
     if (ShowSizeLegend == FALSE){
-        p = p + ggplot2::guides(size=FALSE)}
+        p <- p + ggplot2::guides(size=FALSE)}
     ### show plot
     p + ggplot2::guides(color = ggplot2::guide_legend(), 
                         size = ggplot2::guide_legend())

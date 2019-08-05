@@ -3,7 +3,8 @@
 #' @param ImgFile Path to the image file
 #' @export
 #' @examples
-#' imgFile = "data/HE_Rep1.jpg"
+#' imgFile = file.path(system.file(package = "Spaniel"), 
+#'                     "HE_Rep1_resized.jpg")
 #' img = parseImage(imgFile)
 parseImage =  function(ImgFile){
     img <- jpeg::readJPEG(ImgFile)

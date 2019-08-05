@@ -1,3 +1,6 @@
+#' @include spaniel_plot_internals.R
+#' @include utilities.R
+
 # Tests for functions used by Spatial Plot internal functions
 # ------------------------------------------------------------------------------
 
@@ -25,7 +28,8 @@ test_that("%=% splits the list correctly", {
 # Test setVars creates the correct variables
 # ------------------------------------------------------------------------------
 ## Test with Seurat Object
-Object <- readRDS("../../data/SeuratData.rds")
+Object <- readRDS(file.path(system.file(package = "Spaniel"), 
+                            "extdata/SeuratData.rds"))
 pt.size <- 2
 Gene <- "Mef2c"
 ClusterRes <- "cluster_RNA_snn_res.0.4"
@@ -91,7 +95,8 @@ test_that("setVars sets the correct variables: Gene", {
 
 ## Test setVars with SCE Object
 # No Genes
-Object <- readRDS("../../data/sceData.rds")
+Object <- readRDS(file.path(system.file(package = "Spaniel"), 
+                            "extdata/sceData.rds"))
 
 PlotType <- "NoGenes"
 
@@ -113,10 +118,11 @@ test_that("setVars sets the correct variables", {
 })
 
 
-# Test make_ggdf creates the correct data frame
+# Test makeGGDF creates the correct data frame
 # ------------------------------------------------------------------------------
 ## Test with Seurat Object
-Object <- readRDS("../../data/SeuratData.rds")
+Object <- readRDS(file.path(system.file(package = "Spaniel"), 
+                            "extdata/SeuratData.rds"))
 
 
 ### using column from metadata
@@ -124,7 +130,7 @@ PlotType <- "CountsPerSpot"
 colPlot <- colnames(Object@meta.data)[2]
 cl <- "Exprs"
 
-test.tmp <- make_ggdf(Object, PlotType, colPlot, cl)
+test.tmp <- makeGGDF(Object, PlotType, colPlot, cl)
 
 test_that("setVars sets the correct variables", {
     expect_is(test.tmp, "data.frame")
@@ -137,7 +143,7 @@ PlotType <- "Gene"
 colPlot <- rownames(Object)[2]
 cl <- "Exprs"
 
-test.tmp <- make_ggdf(Object, PlotType, colPlot, cl)
+test.tmp <- makeGGDF(Object, PlotType, colPlot, cl)
 
 test_that("setVars sets the correct variables", {
     expect_is(test.tmp, "data.frame")
@@ -152,8 +158,10 @@ test_that("setVars sets the correct variables", {
 
 ### Test plot image function
 # ------------------------------------------------------------------------------
-test.cood$plotCols = seq(1, 248)
-test.cood$plotSize = seq(1, 248)
+test.md <- getMetadata(Object)
+test.cood <- test.cood <- getCoordinates(test.md)
+test.cood$plotCols <- seq(1, 248)
+test.cood$plotSize <- seq(1, 248)
 
 test.plot <- plotImage(Tmp = test.cood,
                        Grob = grid::roundrectGrob(),

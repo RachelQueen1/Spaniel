@@ -1,3 +1,7 @@
+#'@import Seurat
+#'@import SingleCellExperiment
+NULL
+
 #' Create a Seurat Object From Spatial Transcriptomics Data
 #'
 #' This function converts a count matrix into a Seurat object. The barcodes for
@@ -18,10 +22,14 @@
 #' @export
 #' @examples
 #' ## Data is taken from DOI: 10.1126/science.aaf2403
-#' exampleCounts <- readRDS(exampleCounts.rds)
-#' exampleBarcodes <- "path to barcode"
-#' seuratOb <- readSeurat(exampleCounts,
-#'                        exampleBarcodes,
+#' exampleCounts <- readRDS(file.path(system.file(package = "Spaniel"), 
+#'                          "extdata/counts.rds"))
+#' exampleBarcodes <- file.path(system.file(package = "Spaniel"), 
+#'                          "1000L2_barcodes.txt")
+#' SeuratObj <- readSeurat(exampleCounts,
+#'                        exampleBarcodes, 
+#'                        ProjectName = "TestProj", 
+#'                        SectionNumber = 1
 #'                        )
 
 
@@ -33,7 +41,7 @@ readSeurat <- function(Counts,
 
     barcodes <- read.csv(BarcodeFile, sep="\t", header=F)
     rownames(barcodes) <- barcodes$V1
-    barcodes = barcodes[colnames(Counts), ]
+    barcodes <- barcodes[colnames(Counts), ]
     colnames(barcodes) <- c("spot", "x", "y")
     seuratObj <- Seurat::CreateSeuratObject(counts=Counts,
                                             project=paste0(ProjectName,
@@ -67,10 +75,14 @@ readSeurat <- function(Counts,
 #' @export
 #' @examples
 #' ## Data is taken from DOI: 10.1126/science.aaf2403
-#' exampleCounts <- readRDS(exampleCounts.rds)
-#' exampleBarcodes <- "path to barcode"
-#' seuratOb <- readSeurat(exampleCounts,
-#'                        exampleBarcodes,
+#' exampleCounts <- readRDS(file.path(system.file(package = "Spaniel"), 
+#'                          "extdata/counts.rds"))
+#' exampleBarcodes <- file.path(system.file(package = "Spaniel"), 
+#'                          "1000L2_barcodes.txt")
+#' seuratOb <- readSCE(exampleCounts,
+#'                        exampleBarcodes, 
+#'                        ProjectName = "TestProj", 
+#'                        SectionNumber = 1)
 #' 
 readSCE <- function(Counts,
                     BarcodeFile,
@@ -81,9 +93,9 @@ readSCE <- function(Counts,
     rownames(barcodes) <- barcodes$V1
     colnames(barcodes) <- c("spot", "x", "y")
     
-    Counts = Counts[, intersect(colnames(Counts), barcodes$spot)]
+    Counts <- Counts[, intersect(colnames(Counts), barcodes$spot)]
     
-    barcodes = barcodes[colnames(Counts), ]
+    barcodes <- barcodes[colnames(Counts), ]
     
     sce <- SingleCellExperiment::SingleCellExperiment(
         assays = list(counts = as.matrix(Counts)), 

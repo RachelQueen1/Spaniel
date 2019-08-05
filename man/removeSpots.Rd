@@ -23,6 +23,7 @@ A function to filter spots from analysis. It requires selectSpots to be
 run first.
 }
 \examples{
-
-sObjFiltered <- (sObj)
+SeuratObj <- readRDS(file.path(system.file(package = "Spaniel"), 
+                     "extdata/SeuratData.rds"))
+sObjFiltered <- (SeuratObj)
 }

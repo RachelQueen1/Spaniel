@@ -9,7 +9,8 @@ context("Testing parseImage")
 # ------------------------------------------------------------------------------
 
 # load image
-imgPath <-  "../../inst/HE_Rep1_resized.jpg"
+imgPath <-  file.path(system.file(package = "Spaniel"), 
+                                 "HE_Rep1_resized.jpg")
 test.grob <- parseImage(imgPath)
 
 test_that("parseImage loads an image and creates a grob", {

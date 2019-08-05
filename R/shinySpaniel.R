@@ -1,3 +1,9 @@
+#' @include addClusterCols.R
+#' @include spatialPlot.R
+#' @import shiny
+#'
+NULL
+
 #' RunShinySpaniel
 #' 
 #' A function to visualise Spatial Transcriptomics. It requires a prepocessed 
@@ -9,22 +15,25 @@
 #' d) the gene expression of a selected gene."
 #' To view the clustering results the columns of the meta.data or colData 
 #' containing clustering results must be prefixed with cluster_ . This can be 
-#' done by using the addClusterCol() function included in Spaniel. 
+#' done by using the markClusterCol() function included in Spaniel. 
 #' 
 #' 
 #' @examples
 #' ## mark the columns of metadata/colData that contain clustering 
-#' ## information see ?addClusterCol for more details#'  
-#' sObj <- addClusterCol(sObj, "res")
-#' saveRDS(sObj, "data.rds")
+#' ## information see ?markClusterCol for more details#'  
+#' sObj <-  readRDS(file.path(system.file(package = "Spaniel"),
+#'                  "extdata/SeuratData.rds"))
+#' sObj <- markClusterCol(sObj, "res")
 #' 
 #' ### parse background image
-#' imgFile <- "data/HE_Rep1.jpg"
+#' imgFile <- file.path(system.file(package = "Spaniel"), 
+#'            "HE_Rep1_resized.jpg")
 #' img <- parseImage(imgFile)
-#' saveRDS(sObj, "image.rds")
 #' 
 #' ## run shinySpaniel (upload data.rds and image.rds in the shiny app)
-#' runShinySpaniel()
+#' ## Not Run:
+#' # runShinySpaniel()
+#' @export
 
 runShinySpaniel <-function(){
     options(shiny.maxRequestSize=100*1024^2)

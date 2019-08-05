@@ -17,15 +17,15 @@ colData (SingleCellExperiment).}
 A function to select spots to remove from analysis
 }
 \examples{
-## Run the shiny app:
-selectSpots(sObj, imgObj)
+## Run the shiny app (Not run):
+# selectSpots(sObj, imgObj)
 
-Click on the spots to remove from downstream analysis. Once all the spots have 
-been selected close the shiny app window. A list of spots is 
-stored in a text file called points_to_remove.txt in the working directory.
+# Click on the spots to remove from downstream analysis. Once all the spots have 
+# been selected close the shiny app window. A list of spots is 
+# stored in a text file called points_to_remove.txt in the working directory.
 
-Once this step has been run a filtered Seurat or SCE object can be created using
-removeSpots (see removeSpots for more details)
+# Once this step has been run a filtered Seurat or SCE object can be created using
+# removeSpots (see removeSpots for more details)
 
-sObjFiltered <- (sObj)
+
 }

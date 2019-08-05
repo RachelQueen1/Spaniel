@@ -7,17 +7,17 @@
 #' @param imgObj a ggplot grob (see parseImage function)
 #' 
 #' @examples
-#' ## Run the shiny app:
-#' selectSpots(sObj, imgObj)
+#' ## Run the shiny app (Not run):
+#' # selectSpots(sObj, imgObj)
 #' 
-#' Click on the spots to remove from downstream analysis. Once all the spots have 
-#' been selected close the shiny app window. A list of spots is 
-#' stored in a text file called points_to_remove.txt in the working directory.
+#' # Click on the spots to remove from downstream analysis. Once all the spots have 
+#' # been selected close the shiny app window. A list of spots is 
+#' # stored in a text file called points_to_remove.txt in the working directory.
 #' 
-#' Once this step has been run a filtered Seurat or SCE object can be created using
-#' removeSpots (see removeSpots for more details)
+#' # Once this step has been run a filtered Seurat or SCE object can be created using
+#' # removeSpots (see removeSpots for more details)
 #' 
-#' sObjFiltered <- (sObj)
+#' 
 #' @export
 #' 
 
@@ -39,7 +39,7 @@ selectSpots <- function(sObj, imgObj){
 
 ############ Server #################################
         server <- function(input, output, session) {
-                output$plotImage = renderPlot({
+                output$plotImage <- renderPlot({
                     ### create plot
                     ST_plot(Object = sObj, 
                             Grob = imgObj, 
@@ -81,8 +81,9 @@ shinyApp(ui, server)
 #' removed after filtering. Set to FALSE by default.
 #' 
 #' @examples
-#' 
-#' sObjFiltered <- (sObj)
+#' SeuratObj <- readRDS(file.path(system.file(package = "Spaniel"), 
+#'                      "extdata/SeuratData.rds"))
+#' sObjFiltered <- (SeuratObj)
 #' @export
 #' 
 

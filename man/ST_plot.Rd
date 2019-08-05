@@ -6,13 +6,15 @@
 \usage{
 ST_plot(Object, Grob, PlotType = c("NoGenes", "CountsPerSpot", "Cluster",
   "Gene"), Gene = NULL, ClusterRes = NULL, CustomTitle = NULL,
-  ScaleData = T, ShowFilter = NULL, pt.size = 2, pt.size.min = 0,
-  pt.size.max = 5)
+  ScaleData = TRUE, ShowFilter = NULL, pt.size = 2,
+  pt.size.min = 0, pt.size.max = 5)
 }
 \arguments{
 \item{Object}{Either a Seurat object (version 3) or a SingleCellExperiment 
 object containing barcode coordinates in the metadata (Seurat) or
 colData (SingleCellExperiment).}
+
+\item{Grob}{an grob to be used as the backgound image see(parseImage)}
 
 \item{PlotType}{There are 5 types of plots avaiable:
 1) NoGenes - This shows the number of genes per spot 
@@ -32,7 +34,15 @@ of a SingleCellExperiment object.
 5) Other - A generic plot to plot any column from the
 meta.data or colData of an object.}
 
-\item{Gene}{}
+\item{Gene}{Gene to plot}
+
+\item{ClusterRes}{which cluster resolution to plot}
+
+\item{CustomTitle}{Specify plot title (optional)}
+
+\item{ScaleData}{Show scaled data on plot (default is TRUE)}
+
+\item{ShowFilter}{Logical filter showing pass/fail for spots}
 
 \item{pt.size}{Point size used for cluster plot default is 2}
 
@@ -49,20 +59,29 @@ c) clustering results, d) the gene expression of a selected gene.
 }
 \examples{
 
+
 ## Data is taken from DOI: 10.1126/science.aaf2403
-exampleCounts <- readRDS(exampleCounts.rds)
-exampleBarcodes <- "path to barcode"
-## Counts per spot 
+SeuratObj <- readRDS(file.path(system.file(package = "Spaniel"), 
+                     "extdata/SeuratData.rds"))
+imgFile <- readRDS(file.path(system.file(package = "Spaniel"), 
+                     "extdata/image.rds"))
+
+
+## Counts per spot with a QC filter 
+minGenes <- 2000
+minUMI <- 300000
+filter <- SeuratObj@meta.data$nFeature_RNA > minGenes & 
+          SeuratObj@meta.data$nCount_RNA > minUMI
 ST_plot(Object = SeuratObj, Grob = imgFile, 
        PlotType = "CountsPerSpot", 
        ShowFilter = filter)
 
 ## Cluster plot
-ST_plot(Object = SeuratFiltered, Grob = imgFile, 
+ST_plot(Object = SeuratObj, Grob = imgFile, 
        PlotType = "Cluster", 
-       ClusterRes = "RNA_snn_res.0.6")
+       ClusterRes = "cluster_RNA_snn_res.0.6")
 
-ST_plot(Object = SeuratFiltered, Grob = imgFile, 
+ST_plot(Object = SeuratObj, Grob = imgFile, 
        PlotType = "Gene", 
-       Gene = "Pax6")
+       Gene = "Nrgn")
 }

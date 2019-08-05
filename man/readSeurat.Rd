@@ -30,9 +30,13 @@ plotting the data.
 }
 \examples{
 ## Data is taken from DOI: 10.1126/science.aaf2403
-exampleCounts <- readRDS(exampleCounts.rds)
-exampleBarcodes <- "path to barcode"
-seuratOb <- readSeurat(exampleCounts,
-                       exampleBarcodes,
+exampleCounts <- readRDS(file.path(system.file(package = "Spaniel"), 
+                         "extdata/counts.rds"))
+exampleBarcodes <- file.path(system.file(package = "Spaniel"), 
+                         "1000L2_barcodes.txt")
+SeuratObj <- readSeurat(exampleCounts,
+                       exampleBarcodes, 
+                       ProjectName = "TestProj", 
+                       SectionNumber = 1
                        )
 }

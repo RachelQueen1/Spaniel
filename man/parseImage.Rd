@@ -13,6 +13,7 @@ parseImage(ImgFile)
 This function parses a HE image to use as the background for plots
 }
 \examples{
-imgFile = "data/HE_Rep1.jpg"
+imgFile = file.path(system.file(package = "Spaniel"), 
+                    "HE_Rep1_resized.jpg")
 img = parseImage(imgFile)
 }

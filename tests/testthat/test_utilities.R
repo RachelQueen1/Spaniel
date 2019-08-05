@@ -5,8 +5,10 @@ context("Testing utilities")
 # These tests were created to ensure that the utilities functions work correctly
 
 
-seurat_obj <- readRDS("../../data/SeuratData.rds")
-sce_obj <- readRDS("../../data/sceData.rds")
+seurat_obj <- readRDS(file.path(system.file(package = "Spaniel"), 
+                                "extdata/SeuratData.rds"))
+sce_obj <- readRDS(file.path(system.file(package = "Spaniel"), 
+                             "extdata/sceData.rds"))
 
 
 # Ensure that package works with current version of Seurat and Single Experiment
