@@ -1,3 +1,8 @@
+#' @include spaniel_plot_internals.R
+#' @include utilities.R
+#'
+NULL
+
 #' Spatial Transcriptomics Plot
 #'
 #' This function overlays information from a Seurat object or 

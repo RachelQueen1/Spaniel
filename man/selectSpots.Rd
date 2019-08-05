@@ -28,5 +28,4 @@ Once this step has been run a filtered Seurat or SCE object can be created using
 removeSpots (see removeSpots for more details)
 
 sObjFiltered <- (sObj)
-
 }

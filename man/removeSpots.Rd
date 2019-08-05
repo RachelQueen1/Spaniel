@@ -25,5 +25,4 @@ run first.
 \examples{
 
 sObjFiltered <- (sObj)
-
 }

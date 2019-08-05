@@ -18,6 +18,7 @@
 #' removeSpots (see removeSpots for more details)
 #' 
 #' sObjFiltered <- (sObj)
+#' @export
 #' 
 
 selectSpots <- function(sObj, imgObj){
@@ -82,6 +83,7 @@ shinyApp(ui, server)
 #' @examples
 #' 
 #' sObjFiltered <- (sObj)
+#' @export
 #' 
 
 removeSpots <-function(sObj,

@@ -18,5 +18,4 @@ prefix.
 }
 \examples{
 seuratObj <- markClusterCol(seuratObj, "res")
-
 }

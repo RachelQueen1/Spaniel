@@ -1,3 +1,6 @@
+#'@importFrom magrittr %>%
+
+
 ### get expression data
 getExprs <- function(Object){
     if (class(Object) == "Seurat"){

@@ -24,3 +24,12 @@ Suggests:
     rmarkdown
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1.9000
+Collate: 
+    'utilities.R'
+    'addClusterCols.R'
+    'parseImage.R'
+    'readData.R'
+    'removeSpots.R'
+    'shinySpaniel.R'
+    'spaniel_plot_internals.R'
+    'spatialPlot.R'

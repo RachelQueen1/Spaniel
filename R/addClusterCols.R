@@ -1,3 +1,9 @@
+#' @include utilities.R
+#'
+NULL
+
+
+
 #' markClusterCol
 #' 
 #' A function to mark the columns containing cluster information in the metadata
@@ -7,7 +13,7 @@
 #' @param Pattern pattern indicating which columns contain cluster information
 #' @examples 
 #' seuratObj <- markClusterCol(seuratObj, "res")
-#' 
+#' @export
 markClusterCol <- function(Object, Pattern){
     MetaData <- getMetadata(Object)
     whichCols <- grep(Pattern, colnames(MetaData))
