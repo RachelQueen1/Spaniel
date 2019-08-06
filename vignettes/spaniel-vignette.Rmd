@@ -4,29 +4,36 @@ author: "Rachel Queen"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+    %\VignetteIndexEntry{Using Spaniel}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
 ---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE, include = TRUE,
+                        fig.height = 8, fig.width = 8, fig.align = "center"
+                        )
+
+```  
 
 ## About Spaniel
 
 Spaniel is an R package designed to visualise results of Spatial Transcriptomics
 experiments. To install and load Spaniel:
 
-
-```{r install, include = TRUE, message=FALSE, warning=FALSE}
+```{r install}
 
 if (!require("devtools")) 
-    install.packages("devtools")
+install.packages("devtools")
 
 
 if (!require("Spaniel")) 
-    devtools::install_github(repo = "RachelQueen1/Spaniel", 
-                             build_opts = c("--no-resave-data", "--no-manual"), 
-                             build_vignettes = TRUE)
+devtools::install_github(repo = "RachelQueen1/Spaniel", 
+build_opts = c("--no-resave-data", "--no-manual"), 
+build_vignettes = TRUE)
 
 library(Spaniel)
+library(Seurat)
 
 ```
 
@@ -35,12 +42,12 @@ library(Spaniel)
 The data used in this vignette was published in Science (AAAS) under the title 
 [“Visualization and analysis of gene expression in tissue sections by 
 spatial transcriptomics”](https://science.sciencemag.org/content/353/6294/78) 
-on July 1st 2016. A subset of the data that is used in this vignette is included 
-in the package.
+on July 1st 2016. A subset of the data that is used in this vignette is 
+included in the package.
 
 To download the full dataset vist:
 
-http://www.spatialtranscriptomicsresearch.org/datasets/doi-10-1126science-aaf2403/
+www.spatialtranscriptomicsresearch.org/datasets/doi-10-1126science-aaf2403/
 
 
 ### Expression Matrix
@@ -48,7 +55,7 @@ http://www.spatialtranscriptomicsresearch.org/datasets/doi-10-1126science-aaf240
 Spaniel requires a data frame of counts where the genes equate to the rows and 
 the columns equate to a Spatial Transcriptomics spot/barcode.
 
-```{r counts, include = TRUE}
+```{r counts}
 
 ### read in test data
 counts <- readRDS(file.path(system.file(package = "Spaniel"), 
@@ -57,12 +64,12 @@ counts <- readRDS(file.path(system.file(package = "Spaniel"),
 ```
 
 The barcodes are named in the colnames of the data frame:
-```{r colnames, include = TRUE}
+```{r colnames}
 colnames(counts)[1:10]
 ```
 
 The genes are named in rownames of the data frame
-```{r rownames, include = TRUE}
+```{r rownames}
 rownames(counts)[1:10]
 ```
 
@@ -75,7 +82,8 @@ text file. The first column of the file should contain the barcodes, the second
 coumn the x coordinate of the barcode and the third column the y 
 coordinate.
 
-```{r barcodes, include = TRUE}
+
+```{r barcodes}
 
 barcodesFile <- file.path(system.file(package = "Spaniel"), 
                             "1000L2_barcodes.txt")
@@ -84,8 +92,8 @@ barcodesFile <- file.path(system.file(package = "Spaniel"),
 It is not necessary to load this file in at this point but for demonstration
 purposes we will load it now and look at the first few lines of the file.
 
-```{r barcodesTop, include = TRUE}
-barcodes <- read.csv(barcodesFile, sep = "\t", header = F)
+```{r barcodesTop}
+barcodes <- read.csv(barcodesFile, sep = "\t", header = FALSE)
 head(barcodes)
 ```
 
@@ -94,67 +102,69 @@ head(barcodes)
 Spaniel includes two functions to create S4 objects containing the counts and 
 barcode information. These are the Seurat object:
 https://satijalab.org/seurat/
-and a SingleCellExperiment object: https://bioconductor.org/packages/release/bioc/html/SingleCellExperiment.html
+and a SingleCellExperiment object: 
+https://bioconductor.org/packages/release/bioc/html/SingleCellExperiment.html
 
 ### Creating a Seurat object
 
 The readSeurat() function can be used to create a Seurat object. The count data 
 is stored in the counts slot of the assay slot of the object, the barcodes are 
-stored in the meta.data slot and the ProjectName and SectionNumber arguments can 
-be used to add information about the Sample and position on slide to the 
+stored in the meta.data slot and the ProjectName and SectionNumber arguments 
+can be used to add information about the Sample and position on slide to the 
 project.name slot of the Seurat object.
 
-```{r readSeurat, include = TRUE}
+```{r readSeurat}
 
-SeuratObj = readSeurat(counts,
-                       barcodesFile, 
-                       ProjectName = "TestProj", 
-                       SectionNumber = 1
-                       )
+SeuratObj <- readSeurat(counts,
+                        barcodesFile, 
+                        ProjectName = "TestProj", 
+                        SectionNumber = 1
+)
 
 ```
 
 The barcodes are stored in the metadata:
-```{r readSeurat_meta, include = TRUE}
-head(SeuratObj@meta.data)
+```{r readSeurat_meta}
+head(SeuratObj[[]])
 ```
 
 Corner of the count data:
-```{r readSeurat_counts, include = TRUE}
-SeuratObj@assays$RNA@counts[1:10, 1:5]
+```{r readSeurat_counts}
+GetAssayData(SeuratObj, "counts")[1:10, 1:5]
 ```
 
 Project name
-```{r readSeurat_project, include = TRUE}
-SeuratObj@project.name
+```{r readSeurat_project}
+Project(SeuratObj)
 ```
 
 ### Creating a SingleCellExperiment object
-Alternatively, the readSCE function can be used to create a SingleCellExperiment
-object. This time the ProjectName and SectionNumber are added as a column of the
-colData of the object. The number of genes and counts per spot are calculated by 
-the calculateQCMetrics() from the scater bioconductor package.
+Alternatively, the readSCE function can be used to create a 
+SingleCellExperiment object. This time the ProjectName and SectionNumber are 
+added as a column of the colData of the object. The number of genes and counts
+per spot are calculated by the calculateQCMetrics() from the scater 
+bioconductor package.
 
-```{r readSCE, include = TRUE, message= F, warning=F}
-sce = readSCE(Counts = counts,
-              BarcodeFile = barcodesFile, 
-              ProjectName = "TestProj", 
-              SectionNumber = 1)
+```{r readSCE}
+sce <- readSCE(Counts = counts,
+                BarcodeFile = barcodesFile, 
+                ProjectName = "TestProj", 
+                SectionNumber = 1)
 ```
 
 Barcodes are stored in the colData
-```{r readSCE_ColData, include = TRUE}
+```{r readSCE_ColData}
 head(colData(sce)[1:5,1:5])
 ```
 
 Corner of the count data:
-```{r readSCE_counts, include = TRUE}
+```{r readSCE_counts}
 counts(sce)[1:10, 1:5]
 ```
 
 Project name:
-```{r readSCE_Project, include = TRUE}
-sce@colData$project[1]
+```{r readSCE_Project}
+colData(sce)$project[1]
 ```
 
 ## Load image
@@ -166,7 +176,7 @@ The image is cropped to around te edges of the spots.
 ### Load histological image into R
 
 imgFile <- file.path(system.file(package = "Spaniel"), 
-                            "HE_Rep1_resized.jpg")
+                        "HE_Rep1_resized.jpg")
 
 image <- parseImage(imgFile)
 
@@ -183,25 +193,25 @@ The rest of this vignette will focus on using a Seurat workflow.
 Assessing the number of genes and number of counts per spot is a useful quality 
 control step. Spaniel allows QC metrics to be viewed on top of the 
 histological image so that any quality issues can be pinpointed. 
-Spots within the tissue region which have a low number of genes or counts may be 
-due to experimental problems which should be addressed. Conversely spots which 
-lie  outside of the tissue and have a high number of counts or large number of 
-genes may indicate that there is background contamination. 
+Spots within the tissue region which have a low number of genes or counts may 
+be due to experimental problems which should be addressed. Conversely spots 
+which lie  outside of the tissue and have a high number of counts or large 
+number of genes may indicate that there is background contamination. 
 
 
 ### Visualisation
 
-The plotting function allows the use of a binary filter to visualise which spots 
-pass filtering thresholds. We create a filter to show spots which have greater 
-than 2000 genes and a minimum of 300000. These parameters will be experiment 
-specific and should be adjusted as necessary.
+The plotting function allows the use of a binary filter to visualise which 
+spots pass filtering thresholds. We create a filter to show spots which have 
+greater than 2000 genes and a minimum of 300000. These parameters will be 
+experiment specific and should be adjusted as necessary.
 
-```{r, qcplotting,  fig.height = 8, fig.width = 8, fig.align = "center", warning= F, message = F, results = "hide" }
-minGenes = 2000
-minUMI = 300000
+```{r, qcplotting,  results = "hide" }
+minGenes <- 2000
+minUMI <- 300000
 
-filter = SeuratObj@meta.data$nFeature_RNA > minGenes &  
-    SeuratObj@meta.data$nCount_RNA > minUMI
+filter <- SeuratObj$nFeature_RNA > minGenes &  
+                SeuratObj$nCount_RNA > minUMI
 
 ST_plot(Object = SeuratObj, 
         Grob = image, 
@@ -214,9 +224,9 @@ ST_plot(Object = SeuratObj,
 
 Spots which don't pass QC thresholds can then be filtered from the data:
 
-```{r, filter_seurat, fig.height = 8, fig.width = 8, fig.align = "center", warning= F, message = F }
+```{r, filter_seurat}
 SeuratFiltered <- subset(x = SeuratObj, subset = nFeature_RNA > minGenes &
-                             nCount_RNA > minUMI)
+                                nCount_RNA > minUMI)
 
 
 ST_plot(Object = SeuratFiltered, 
@@ -229,23 +239,27 @@ ST_plot(Object = SeuratFiltered,
 ### Remove additional spots
 
 After filtering some spots remain which fall outside of the tissue area. 
-Spaniel includes a shiny apply to select these spots. This can be run by issuing the command:
+Spaniel includes a shiny apply to select these spots. This can be run by 
+issuing the command:
 
 
-```{r, select_spots, eval = F }
- selectSpots(SeuratFiltered, image)
+```{r, select_spots, eval = FALSE }
+selectSpots(SeuratFiltered, image)
 
 ```
 
 
-This opens an interactive plot allowing you to click on any spots to be removed from downstream analysis. Once all the spots have been selected close the shiny app window. 
+This opens an interactive plot allowing you to click on any spots to be removed 
+from downstream analysis. Once all the spots have been selected close the shiny 
+app window. 
 A list of spots is stored in a text file called points_to_remove.txt
-in the working directory. As this is an interactive step it is not run in this vignette. Instead we can load a list of points to remove and run the function removeSpots to remove
-the points that fall outside of the tissue area.
+in the working directory. As this is an interactive step it is not run in this 
+vignette. Instead we can load a list of points to remove and run the function 
+removeSpots to remove the points that fall outside of the tissue area.
 
 
 
-```{r, remove_spots, fig.height = 8, fig.width = 8, fig.align = "center", warning= F, message = F }
+```{r, remove_spots}
 
 spotsToRemove <- file.path(system.file(package = "Spaniel"), 
                             "points_to_remove.txt")
@@ -271,28 +285,29 @@ package. For more details see:
 https://satijalab.org/seurat/get_started.html
 
 
-```{r, find_clusters, message=F, warning=F, echo=T, results = "hide" }
+```{r, find_clusters, message=FALSE, warning=FALSE, echo=TRUE, results = "hide"}
 
 
 
 SeuratFiltered <- NormalizeData(object = SeuratFiltered,
-                           normalization.method = "LogNormalize",
-                           scale.factor = 10000)
+                                normalization.method = "LogNormalize",
+                                scale.factor = 10000)
 
 SeuratFiltered <- FindVariableFeatures(object = SeuratFiltered,
-                                  selection.method = "vst",
-                                  nfeatures = 2000)
+                                        selection.method = "vst",
+                                        nfeatures = 2000)
 
 all.genes <- rownames(x = SeuratObj)
 
 SeuratFiltered <- ScaleData(object = SeuratFiltered, features = all.genes)
 SeuratFiltered <- RunPCA(object = SeuratFiltered,
-                    features = VariableFeatures(object = SeuratFiltered))
+                            features = VariableFeatures(object = SeuratFiltered)
+                        )
 
 
 SeuratFiltered <- FindNeighbors(object = SeuratFiltered, dims = 1:10)
 SeuratFiltered <- FindClusters(object = SeuratFiltered,
-                          resolution = c(0.4, 0.5, 0.6, 0.8))
+                                resolution = c(0.4, 0.5, 0.6, 0.8))
 
 
 ```
@@ -306,7 +321,7 @@ NOTE: if this plot is used with a SingleCellExperiment object expression data
 will be taken from the logcounts slot.
 
 
-```{r, genePlot, fig.height = 8, fig.width = 8, fig.align = "center", warning= F, message = F, results = "hide" }
+```{r, genePlot, results = "hide" }
 
 
 gene = "Nrgn"
@@ -324,15 +339,16 @@ It can also be useful to look at how different clustering resolutions can be
 viewed match up with the image. Again this can done using the ST_plot. The 
 ClusterRes argument should match a name in the meta.data to plot. 
 
-NOTE: if this plot is used with a SingleCellExperiment object ClusterRes should match a column name within the colData.
+NOTE: if this plot is used with a SingleCellExperiment object ClusterRes should 
+match a column name within the colData.
 
-```{r, clusterPlot, fig.height = 8, fig.width = 8, fig.align = "center", warning= F, message = F, results = "hide" }
+```{r, clusterPlot, warning= FALSE, message = FALSE, results = "hide" }
 
 ST_plot(Object = SeuratFiltered, 
         Grob = image, 
         PlotType = "Cluster", 
         ClusterRes = "RNA_snn_res.0.6"
-        )
+)
 
 ```
 
@@ -351,35 +367,35 @@ marked in the meta.dat with the prefix "cluster_"  so that Spaniel knows where
 to look for them. 
 
 ```{r, markClusters}
-SeuratFiltered = markClusterCol(SeuratFiltered, "res")
+SeuratFiltered <- markClusterCol(SeuratFiltered, "res")
 ```
 
 ### Save data object
 
-```{r, eval = F}
+```{r, eval = FALSE}
 saveRDS(SeuratFiltered, "data.rds")
 ```
 
 An example of processed data set can be found:
 
-```{r, eval = F}
+```{r, eval = FALSE}
 file.path(system.file(package = "Spaniel"), "extdata/SeuratData.rds" )
 ```
 
 ### Save image object
 
-```{r, eval = F}
+```{r, eval = FALSE}
 saveRDS(image, "image.rds")
 
 ```
 An example of processed image file  can be found:
 
-```{r, eval = F}
+```{r, eval = FALSE}
 file.path(system.file(package = "Spaniel"), "extdata/image.rds" )
 ```
 
 ### Run shinySpaniel!
-```{r, markclusterCols, eval = F}
+```{r, markclusterCols, eval = FALSE}
 runShinySpaniel()
 
 ```
@@ -388,8 +404,8 @@ runShinySpaniel()
 For sharing analysis it is also possible to deploy the ShinySpaniel app to 
 Shiny.io or any other server running R Server. The standalone app is located:
 
-```{r, eval = F}
-SpanielApp = file.path(system.file(package = "Spaniel"), "ShinySpaniel" )
+```{r, eval = FALSE}
+SpanielApp <- file.path(system.file(package = "Spaniel"), "ShinySpaniel" )
 ```
 
 You can sign up for a shinyapps.io account:
@@ -402,7 +418,7 @@ instructions to authorise your account in R.
 Then run the following code:
 
 
-```{r, eval = F}
+```{r, eval = FALSE}
 library(rsconnect)
 rsconnect::deployApp(SpanielApp)
 

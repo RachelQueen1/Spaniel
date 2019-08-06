@@ -13,7 +13,7 @@ test_that("ungroupVars extracts the correct variables", {
     expect_equal(test.vars[[1]], "a")
     expect_equal(test.vars[[2]], "b")
     expect_equal(test.vars[[3]], "c")
-    })
+})
 
 
 # Test %=% splits the list correctly

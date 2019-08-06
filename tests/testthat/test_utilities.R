@@ -1,3 +1,6 @@
+#'@import devtools
+#'@import testthat
+
 # Tests for utilities functions
 # ------------------------------------------------------------------------------
 
@@ -36,11 +39,11 @@ test_that("getExprs extracts a valid gene * spot matrix from a sce object", {
 test.md <- getMetadata(seurat_obj)
 test_that("getMetadata extracts a valid metadata data.frame
           from a Seurat object", {
-    expect_is(test.md, "data.frame")
-    expect_equal(colnames(test.md)[1], "orig.ident")
-    expect_equal(rownames(test.md)[1], "ACAACTATGGGTTGGCGG")
-    expect_equal(dim(test.md), c(248, 10))
-})
+              expect_is(test.md, "data.frame")
+              expect_equal(colnames(test.md)[1], "orig.ident")
+              expect_equal(rownames(test.md)[1], "ACAACTATGGGTTGGCGG")
+              expect_equal(dim(test.md), c(248, 10))
+          })
 
 
 test.md <- getMetadata(sce_obj)

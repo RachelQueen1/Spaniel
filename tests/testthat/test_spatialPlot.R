@@ -4,7 +4,7 @@
 Object = readRDS(file.path(system.file(package = "Spaniel"),
                            "extdata/SeuratData.rds"))
 Grob = readRDS(file.path(system.file(package = "Spaniel"),
-                            "extdata/image.rds"))
+                         "extdata/image.rds"))
 PlotType = "Cluster"
 ClusterRes = "cluster_RNA_snn_res.0.6"
 

@@ -4,10 +4,13 @@
 \alias{ST_plot}
 \title{Spatial Transcriptomics Plot}
 \usage{
-ST_plot(Object, Grob, PlotType = c("NoGenes", "CountsPerSpot", "Cluster",
-  "Gene"), Gene = NULL, ClusterRes = NULL, CustomTitle = NULL,
-  ScaleData = TRUE, ShowFilter = NULL, pt.size = 2,
-  pt.size.min = 0, pt.size.max = 5)
+ST_plot(Object, Grob, PlotType = c("NoGenes",
+                                            "CountsPerSpot",
+                                            "Cluster",
+                                            "Gene"),
+                Gene = NULL, ClusterRes = NULL, CustomTitle = NULL,
+                ScaleData = TRUE, ShowFilter = NULL, pt.size = 2,
+                pt.size.min = 0, pt.size.max = 5)
 }
 \arguments{
 \item{Object}{Either a Seurat object (version 3) or a SingleCellExperiment 
@@ -46,9 +49,14 @@ meta.data or colData of an object.}
 
 \item{pt.size}{Point size used for cluster plot default is 2}
 
-\item{pt.size.min}{Minimum point size used for QC and Gene Expression plots default is 0}
+\item{pt.size.min}{Minimum point size used for QC and Gene Expression plots 
+default is 0}
 
-\item{pt.size.max}{Maximum point size used for QC and Gene Expression plots default is 5}
+\item{pt.size.max}{Maximum point size used for QC and Gene Expression plots
+default is 5}
+}
+\value{
+A ggplot spatial transcriptomics plot
 }
 \description{
 This function overlays information from a Seurat object or 
@@ -61,27 +69,27 @@ c) clustering results, d) the gene expression of a selected gene.
 
 
 ## Data is taken from DOI: 10.1126/science.aaf2403
-SeuratObj <- readRDS(file.path(system.file(package = "Spaniel"), 
-                     "extdata/SeuratData.rds"))
-imgFile <- readRDS(file.path(system.file(package = "Spaniel"), 
-                     "extdata/image.rds"))
+SeuratObj <- readRDS(file.path(system.file(package = "Spaniel"),
+                        "extdata/SeuratData.rds"))
+imgFile <- readRDS(file.path(system.file(package = "Spaniel"),
+                        "extdata/image.rds"))
 
-
-## Counts per spot with a QC filter 
+## Counts per spot with a QC filter
 minGenes <- 2000
 minUMI <- 300000
-filter <- SeuratObj@meta.data$nFeature_RNA > minGenes & 
-          SeuratObj@meta.data$nCount_RNA > minUMI
-ST_plot(Object = SeuratObj, Grob = imgFile, 
-       PlotType = "CountsPerSpot", 
-       ShowFilter = filter)
+filter <- SeuratObj$nFeature_RNA > minGenes &
+            SeuratObj$nCount_RNA > minUMI
+ST_plot(Object = SeuratObj, Grob = imgFile,
+        PlotType = "CountsPerSpot",
+        ShowFilter = filter)
 
 ## Cluster plot
-ST_plot(Object = SeuratObj, Grob = imgFile, 
-       PlotType = "Cluster", 
-       ClusterRes = "cluster_RNA_snn_res.0.6")
+ST_plot(Object = SeuratObj, Grob = imgFile,
+        PlotType = "Cluster",
+        ClusterRes = "cluster_RNA_snn_res.0.6")
 
-ST_plot(Object = SeuratObj, Grob = imgFile, 
-       PlotType = "Gene", 
-       Gene = "Nrgn")
+## Gene plot
+ST_plot(Object = SeuratObj, Grob = imgFile,
+        PlotType = "Gene",
+        Gene = "Nrgn")
 }

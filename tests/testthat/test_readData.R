@@ -11,26 +11,26 @@ context("Testing readData")
 set.seed(1234)
 
 counts <- readRDS(file.path(system.file(package = "Spaniel"), 
-                        "extdata/counts.rds"))
+                            "extdata/counts.rds"))
 barcodefile <- file.path(system.file(package = "Spaniel"), 
-                          "1000L2_barcodes.txt")
+                         "1000L2_barcodes.txt")
 projectname = "test_project"
 sectionNo = "1A"
 
 # create a test dataset
 test.seurat <- readSeurat(Counts = counts,
-                       BarcodeFile = barcodefile,
-                       ProjectName=projectname,
-                       SectionNumber=sectionNo)
+                          BarcodeFile = barcodefile,
+                          ProjectName=projectname,
+                          SectionNumber=sectionNo)
 
 test_that("readSeurat creates a Seurat object containing barcodes correctly", {
-              expect_is(test.seurat, "Seurat")
-              expect_equal(test.seurat@meta.data[12, "x"], 7)
-              expect_equal(test.seurat@meta.data[8, "y"], 15)
-              expect_equal(colnames(test.seurat@meta.data)[4:6], 
-                           c("spot", 
-                             "x",
-                             "y"))
-                       })
+    expect_is(test.seurat, "Seurat")
+    expect_equal(test.seurat@meta.data[12, "x"], 7)
+    expect_equal(test.seurat@meta.data[8, "y"], 15)
+    expect_equal(colnames(test.seurat@meta.data)[4:6], 
+                 c("spot", 
+                   "x",
+                   "y"))
+})
 
 

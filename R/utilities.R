@@ -1,6 +1,7 @@
 #'@importFrom magrittr %>%
 #'@import methods
 #'@import dplyr
+#'@importFrom utils read.csv
 
 ### get expression data
 getExprs <- function(Object){
@@ -35,7 +36,7 @@ updateMetadata <- function(MetaData, Object){
     if (is(Object, "Seurat")){
         Object@meta.data <- MetaData}
     if (is(Object, "SingleCellExperiment")){
-        MetaData <- MetaData %>% DataFrame()
+        MetaData <- MetaData %>% S4Vectors::DataFrame()
         colData(Object) <- MetaData}
     return(Object)
 }

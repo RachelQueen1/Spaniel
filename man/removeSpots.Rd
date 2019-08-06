@@ -4,8 +4,8 @@
 \alias{removeSpots}
 \title{removeSpots}
 \usage{
-removeSpots(sObj, pointsToRemove = "points_to_remove.txt",
-  removeTmpFile = F)
+removeSpots(sObj, pointsToRemove = "points_to_remove.txt", 
+                    removeTmpFile = FALSE)
 }
 \arguments{
 \item{sObj}{Either a Seurat object (version 3) or a SingleCellExperiment 
@@ -18,12 +18,15 @@ colData (SingleCellExperiment).}
 \item{removeTmpFile}{T/F argument the points_to_remove.txt be 
 removed after filtering. Set to FALSE by default.}
 }
+\value{
+A filtered Seurat or SingleCellExperiment Object
+}
 \description{
 A function to filter spots from analysis. It requires selectSpots to be 
 run first.
 }
 \examples{
-SeuratObj <- readRDS(file.path(system.file(package = "Spaniel"), 
-                     "extdata/SeuratData.rds"))
-sObjFiltered <- (SeuratObj)
+SeuratObj <- readRDS(file.path(system.file(package = "Spaniel"),
+                        "extdata/SeuratData.rds"))
+sObjFiltered <- removeSpots(SeuratObj)
 }

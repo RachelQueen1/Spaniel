@@ -12,7 +12,7 @@ context("Testing markClusterCol")
 set.seed(1234)
 counts <- sample(seq(0, 4), 
                  625, 
-                 replace = T, 
+                 replace = TRUE, 
                  prob = c(0.65, 0.25, 0.04, 0.008, 0.002)) %>% 
     matrix(nrow = 25) %>% 
     data.frame()
@@ -25,10 +25,10 @@ md <- counts %>%
     data.frame() %>%
     select(c(gene.1, gene.2, gene.3, gene.4, gene.5)) %>%
     dplyr::rename(col1 = gene.1,
-           col2 = gene.2, 
-           res.0.6 = gene.3,
-           res.0.8 = gene.4,
-           res.1.0 = gene.5)
+                  col2 = gene.2, 
+                  res.0.6 = gene.3,
+                  res.0.8 = gene.4,
+                  res.1.0 = gene.5)
 
 
 # Test with Seurat object
@@ -60,15 +60,15 @@ test.marked.after.other <- colnames(test.md.after)[1:5]%>%
 
 test_that("markClusterCol check that columns 
           are marked with cluster_ correctly, Seurat", {
-    expect_is(test.seurat, "Seurat")
-    expect_is(test.md.before, "data.frame")
-    expect_is(test.md.after, "data.frame")
-    expect_equal(colnames(test.md.before)[6], "res.0.6")
-    expect_equal(colnames(test.md.after)[6], "cluster_res.0.6")
-    expect_equal(test.marked.before, 0)
-    expect_equal(test.marked.after, 3)
-    expect_equal(test.marked.after.other, 0)
-})
+              expect_is(test.seurat, "Seurat")
+              expect_is(test.md.before, "data.frame")
+              expect_is(test.md.after, "data.frame")
+              expect_equal(colnames(test.md.before)[6], "res.0.6")
+              expect_equal(colnames(test.md.after)[6], "cluster_res.0.6")
+              expect_equal(test.marked.before, 0)
+              expect_equal(test.marked.after, 3)
+              expect_equal(test.marked.after.other, 0)
+          })
 
 
 # Test with SingleCellExperiment object

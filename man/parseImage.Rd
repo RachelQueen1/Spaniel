@@ -9,11 +9,14 @@ parseImage(ImgFile)
 \arguments{
 \item{ImgFile}{Path to the image file}
 }
+\value{
+A rasterized grob
+}
 \description{
 This function parses a HE image to use as the background for plots
 }
 \examples{
-imgFile = file.path(system.file(package = "Spaniel"), 
+imgFile = file.path(system.file(package = "Spaniel"),
                     "HE_Rep1_resized.jpg")
 img = parseImage(imgFile)
 }

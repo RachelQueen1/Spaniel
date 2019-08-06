@@ -11,6 +11,9 @@ markClusterCol(Object, Pattern)
 
 \item{Pattern}{pattern indicating which columns contain cluster information}
 }
+\value{
+A Seurat or SCE Object
+}
 \description{
 A function to mark the columns containing cluster information in the metadata
 or colData of a Seurat or SCE object. Columns are marked with "cluster_" 
@@ -18,6 +21,6 @@ prefix.
 }
 \examples{
 SeuratObj <- readRDS(file.path(system.file(package = "Spaniel"), 
-                     "extdata/SeuratData.rds"))
+                                "extdata/SeuratData.rds"))
 SeuratObj <- markClusterCol(SeuratObj, "res")
 }

@@ -6,6 +6,9 @@
 \usage{
 runShinySpaniel()
 }
+\value{
+Runs a Shiny App
+}
 \description{
 A function to visualise Spatial Transcriptomics. It requires a prepocessed 
 Seurat Object or a SingleCellExperiment object as well as a rasterised image 
@@ -22,12 +25,12 @@ done by using the markClusterCol() function included in Spaniel.
 ## mark the columns of metadata/colData that contain clustering 
 ## information see ?markClusterCol for more details#'  
 sObj <-  readRDS(file.path(system.file(package = "Spaniel"),
-                 "extdata/SeuratData.rds"))
+                    "extdata/SeuratData.rds"))
 sObj <- markClusterCol(sObj, "res")
 
 ### parse background image
-imgFile <- file.path(system.file(package = "Spaniel"), 
-           "HE_Rep1_resized.jpg")
+imgFile <- file.path(system.file(package = "Spaniel"),
+            "HE_Rep1_resized.jpg")
 img <- parseImage(imgFile)
 
 ## run shinySpaniel (upload data.rds and image.rds in the shiny app)

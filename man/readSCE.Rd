@@ -4,8 +4,8 @@
 \alias{readSCE}
 \title{Create a SingleCellExperiment Object From Spatial Transcriptomics Data}
 \usage{
-readSCE(Counts, BarcodeFile, ProjectName = projectName,
-  SectionNumber = sectionNo)
+readSCE(Counts, BarcodeFile, ProjectName=projectName, 
+                SectionNumber=sectionNo)
 }
 \arguments{
 \item{Counts}{Raw count matrix or data frame where each row represents a
@@ -23,6 +23,9 @@ Object.}
 
 \item{SectionNumber}{The location of the sample on the slide}
 }
+\value{
+A SingleCellExeriment Object
+}
 \description{
 This function converts a count matrix into a SingleCellExperiment object. 
 The barcodes for each spot are added to the coldata of the 
@@ -30,13 +33,12 @@ SingleCellExperiment object and are used in  plotting the data.
 }
 \examples{
 ## Data is taken from DOI: 10.1126/science.aaf2403
-exampleCounts <- readRDS(file.path(system.file(package = "Spaniel"), 
-                         "extdata/counts.rds"))
-exampleBarcodes <- file.path(system.file(package = "Spaniel"), 
-                         "1000L2_barcodes.txt")
+exampleCounts <- readRDS(file.path(system.file(package = "Spaniel"),
+                            "extdata/counts.rds"))
+exampleBarcodes <- file.path(system.file(package = "Spaniel"),
+                            "1000L2_barcodes.txt")
 seuratOb <- readSCE(exampleCounts,
-                       exampleBarcodes, 
-                       ProjectName = "TestProj", 
-                       SectionNumber = 1)
-
+                        exampleBarcodes,
+                        ProjectName = "TestProj",
+                        SectionNumber = 1)
 }

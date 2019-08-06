@@ -8,22 +8,24 @@ Description: A collection of tools for  analysing  Spatial Transcriptomics Data.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Depends: R (>= 3.4.0),
+Depends: R (>= 3.5.0),
          Seurat,
          SingleCellExperiment,
          dplyr
 Imports: methods,
          ggplot2,
-         devtools,
          scater, 
          shiny,
          jpeg,
          magrittr, 
-         testthat,
-         SummarizedExperiment
+         SummarizedExperiment,
+         utils,
+         S4Vectors
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat, 
+    dplyr
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1.9000
 Collate: 
@@ -35,3 +37,7 @@ Collate:
     'spaniel_plot_internals.R'
     'spatialPlot.R'
     'shinySpaniel.R'
+biocViews: SingleCell, RNASeq, QualityControl, 
+            Preprocessing, Normalization, Visualization, Transcriptomics, 
+            GeneExpression, Sequencing, Software, DataImport,
+            DataRepresentation, Infrastructure, Coverage, Clustering

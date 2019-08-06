@@ -13,6 +13,9 @@ colData (SingleCellExperiment).}
 
 \item{imgObj}{a ggplot grob (see parseImage function)}
 }
+\value{
+Runs a shiny application
+}
 \description{
 A function to select spots to remove from analysis
 }
@@ -20,12 +23,12 @@ A function to select spots to remove from analysis
 ## Run the shiny app (Not run):
 # selectSpots(sObj, imgObj)
 
-# Click on the spots to remove from downstream analysis. Once all the spots have 
-# been selected close the shiny app window. A list of spots is 
+# Click on the spots to remove from downstream analysis. Once all the spots 
+# have been selected close the shiny app window. A list of spots is 
 # stored in a text file called points_to_remove.txt in the working directory.
 
-# Once this step has been run a filtered Seurat or SCE object can be created using
-# removeSpots (see removeSpots for more details)
+# Once this step has been run a filtered Seurat or SCE object can be 
+# created using removeSpots (see removeSpots for more details)
 
 
 }

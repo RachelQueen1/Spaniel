@@ -1,0 +1,32 @@
+Test with R 3.5 and update description
+* Checking R Version dependency...
+    * WARNING: Update R version dependency from 3.4.0 to 3.5.
+
+
+* Checking package size...
+    * ERROR: Package Source tarball exceeds Bioconductor size requirement.
+        Package Size: 109.4112 MB
+        Size Requirement: 4.0000 MB
+
+
+* Checking that biocViews are present...
+    * ERROR: No biocViews terms found.
+
+
+* Checking for direct slot access...
+    Found @ in man/ST_plot.Rd
+    Found @ in vignettes/spaniel-vignette.Rmd
+    * NOTE: Use accessors; don't access S4 class slots via '@' in examples/vignettes.
+
+
+* Checking DESCRIPTION/NAMESPACE consistency...
+    * WARNING: Import devtools, testthat in NAMESPACE as well as DESCRIPTION.
+
+* WARNING: Add non-empty \value sections to the following man pages: man/markClusterCol.Rd, man/parseImage.Rd, man/readSCE.Rd,
+      man/readSeurat.Rd, man/removeSpots.Rd, man/runShinySpaniel.Rd, man/selectSpots.Rd, man/ST_plot.Rd
+
+
+
+* Checking exported objects have runnable examples...
+    * NOTE: Consider adding runnable examples to the following man pages which document exported objects:
+      selectSpots.Rd

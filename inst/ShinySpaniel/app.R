@@ -2,11 +2,11 @@ options(repos = BiocManager::repositories())
 options(shiny.maxRequestSize=100*1024^2)
 
 if(!require("shiny"))
-  install.packages("shiny")
+    install.packages("shiny")
 if(!require("dplyr"))
-  install.packages("dplyr")
+    install.packages("dplyr")
 if(!require("ggplot2"))
-  install.packages("ggplot2")
+    install.packages("ggplot2")
 if (!require("devtools")) 
     install.packages("devtools")
 if (!require("Seurat")) 
@@ -84,13 +84,13 @@ ui <- pageWithSidebar(
                                You can jump to the gene in list by typing the
                                first few letters of the gene of interest."), 
                              p("5. Click 'Plot' button in the side bar ")
-                             ),
+                    ),
                     tabPanel(title = "View Plots",
                              value = "panel2",
                              plotOutput("plotPressed"))
                     
-                               )
-                             )    
+        )
+    )    
 )    
 
 
@@ -200,7 +200,7 @@ server <- function(input, output, session) {
                 Gene = f, 
                 ClusterRes = cl,
                 CustomTitle = NULL, 
-                ScaleData = T)
+                ScaleData = TRUE)
     },
     
     
@@ -216,7 +216,7 @@ server <- function(input, output, session) {
     })
     
     
-    }
+}
 
 shinyApp(ui, server)
 
