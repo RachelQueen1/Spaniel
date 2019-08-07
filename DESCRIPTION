@@ -1,4 +1,4 @@
-Package: Spaniel
+Pdackage: Spaniel
 Type: Package
 Title: Spatial Transcriptomics Analysis
 Version: 0.99.1
@@ -24,8 +24,7 @@ Imports: methods,
 Suggests: 
     knitr,
     rmarkdown,
-    testthat, 
-    dplyr
+    testthat
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1.9000
 Collate: 
