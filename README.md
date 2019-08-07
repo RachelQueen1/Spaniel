@@ -48,4 +48,4 @@ install_github(repo = "RachelQueen1/Spaniel",
 
 # View Vignette:
 
-https://rachelqueen1.github.io/Spaniel/
+https://rachelqueen1.github.io/Spaniel_Documentation/
