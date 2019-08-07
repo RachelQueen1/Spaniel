@@ -10,8 +10,9 @@ vignette: >
 ---
 
 ```{r global_options, include=FALSE}
-knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE, include = TRUE,
-                        fig.height = 8, fig.width = 8, fig.align = "center"
+knitr::opts_chunk$set(warning=FALSE, message=FALSE, include = TRUE,
+                        fig.height = 8, fig.width = 8, fig.align = "center",
+                      echo=TRUE
                         )
 
 ```  
@@ -202,14 +203,17 @@ number of genes may indicate that there is background contamination.
 
 The plotting function allows the use of a binary filter to visualise which 
 spots pass filtering thresholds. We create a filter to show spots which have 
-greater than 2000 genes and a minimum of 300000. These parameters will be 
-experiment specific and should be adjusted as necessary.
+greater than 280 genes and a minimum of 67500. 
+
+NOTE: The parameters are set for subset of counts used in this data set and 
+will be lower the a dataset where the full count matrix is used.  
+The filter thresholds will be experiment specific and should be adjusted as 
+necessary.
 
 ```{r, qcplotting,  results = "hide" }
-# minGenes <- 2000
-# minUMI <- 300000
-minGenes <- 230
-minUMI <- 27000
+
+minGenes <- 280
+minUMI <- 67500
 
 filter <- SeuratObj$nCount_RNA > minUMI &
             SeuratObj$nFeature_RNA > minGenes 
@@ -374,19 +378,19 @@ SeuratFiltered <- markClusterCol(SeuratFiltered, "res")
 
 ### Save data object
 
-```{r, eval = FALSE}
+```{r, eval = FALSE,  echo=TRUE}
 saveRDS(SeuratFiltered, "data.rds")
 ```
 
 An example of processed data set can be found:
 
-```{r, eval = FALSE}
+```{r, eval = FALSE, echo=TRUE}
 file.path(system.file(package = "Spaniel"), "extdata/SeuratData.rds" )
 ```
 
 ### Save image object
 
-```{r, eval = FALSE}
+```{r, eval = FALSE, echo=TRUE}
 saveRDS(image, "image.rds")
 
 ```
