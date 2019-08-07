@@ -56,7 +56,6 @@ Spaniel requires a data frame of counts where the genes equate to the rows and
 the columns equate to a Spatial Transcriptomics spot/barcode.
 
 ```{r counts}
-
 ### read in test data
 counts <- readRDS(file.path(system.file(package = "Spaniel"), 
                             "extdata/counts.rds"))
@@ -207,11 +206,13 @@ greater than 2000 genes and a minimum of 300000. These parameters will be
 experiment specific and should be adjusted as necessary.
 
 ```{r, qcplotting,  results = "hide" }
-minGenes <- 2000
-minUMI <- 300000
+# minGenes <- 2000
+# minUMI <- 300000
+minGenes <- 230
+minUMI <- 27000
 
-filter <- SeuratObj$nFeature_RNA > minGenes &  
-                SeuratObj$nCount_RNA > minUMI
+filter <- SeuratObj$nCount_RNA > minUMI &
+            SeuratObj$nFeature_RNA > minGenes 
 
 ST_plot(Object = SeuratObj, 
         Grob = image, 
@@ -297,7 +298,8 @@ SeuratFiltered <- FindVariableFeatures(object = SeuratFiltered,
                                         selection.method = "vst",
                                         nfeatures = 2000)
 
-all.genes <- rownames(x = SeuratObj)
+all.genes <- rownames(x = SeuratFiltered)
+
 
 SeuratFiltered <- ScaleData(object = SeuratFiltered, features = all.genes)
 SeuratFiltered <- RunPCA(object = SeuratFiltered,
@@ -347,7 +349,7 @@ match a column name within the colData.
 ST_plot(Object = SeuratFiltered, 
         Grob = image, 
         PlotType = "Cluster", 
-        ClusterRes = "RNA_snn_res.0.6"
+        ClusterRes = "RNA_snn_res.0.8"
 )
 
 ```
