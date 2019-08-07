@@ -20,7 +20,8 @@ Imports: methods,
          magrittr, 
          SummarizedExperiment,
          utils,
-         S4Vectors
+         S4Vectors,
+         devtools
 Suggests: 
     knitr,
     rmarkdown,
