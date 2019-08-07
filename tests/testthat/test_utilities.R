@@ -1,5 +1,8 @@
 #'@import devtools
 #'@import testthat
+#'@include utilities.R
+#' 
+NULL
 
 # Tests for utilities functions
 # ------------------------------------------------------------------------------

@@ -27,6 +27,8 @@ run first.
 }
 \examples{
 SeuratObj <- readRDS(file.path(system.file(package = "Spaniel"),
-                        "extdata/SeuratData.rds"))
-sObjFiltered <- removeSpots(SeuratObj)
+                         "extdata/SeuratData.rds"))
+toRemove <- file.path(system.file(package = "Spaniel"),
+                        "points_to_remove.txt")
+sObjFiltered <- removeSpots(SeuratObj, toRemove)
 }
