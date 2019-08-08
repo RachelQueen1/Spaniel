@@ -100,12 +100,13 @@ removeSpots <-function(sObj,
     toKeep = setdiff(colnames(sObj), toRemove)
     filter = colnames(sObj) %in% toRemove
     
-    if (is(sObj, "Seurat")){
-        objFiltered <- Seurat::SubsetData(object = sObj, cells =toKeep)
-    }
-    if (is(sObj, "SingleCellExperiment")){
-        objFiltered <- sObj[,toKeep]
-    }
+    # if (is(sObj, "Seurat")){
+    #     objFiltered <- Seurat::SubsetData(object = sObj, cells =toKeep)
+    # }
+    # if (is(sObj, "SingleCellExperiment")){
+    #     objFiltered <- sObj[,toKeep]
+    # }
+    objFiltered <- sObj[,toKeep]
     if(removeTmpFile){
     }
     return(objFiltered)

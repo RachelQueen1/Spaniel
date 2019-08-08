@@ -54,7 +54,7 @@ test_that("getExprs extracts a valid metadata data.frame", {
     expect_is(test.md, "data.frame")
     expect_equal(colnames(test.md)[1], "spot")
     expect_equal(rownames(test.md)[1], "ACAACTATGGGTTGGCGG")
-    expect_equal(dim(test.md), c(248, 19))
+    expect_equal(dim(test.md), c(10, 19))
 })
 
 
@@ -66,7 +66,7 @@ test_that("getCoordinates extracts spot coordinates from metadata", {
     expect_equal(colnames(test.cood)[1], "spot")
     expect_equal(rownames(test.cood)[1], "ACAACTATGGGTTGGCGG")
     expect_equal(test.cood[1,2], 16)
-    expect_equal(dim(test.cood), c(248, 3))
+    expect_equal(dim(test.cood), c(10, 3))
 })
 
 
@@ -85,13 +85,17 @@ test_that("getCoordinates extracts spot coordinates from metadata", {
     expect_equal(dim(test.seu@meta.data), c(248, 2))
 })
 
+md = data.frame(test1 = seq(1,10),
+                test2 = seq(10,1))
+rownames(md) = colnames(sce_obj)
+
 test.sce <- updateMetadata(md, sce_obj)
 test_that("updateMetadata ", {
     expect_is(colData(test.sce) , "DataFrame")
     expect_equal(colnames(colData(test.sce))[1], "test1")
     expect_equal(rownames(colData(test.sce))[1], "ACAACTATGGGTTGGCGG")
-    expect_equal(colData(test.sce)[1,2], 248)
-    expect_equal(dim(colData(test.sce)), c(248, 2))
+    expect_equal(colData(test.sce)[1,2], 10)
+    expect_equal(dim(colData(test.sce)), c(10, 2))
 })
 
 
