@@ -31,7 +31,7 @@ test_that("%=% splits the list correctly", {
 Object <- readRDS(file.path(system.file(package = "Spaniel"), 
                             "extdata/SeuratData.rds"))
 pt.size <- 2
-Gene <- "Mef2c"
+Gene <- "Nrgn"
 ClusterRes <- "cluster_RNA_snn_res.0.4"
 
 # No Genes

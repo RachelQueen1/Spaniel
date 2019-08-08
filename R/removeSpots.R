@@ -83,7 +83,7 @@ selectSpots <- function(sObj, imgObj){
 #' @return A filtered Seurat or SingleCellExperiment Object
 #' @examples
 #' SeuratObj <- readRDS(file.path(system.file(package = "Spaniel"),
-#'                          "extdata/SeuratData.rds"))
+#'                         "extdata/SeuratData.rds"))
 #' toRemove <- file.path(system.file(package = "Spaniel"),
 #'                         "points_to_remove.txt")
 #' sObjFiltered <- removeSpots(SeuratObj, toRemove)
