@@ -64,7 +64,7 @@ test.cood <- getCoordinates(test.md)
 test_that("getCoordinates extracts spot coordinates from metadata", {
     expect_is(test.cood, "data.frame")
     expect_equal(colnames(test.cood)[1], "spot")
-    expect_equal(rownames(test.cood)[1], "ACCCGGCGTAACTAGATA")
+    expect_equal(rownames(test.cood)[1], "ACAACTATGGGTTGGCGG")
     expect_equal(test.cood[1,2], 16)
     expect_equal(dim(test.cood), c(10, 3))
 })
