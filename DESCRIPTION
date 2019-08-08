@@ -20,12 +20,12 @@ Imports: methods,
          magrittr, 
          SummarizedExperiment,
          utils,
-         S4Vectors,
-         devtools
+         S4Vectors
 Suggests: 
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    devtools
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1.9000
 Collate: 
