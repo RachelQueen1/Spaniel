@@ -401,6 +401,7 @@ file.path(system.file(package = "Spaniel"), "extdata/image.rds" )
 ```
 
 ### Run shinySpaniel!
+To launch the shiny Spaniel app issue the command:
 ```{r, markclusterCols, eval = FALSE}
 runShinySpaniel()
 
