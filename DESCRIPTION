@@ -1,14 +1,14 @@
 Package: Spaniel
 Type: Package
 Title: Spatial Transcriptomics Analysis
-Version: 0.99.1
+Version: 0.99.2
 Author: Rachel Queen <rachel.queen@newcastle.ac.uk>
 Maintainer: Rachel Queen <rachel.queen@newcastle.ac.uk>
 Description: A collection of tools for  analysing  Spatial Transcriptomics Data.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Depends: R (>= 3.5.0),
+Depends: R (>= 3.6),
          Seurat,
          SingleCellExperiment,
          dplyr

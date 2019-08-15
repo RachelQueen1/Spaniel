@@ -115,7 +115,7 @@ ST_plot <- function (Object,
     # convert size legend to logical
         show_size_legend = ifelse(show_size_legend == "TRUE", TRUE, FALSE)
     # convert sz to numeric
-    if (suppressWarnings(!is.na(as.numeric(sz)))){
+    if !is.na(as.numeric(sz))){
         sz = as.numeric(sz)
     }
     
