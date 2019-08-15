@@ -35,7 +35,7 @@ setVars <- function(Object,
         shp <- "NULL"
         colPlot <- ifelse(is(Object, "Seurat"),
                             "nFeature_RNA",
-                            "total_features_by_counts")
+                            "detected")
     }
     
     if (PlotType == "CountsPerSpot") {
@@ -45,7 +45,7 @@ setVars <- function(Object,
         shp <- "NULL"
         colPlot <- ifelse(is(Object, "Seurat"),
                             "nCount_RNA",
-                            "total_counts")
+                            "sum")
     }
     
     if (PlotType == "Cluster") {

@@ -116,8 +116,12 @@ readSCE <- function(Counts,
                                                         sep = "_")
     
     ### calculate QC metrics
-    sce <- scater::calculateQCMetrics(
-        sce
+    # sce <- scater::calculateQCMetrics(
+    #     sce
+    # )
+    
+    sce <- scater::addQCPerCell(
+        sce, 
     )
     
     return(sce)

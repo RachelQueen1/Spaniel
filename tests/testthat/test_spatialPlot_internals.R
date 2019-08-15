@@ -104,7 +104,7 @@ ungroupVars(plotTitle,cl,sz,shp, show_size_legend, colPlot) %=%
     setVars(Object, PlotType, pt.size, Gene)
 
 test_that("setVars sets the correct variables", {
-    expect_equal(colPlot, "total_features_by_counts")
+    expect_equal(colPlot, "detected")
 })
 
 # No Counts
@@ -114,7 +114,7 @@ ungroupVars(plotTitle,cl,sz,shp, show_size_legend, colPlot) %=%
     setVars(Object, PlotType, pt.size, Gene)
 
 test_that("setVars sets the correct variables", {
-    expect_equal(colPlot, "total_counts")
+    expect_equal(colPlot, "sum")
 })
 
 
