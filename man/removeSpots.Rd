@@ -4,8 +4,7 @@
 \alias{removeSpots}
 \title{removeSpots}
 \usage{
-removeSpots(sObj, pointsToRemove = "points_to_remove.txt", 
-                    removeTmpFile = FALSE)
+removeSpots(sObj, pointsToRemove = "points_to_remove.txt")
 }
 \arguments{
 \item{sObj}{Either a Seurat object (version 3) or a SingleCellExperiment 

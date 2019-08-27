@@ -86,8 +86,7 @@ selectSpots <- function(sObj, imgObj){
 #'                         "points_to_remove.txt")
 #' sObjFiltered <- removeSpots(SeuratObj, toRemove)
 #' @export
-#' @usage  removeSpots(sObj, pointsToRemove = "points_to_remove.txt", 
-#'                     removeTmpFile = FALSE)
+#' @usage  removeSpots(sObj, pointsToRemove = "points_to_remove.txt")
 
 removeSpots <-function(sObj, 
                         pointsToRemove = "points_to_remove.txt"){
