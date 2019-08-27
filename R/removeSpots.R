@@ -78,8 +78,6 @@ selectSpots <- function(sObj, imgObj){
 #' colData (SingleCellExperiment).  
 #' @param pointsToRemove path to points to remove file. Default is 
 #' "points_to_remove.txt" 
-#' @param removeTmpFile T/F argument the points_to_remove.txt be 
-#' removed after filtering. Set to FALSE by default.
 #' @return A filtered Seurat or SingleCellExperiment Object
 #' @examples
 #' SeuratObj <- readRDS(file.path(system.file(package = "Spaniel"),
@@ -92,23 +90,15 @@ selectSpots <- function(sObj, imgObj){
 #'                     removeTmpFile = FALSE)
 
 removeSpots <-function(sObj, 
-                        pointsToRemove = "points_to_remove.txt", 
-                        removeTmpFile = FALSE){
+                        pointsToRemove = "points_to_remove.txt"){
     toRemove = read.csv(pointsToRemove, 
                         header = FALSE, 
                         stringsAsFactors = FALSE)$V1
     toKeep = setdiff(colnames(sObj), toRemove)
     filter = colnames(sObj) %in% toRemove
     
-    # if (is(sObj, "Seurat")){
-    #     objFiltered <- Seurat::SubsetData(object = sObj, cells =toKeep)
-    # }
-    # if (is(sObj, "SingleCellExperiment")){
-    #     objFiltered <- sObj[,toKeep]
-    # }
     objFiltered <- sObj[,toKeep]
-    if(removeTmpFile){
-    }
+    
     return(objFiltered)
     
 }
