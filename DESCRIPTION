@@ -5,11 +5,11 @@ Version: 0.99.7
 Author: Rachel Queen <rachel.queen@newcastle.ac.uk>
 Maintainer: Rachel Queen <rachel.queen@newcastle.ac.uk>
 Description: Spaniel includes a series of tools to aid the quality control and 
-analysis of Spatial Transcriptomics data. The package contains functions to 
-create a either a Seurat object or SingleCellExperiment from a count matrix 
-and spatial barcode file and provides a method of loading a histologial image 
-into R. The ST_plot function allows visualisation of metrics contained within
-the S4 object overlaid onto the image of the tissue. 
+    analysis of Spatial Transcriptomics data. The package contains functions to 
+    create a either a Seurat object or SingleCellExperiment from a count matrix 
+    and spatial barcode file and provides a method of loading a histologial 
+    image into R. The ST_plot function allows visualisation of metrics contained 
+    within the S4 object overlaid onto the image of the tissue. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
