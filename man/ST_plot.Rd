@@ -22,11 +22,11 @@ colData (SingleCellExperiment).}
 \item{PlotType}{There are 5 types of plots avaiable:
 1) NoGenes - This shows the number of genes per spot 
 and uses information from "nFeature_RNA" column of 
-Seurat object or "total_features_by_counts" from a 
+Seurat object or "detected" from a 
 SingleCellExperiment object.
 2) CountsPerSpot - This shows the number of counts per
 spot. It uses information from "nCount_RNA" column of 
-Seurat object or "total_counts" from a 
+Seurat object or "sum" from a 
 singleCellExperiment object.
 3) Cluster - This plot is designed to show clustering
 results stored in the meta.data or colData of an object

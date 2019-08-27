@@ -16,14 +16,14 @@ LazyData: true
 Depends: R (>= 3.6),
          Seurat,
          SingleCellExperiment,
+         SummarizedExperiment,
          dplyr
 Imports: methods,
          ggplot2,
          scater (>= 1.13), 
          shiny,
          jpeg,
-         magrittr, 
-         SummarizedExperiment,
+         magrittr,
          utils,
          S4Vectors
 Suggests: 

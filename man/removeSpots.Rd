@@ -14,9 +14,6 @@ colData (SingleCellExperiment).}
 
 \item{pointsToRemove}{path to points to remove file. Default is 
 "points_to_remove.txt"}
-
-\item{removeTmpFile}{T/F argument the points_to_remove.txt be 
-removed after filtering. Set to FALSE by default.}
 }
 \value{
 A filtered Seurat or SingleCellExperiment Object
