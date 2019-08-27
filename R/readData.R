@@ -121,7 +121,7 @@ readSCE <- function(Counts,
     # )
     
     sce <- scater::addQCPerCell(
-        sce, 
+        sce
     )
     
     return(sce)
