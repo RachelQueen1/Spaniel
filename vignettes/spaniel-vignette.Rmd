@@ -24,14 +24,7 @@ experiments. To install and load Spaniel:
 
 ```{r install}
 
-if (!require("devtools")) 
-install.packages("devtools")
-
-
-if (!require("Spaniel")) 
-devtools::install_github(repo = "RachelQueen1/Spaniel", 
-build_opts = c("--no-resave-data", "--no-manual"), 
-build_vignettes = TRUE)
+BiocManager::install('Spaniel')
 
 library(Spaniel)
 library(Seurat)
