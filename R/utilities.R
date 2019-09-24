@@ -4,7 +4,7 @@
 #'@importFrom utils read.csv
 
 ### get expression data
-getexprs <- function(object){
+getExprs <- function(object){
     if (is(object, "Seurat")){
         exprs = object@assays$RNA@scale.data}
     if (is(object, "SingleCellExperiment")){
