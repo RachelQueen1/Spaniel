@@ -106,7 +106,7 @@ https://bioconductor.org/packages/release/bioc/html/SingleCellExperiment.html
 
 ### Creating a Seurat object
 
-The createSeurat() function can be used to create a Seurat object. The count data 
+The `createSeurat()` function can be used to create a Seurat object. The count data 
 is stored in the counts slot of the assay slot of the object, the barcodes are 
 stored in the meta.data slot and the ProjectName and SectionNumber arguments 
 can be used to add information about the Sample and position on slide to the 
@@ -138,10 +138,10 @@ Project(seuratObj)
 ```
 
 ### Creating a SingleCellExperiment object
-Alternatively, the readSCE function can be used to create a 
+Alternatively, the `readSCE()` function can be used to create a 
 SingleCellExperiment object. This time the ProjectName and SectionNumber are 
 added as a column of the colData of the object. The number of genes and counts
-per spot are calculated by the calculateQCMetrics() from the scater 
+per spot are calculated by the `calculateQCMetrics()` from the scater 
 bioconductor package.
 
 ```{r readSCE}
@@ -204,7 +204,7 @@ The plotting function allows the use of a binary filter to visualise which
 spots pass filtering thresholds. We create a filter to show spots which have 
 greater than 280 genes and a minimum of 67500. 
 
-NOTE: The parameters are set for subset of counts used in this data set and 
+__NOTE:__ The parameters are set for subset of counts used in this data set and 
 will be lower the a dataset where the full count matrix is used.  
 The filter thresholds will be experiment specific and should be adjusted as 
 necessary.
@@ -256,10 +256,10 @@ selectSpots(seuratFiltered, image)
 This opens an interactive plot allowing you to click on any spots to be removed 
 from downstream analysis. Once all the spots have been selected close the shiny 
 app window. 
-A list of spots is stored in a text file called points_to_remove.txt
+A list of spots is stored in a text file called `points_to_remove.txt`
 in the working directory. As this is an interactive step it is not run in this 
 vignette. Instead we can load a list of points to remove and run the function 
-removeSpots to remove the points that fall outside of the tissue area.
+`removeSpots()` to remove the points that fall outside of the tissue area.
 
 
 
@@ -319,10 +319,10 @@ seuratFiltered <- FindClusters(object = seuratFiltered,
 
 ### View Genes
 
-spanielPlot can be used to view gene expression an image. The normalised scaled data
+`spanielPlot()` can be used to view gene expression an image. The normalised scaled data
 from the scale_data slot of a seurat object is shown.
 
-NOTE: if this plot is used with a SingleCellExperiment object expression data 
+__NOTE__: if this plot is used with a SingleCellExperiment object expression data 
 will be taken from the logcounts slot.
 
 
@@ -341,10 +341,10 @@ spanielPlot(object = seuratFiltered, grob = image,
 ### View Clusters
 
 It can also be useful to look at how different clustering resolutions can be 
-viewed match up with the image. Again this can done using the spanielPlot. The 
-ClusterRes argument should match a name in the meta.data to plot. 
+viewed match up with the image. Again this can done using the `spanielPlot()`. 
+The `ClusterRes` argument should match a name in the meta.data to plot. 
 
-NOTE: if this plot is used with a SingleCellExperiment object ClusterRes should 
+__NOTE__: if this plot is used with a SingleCellExperiment object ClusterRes should 
 match a column name within the colData.
 
 ```{r, clusterPlot, warning= FALSE, message = FALSE, results = "hide" }
