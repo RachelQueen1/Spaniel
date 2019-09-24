@@ -41,7 +41,7 @@ selectSpots <- function(sObj, imgObj){
     server <- function(input, output, session) {
         output$plotImage <- renderPlot({
             ### create plot
-            ST_plot(Object = sObj, 
+            spanielPlot(Object = sObj, 
                     Grob = imgObj, 
                     PlotType =  "NoGenes",
                     CustomTitle = NULL, 

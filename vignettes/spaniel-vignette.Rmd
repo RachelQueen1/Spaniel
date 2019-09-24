@@ -24,7 +24,7 @@ experiments. To install and load Spaniel:
 
 ```{r install}
 
-BiocManager::install('Spaniel')
+#BiocManager::install('Spaniel')
 
 library(Spaniel)
 library(Seurat)
@@ -211,7 +211,7 @@ minUMI <- 67500
 filter <- SeuratObj$nCount_RNA > minUMI &
             SeuratObj$nFeature_RNA > minGenes 
 
-ST_plot(Object = SeuratObj, 
+spanielPlot(Object = SeuratObj, 
         Grob = image, 
         PlotType = "NoGenes", 
         ShowFilter = filter)
@@ -227,7 +227,7 @@ SeuratFiltered <- subset(x = SeuratObj, subset = nFeature_RNA > minGenes &
                                 nCount_RNA > minUMI)
 
 
-ST_plot(Object = SeuratFiltered, 
+spanielPlot(Object = SeuratFiltered, 
         Grob = image, 
         PlotType = "NoGenes") 
 
@@ -266,7 +266,7 @@ SeuratFiltered <- removeSpots(SeuratFiltered,
                                 pointsToRemove = spotsToRemove)
 
 
-ST_plot(Object = SeuratFiltered, 
+spanielPlot(Object = SeuratFiltered, 
         Grob = image, 
         PlotType = "NoGenes") 
 
@@ -313,7 +313,7 @@ SeuratFiltered <- FindClusters(object = SeuratFiltered,
 
 ### View Genes
 
-ST_plot can be used to view gene expression an image. The normalised scaled data
+spanielPlot can be used to view gene expression an image. The normalised scaled data
 from the scale_data slot of a seurat object is shown.
 
 NOTE: if this plot is used with a SingleCellExperiment object expression data 
@@ -324,7 +324,7 @@ will be taken from the logcounts slot.
 
 
 gene = "Nrgn"
-ST_plot(Object = SeuratFiltered, Grob = image, 
+spanielPlot(Object = SeuratFiltered, Grob = image, 
         PlotType = "Gene", 
         Gene = gene)
 
@@ -335,7 +335,7 @@ ST_plot(Object = SeuratFiltered, Grob = image,
 ### View Clusters
 
 It can also be useful to look at how different clustering resolutions can be 
-viewed match up with the image. Again this can done using the ST_plot. The 
+viewed match up with the image. Again this can done using the spanielPlot. The 
 ClusterRes argument should match a name in the meta.data to plot. 
 
 NOTE: if this plot is used with a SingleCellExperiment object ClusterRes should 
@@ -343,7 +343,7 @@ match a column name within the colData.
 
 ```{r, clusterPlot, warning= FALSE, message = FALSE, results = "hide" }
 
-ST_plot(Object = SeuratFiltered, 
+spanielPlot(Object = SeuratFiltered, 
         Grob = image, 
         PlotType = "Cluster", 
         ClusterRes = "RNA_snn_res.0.8"

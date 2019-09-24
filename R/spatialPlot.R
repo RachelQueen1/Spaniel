@@ -60,20 +60,20 @@ NULL
 #' minUMI <- 300000
 #' filter <- SeuratObj$nFeature_RNA > minGenes &
 #'             SeuratObj$nCount_RNA > minUMI
-#' ST_plot(Object = SeuratObj, Grob = imgFile,
+#' spanielPlot(Object = SeuratObj, Grob = imgFile,
 #'         PlotType = "CountsPerSpot",
 #'         ShowFilter = filter)
 #' 
 #' ## Cluster plot
-#' ST_plot(Object = SeuratObj, Grob = imgFile,
+#' spanielPlot(Object = SeuratObj, Grob = imgFile,
 #'         PlotType = "Cluster",
 #'         ClusterRes = "cluster_RNA_snn_res.0.6")
 #' 
 #' ## Gene plot
-#' ST_plot(Object = SeuratObj, Grob = imgFile,
+#' spanielPlot(Object = SeuratObj, Grob = imgFile,
 #'         PlotType = "Gene",
 #'         Gene = "Nrgn")
-#' @usage  ST_plot(Object, Grob, PlotType = c("NoGenes",
+#' @usage  spanielPlot(Object, Grob, PlotType = c("NoGenes",
 #'                                             "CountsPerSpot",
 #'                                             "Cluster",
 #'                                             "Gene"),
@@ -86,7 +86,7 @@ NULL
 
 # Main Spaniel Plot Function
 # ------------------------------------------------------------------------------
-ST_plot <- function (Object,  
+spanielPlot <- function (Object,  
                         Grob,
                         PlotType = c("NoGenes", 
                                     "CountsPerSpot", 

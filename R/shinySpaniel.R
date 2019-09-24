@@ -210,7 +210,7 @@ runShinySpaniel <-function(){
             }
             
             ### create plot
-            ST_plot(Object = s, 
+            spanielPlot(Object = s, 
                     Grob = g, 
                     PlotType =  pType, 
                     Gene = f, 
