@@ -114,7 +114,7 @@ project.name slot of the Seurat object.
 
 ```{r createSeurat}
 
-SeuratObj <- createSeurat(counts,
+seuratObj <- createSeurat(counts,
                         barcodesFile, 
                         ProjectName = "TestProj", 
                         SectionNumber = 1
@@ -124,17 +124,17 @@ SeuratObj <- createSeurat(counts,
 
 The barcodes are stored in the metadata:
 ```{r createSeurat_meta}
-head(SeuratObj[[]])
+head(seuratObj[[]])
 ```
 
 Corner of the count data:
 ```{r createSeurat_counts}
-GetAssayData(SeuratObj, "counts")[1:10, 1:5]
+GetAssayData(seuratObj, "counts")[1:10, 1:5]
 ```
 
 Project name
 ```{r createSeurat_project}
-Project(SeuratObj)
+Project(seuratObj)
 ```
 
 ### Creating a SingleCellExperiment object
@@ -145,7 +145,7 @@ per spot are calculated by the calculateQCMetrics() from the scater
 bioconductor package.
 
 ```{r readSCE}
-sce <- readSCE(Counts = counts,
+sce <- createSCE(Counts = counts,
                 BarcodeFile = barcodesFile, 
                 ProjectName = "TestProj", 
                 SectionNumber = 1)
@@ -214,10 +214,10 @@ necessary.
 minGenes <- 280
 minUMI <- 67500
 
-filter <- SeuratObj$nCount_RNA > minUMI &
-            SeuratObj$nFeature_RNA > minGenes 
+filter <- seuratObj$nCount_RNA > minUMI &
+            seuratObj$nFeature_RNA > minGenes 
 
-spanielPlot(Object = SeuratObj, 
+spanielPlot(Object = seuratObj, 
         Grob = image, 
         PlotType = "NoGenes", 
         ShowFilter = filter)
@@ -229,11 +229,11 @@ spanielPlot(Object = SeuratObj,
 Spots which don't pass QC thresholds can then be filtered from the data:
 
 ```{r, filter_seurat}
-SeuratFiltered <- subset(x = SeuratObj, subset = nFeature_RNA > minGenes &
+seuratFiltered <- subset(x = seuratObj, subset = nFeature_RNA > minGenes &
                                 nCount_RNA > minUMI)
 
 
-spanielPlot(Object = SeuratFiltered, 
+spanielPlot(Object = seuratFiltered, 
         Grob = image, 
         PlotType = "NoGenes") 
 
@@ -248,7 +248,7 @@ issuing the command:
 
 
 ```{r, select_spots, eval = FALSE }
-selectSpots(SeuratFiltered, image)
+selectSpots(seuratFiltered, image)
 
 ```
 
@@ -268,11 +268,11 @@ removeSpots to remove the points that fall outside of the tissue area.
 spotsToRemove <- file.path(system.file(package = "Spaniel"), 
                             "points_to_remove.txt")
 
-SeuratFiltered <- removeSpots(SeuratFiltered, 
+seuratFiltered <- removeSpots(seuratFiltered, 
                                 pointsToRemove = spotsToRemove)
 
 
-spanielPlot(Object = SeuratFiltered, 
+spanielPlot(Object = seuratFiltered, 
         Grob = image, 
         PlotType = "NoGenes") 
 
@@ -293,25 +293,25 @@ https://satijalab.org/seurat/get_started.html
 
 
 
-SeuratFiltered <- NormalizeData(object = SeuratFiltered,
+seuratFiltered <- NormalizeData(object = seuratFiltered,
                                 normalization.method = "LogNormalize",
                                 scale.factor = 10000)
 
-SeuratFiltered <- FindVariableFeatures(object = SeuratFiltered,
+seuratFiltered <- FindVariableFeatures(object = seuratFiltered,
                                         selection.method = "vst",
                                         nfeatures = 2000)
 
-all.genes <- rownames(x = SeuratFiltered)
+all.genes <- rownames(x = seuratFiltered)
 
 
-SeuratFiltered <- ScaleData(object = SeuratFiltered, features = all.genes)
-SeuratFiltered <- RunPCA(object = SeuratFiltered,
-                            features = VariableFeatures(object = SeuratFiltered)
+seuratFiltered <- ScaleData(object = seuratFiltered, features = all.genes)
+seuratFiltered <- RunPCA(object = seuratFiltered,
+                            features = VariableFeatures(object = seuratFiltered)
                         )
 
 
-SeuratFiltered <- FindNeighbors(object = SeuratFiltered, dims = 1:10)
-SeuratFiltered <- FindClusters(object = SeuratFiltered,
+seuratFiltered <- FindNeighbors(object = seuratFiltered, dims = 1:10)
+seuratFiltered <- FindClusters(object = seuratFiltered,
                                 resolution = c(0.4, 0.5, 0.6, 0.8))
 
 
@@ -330,7 +330,7 @@ will be taken from the logcounts slot.
 
 
 gene = "Nrgn"
-spanielPlot(Object = SeuratFiltered, Grob = image, 
+spanielPlot(Object = seuratFiltered, Grob = image, 
         PlotType = "Gene", 
         Gene = gene)
 
@@ -349,7 +349,7 @@ match a column name within the colData.
 
 ```{r, clusterPlot, warning= FALSE, message = FALSE, results = "hide" }
 
-spanielPlot(Object = SeuratFiltered, 
+spanielPlot(Object = seuratFiltered, 
         Grob = image, 
         PlotType = "Cluster", 
         ClusterRes = "RNA_snn_res.0.8"
@@ -372,13 +372,13 @@ marked in the meta.dat with the prefix "cluster_"  so that Spaniel knows where
 to look for them. 
 
 ```{r, markClusters}
-SeuratFiltered <- markClusterCol(SeuratFiltered, "res")
+seuratFiltered <- markClusterCol(seuratFiltered, "res")
 ```
 
 ### Save data object
 
 ```{r, eval = FALSE,  echo=TRUE}
-saveRDS(SeuratFiltered, "data.rds")
+saveRDS(seuratFiltered, "data.rds")
 ```
 
 An example of processed data set can be found:
@@ -411,7 +411,7 @@ For sharing analysis it is also possible to deploy the ShinySpaniel app to
 Shiny.io or any other server running R Server. The standalone app is located:
 
 ```{r, eval = FALSE}
-SpanielApp <- file.path(system.file(package = "Spaniel"), "ShinySpaniel" )
+spanielApp <- file.path(system.file(package = "Spaniel"), "ShinySpaniel" )
 ```
 
 You can sign up for a shinyapps.io account:
@@ -426,7 +426,7 @@ Then run the following code:
 
 ```{r, eval = FALSE}
 library(rsconnect)
-rsconnect::deployApp(SpanielApp)
+rsconnect::deployApp(spanielApp)
 
 ```
 
