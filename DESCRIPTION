@@ -1,7 +1,7 @@
 Package: Spaniel
 Type: Package
 Title: Spatial Transcriptomics Analysis
-Version: 0.99.13
+Version: 0.99.14
 Author: Rachel Queen <rachel.queen@newcastle.ac.uk>
 Maintainer: Rachel Queen <rachel.queen@newcastle.ac.uk>
 Description: Spaniel includes a series of tools to aid the quality control and 
