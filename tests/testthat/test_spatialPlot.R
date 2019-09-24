@@ -1,18 +1,18 @@
 # Test Spatial plot
 # ------------------------------------------------------------------------------
 
-Object = readRDS(file.path(system.file(package = "Spaniel"),
+object = readRDS(file.path(system.file(package = "Spaniel"),
                            "extdata/SeuratData.rds"))
-Grob = readRDS(file.path(system.file(package = "Spaniel"),
+grob = readRDS(file.path(system.file(package = "Spaniel"),
                          "extdata/image.rds"))
-PlotType = "Cluster"
-ClusterRes = "cluster_RNA_snn_res.0.6"
+plotType = "Cluster"
+clusterRes = "cluster_RNA_snn_res.0.6"
 
-test.p <- ST_plot(Object = Object, 
-                  Grob = Grob, 
-                  PlotType = PlotType, 
-                  ClusterRes = ClusterRes)
+test.p <- spanielPlot(object, 
+                    grob, 
+                    plotType, 
+                    clusterRes)
 
-test_that("ST_plot creates a plot", {
+test_that("spanielPlot creates a plot", {
     expect_is(test.p, "ggplot")
 })
