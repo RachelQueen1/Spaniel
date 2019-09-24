@@ -210,13 +210,13 @@ runShinySpaniel <-function(){
             }
             
             ### create plot
-            spanielPlot(Object = s, 
-                    Grob = g, 
-                    PlotType =  pType, 
-                    Gene = f, 
-                    ClusterRes = cl,
-                    CustomTitle = NULL, 
-                    ScaleData = TRUE)
+            spanielPlot(object = s, 
+                    grob = g, 
+                    plotType =  pType, 
+                    gene = f, 
+                    clusterRes = cl,
+                    customTitle = NULL, 
+                    scaleData = TRUE)
         },
         
         

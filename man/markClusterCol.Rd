@@ -4,15 +4,15 @@
 \alias{markClusterCol}
 \title{markClusterCol}
 \usage{
-markClusterCol(Object, Pattern)
+markClusterCol(object, pattern)
 }
 \arguments{
-\item{Object}{Either a Seurat or SCE object containing clustering information}
+\item{object}{Either a Seurat or SCE object containing clustering information}
 
-\item{Pattern}{pattern indicating which columns contain cluster information}
+\item{pattern}{pattern indicating which columns contain cluster information}
 }
 \value{
-A Seurat or SCE Object
+A Seurat or SCE object
 }
 \description{
 A function to mark the columns containing cluster information in the metadata

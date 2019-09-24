@@ -4,24 +4,24 @@
 \alias{createSCE}
 \title{Create a SingleCellExperiment Object From Spatial Transcriptomics Data}
 \usage{
-createSCE(Counts, BarcodeFile, ProjectName=projectName, 
-                SectionNumber=sectionNo)
+createSCE(counts, barcodeFile, projectName=projectName, 
+                sectionNumber=sectionNo)
 }
 \arguments{
-\item{Counts}{Raw count matrix or data frame where each row represents a
+\item{counts}{Raw count matrix or data frame where each row represents a
 gene and each column represents barcoded location on a spatial
 transcriptomics slide. The columns should be named using the
 spot barcode (eg "GTCCGATATGATTGCCGC")}
 
-\item{BarcodeFile}{a tab seperated barcode file supplied by Spatial
+\item{barcodeFile}{a tab seperated barcode file supplied by Spatial
 Trancscriptomics. The file should contains three column:
 The first column contains the Spatial Transcriptomics barcode,
 the second and third column equate to the x and y location}
 
-\item{ProjectName}{The name of the project which is stored in the Seurat
+\item{projectName}{The name of the project which is stored in the Seurat
 Object.}
 
-\item{SectionNumber}{The location of the sample on the slide}
+\item{sectionNumber}{The location of the sample on the slide}
 }
 \value{
 A SingleCellExeriment Object
@@ -33,12 +33,12 @@ SingleCellExperiment object and are used in  plotting the data.
 }
 \examples{
 ## Data is taken from DOI: 10.1126/science.aaf2403
-exampleCounts <- readRDS(file.path(system.file(package = "Spaniel"),
+examplecounts <- readRDS(file.path(system.file(package = "Spaniel"),
                             "extdata/counts.rds"))
 exampleBarcodes <- file.path(system.file(package = "Spaniel"),
                             "1000L2_barcodes.txt")
-seuratOb <- createSCE(exampleCounts,
+seuratOb <- createSCE(examplecounts,
                         exampleBarcodes,
-                        ProjectName = "TestProj",
-                        SectionNumber = 1)
+                        projectName = "TestProj",
+                        sectionNumber = 1)
 }

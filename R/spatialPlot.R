@@ -11,11 +11,11 @@ NULL
 #' genes detected per spot, b) the number of reads detected per spot,
 #' c) clustering results, d) the gene expression of a selected gene.
 #'
-#' @param Object Either a Seurat object (version 3) or a SingleCellExperiment 
+#' @param object Either a Seurat object (version 3) or a SingleCellExperiment 
 #' object containing barcode coordinates in the metadata (Seurat) or
 #' colData (SingleCellExperiment). 
-#' @param Grob an grob to be used as the backgound image see(parseImage)
-#' @param PlotType There are 5 types of plots avaiable:
+#' @param grob an grob to be used as the backgound image see(parseImage)
+#' @param plotType There are 5 types of plots avaiable:
 #'                       1) NoGenes - This shows the number of genes per spot 
 #'                       and uses information from "nFeature_RNA" column of 
 #'                       Seurat object or "detected" from a 
@@ -26,7 +26,7 @@ NULL
 #'                       singleCellExperiment object.
 #'                       3) Cluster - This plot is designed to show clustering
 #'                       results stored in the meta.data or colData of an object
-#'                       4) Gene - This plot shows the expression of a single 
+#'                       4) Gene- This plot shows the expression of a single 
 #'                       gene. This plot uses scaled/normalised expressin data 
 #'                       from the scale.data slot of Seurat object or logcounts 
 #'                       of a SingleCellExperiment object.
@@ -34,16 +34,16 @@ NULL
 #'                       meta.data or colData of an object.
 #'                                             
 #'                       
-#' @param Gene Gene to plot
-#' @param ClusterRes which cluster resolution to plot 
-#' @param pt.size Point size used for cluster plot default is 2
-#' @param pt.size.min Minimum point size used for QC and Gene Expression plots 
+#' @param gene Gene to plot
+#' @param clusterRes which cluster resolution to plot 
+#' @param ptSize Point size used for cluster plot default is 2
+#' @param ptSizeMin Minimum point size used for QC and Gene Expression plots 
 #'        default is 0
-#' @param pt.size.max Maximum point size used for QC and Gene Expression plots
+#' @param ptSizeMax Maximum point size used for QC and Gene Expression plots
 #'         default is 5
-#' @param CustomTitle Specify plot title (optional)
-#' @param ScaleData Show scaled data on plot (default is TRUE)
-#' @param ShowFilter Logical filter showing pass/fail for spots
+#' @param customTitle Specify plot title (optional)
+#' @param scaleData Show scaled data on plot (default is TRUE)
+#' @param showFilter Logical filter showing pass/fail for spots
 #' @return A ggplot spatial transcriptomics plot
 #' @export
 #' @examples
@@ -60,111 +60,112 @@ NULL
 #' minUMI <- 300000
 #' filter <- SeuratObj$nFeature_RNA > minGenes &
 #'             SeuratObj$nCount_RNA > minUMI
-#' spanielPlot(Object = SeuratObj, Grob = imgFile,
-#'         PlotType = "CountsPerSpot",
-#'         ShowFilter = filter)
+#' spanielPlot(object = SeuratObj, grob = imgFile,
+#'         plotType = "CountsPerSpot",
+#'         showFilter = filter)
 #' 
 #' ## Cluster plot
-#' spanielPlot(Object = SeuratObj, Grob = imgFile,
-#'         PlotType = "Cluster",
-#'         ClusterRes = "cluster_RNA_snn_res.0.6")
+#' spanielPlot(object = SeuratObj, grob = imgFile,
+#'         plotType = "Cluster",
+#'         clusterRes = "cluster_RNA_snn_res.0.6")
 #' 
 #' ## Gene plot
-#' spanielPlot(Object = SeuratObj, Grob = imgFile,
-#'         PlotType = "Gene",
-#'         Gene = "Nrgn")
-#' @usage  spanielPlot(Object, Grob, PlotType = c("NoGenes",
+#' spanielPlot(object = SeuratObj, grob = imgFile,
+#'         plotType = "Gene",
+#'         gene= "Nrgn")
+#' @usage  spanielPlot(object, grob, plotType = c("NoGenes",
 #'                                             "CountsPerSpot",
 #'                                             "Cluster",
 #'                                             "Gene"),
-#'                 Gene = NULL, ClusterRes = NULL, CustomTitle = NULL,
-#'                 ScaleData = TRUE, ShowFilter = NULL, pt.size = 2,
-#'                 pt.size.min = 0, pt.size.max = 5)
+#'                 gene= NULL, clusterRes = NULL, customTitle = NULL,
+#'                 scaleData = TRUE, showFilter = NULL, ptSize = 2,
+#'                 ptSizeMin = 0, ptSizeMax = 5)
 
 
 
 
 # Main Spaniel Plot Function
 # ------------------------------------------------------------------------------
-spanielPlot <- function (Object,  
-                        Grob,
-                        PlotType = c("NoGenes", 
+spanielPlot <- function (object,  
+                        grob,
+                        plotType = c("NoGenes", 
                                     "CountsPerSpot", 
                                     "Cluster", 
                                     "Gene"),
-                        Gene = NULL, 
-                        ClusterRes = NULL, 
-                        CustomTitle = NULL,
-                        ScaleData = TRUE, 
-                        ShowFilter = NULL, 
-                        pt.size = 2,
-                        pt.size.min = 0, 
-                        pt.size.max = 5)
+                        gene= NULL, 
+                        clusterRes = NULL, 
+                        customTitle = NULL,
+                        scaleData = TRUE, 
+                        showFilter = NULL, 
+                        ptSize = 2,
+                        ptSizeMin = 0, 
+                        ptSizeMax = 5)
 
 {
-    ### Validate Object is either a Seurat or SCE object
-    testObject(Object)
+    ### Validate object is either a Seurat or SCE object
+    testObject(object)
     
     ### set title, colour column, and size column according to plotType
     colPlot = NULL
-    ungroupVars(plotTitle,cl,sz,shp, show_size_legend, colPlot) %=% 
-        setVars(Object, PlotType, pt.size, Gene, ClusterRes)
+    ungroupVars(plotTitle,cl,sz,shp, showSizeLegend, colPlot) %=% 
+        setVars(object, plotType, ptSize, gene, clusterRes)
     
     # convert shp NULL
     if(shp == "NULL"){shp = NULL}
     # convert size legend to logical
-        show_size_legend = ifelse(show_size_legend == "TRUE", TRUE, FALSE)
+        showSizeLegend = ifelse(showSizeLegend == "TRUE", TRUE, FALSE)
     # convert sz to numeric
     if (!is.na(as.numeric(sz))){
         sz = as.numeric(sz)
     }
     
     ### create data.frame for ggplot
-    tmp <- makeGGDF(Object, PlotType, colPlot, cl)
+    tmp <- makeGGDF(object, plotType, colPlot, cl)
     
     
     ### Update tmp optional arguments if supplied
-    if (!is.null(ShowFilter)){
-        tmp$Filter = ShowFilter
+    if (!is.null(showFilter)){
+        tmp$Filter = showFilter
         cl = "Filter"
     }
     
-    if (!is.null(CustomTitle)) {
-        plotTitle = CustomTitle
+    if (!is.null(customTitle)) {
+        plotTitle = customTitle
     }
     
     ### Create plot
-    p <- plotImage(Grob, tmp, 
-                    Colour = cl, 
-                    Size = sz, 
-                    PlotTitle = plotTitle, 
-                    ShowSizeLegend = show_size_legend)
+    p <- plotImage(grob, 
+                    tmp,
+                    cl, 
+                    sz, 
+                    plotTitle, 
+                    showSizeLegend)
     
     
     ### FOR QC PLOTS
-    if (!is.null(ShowFilter)){
+    if (!is.null(showFilter)){
         p <- p +
-            ggplot2::scale_size_continuous(range=c(pt.size.min,
-                                                    pt.size.max)) +
+            ggplot2::scale_size_continuous(range=c(ptSizeMin,
+                                                    ptSizeMax)) +
             ggplot2::guides(color= ggplot2::guide_legend(), 
                             size = ggplot2::guide_legend())
     }
     
     ### FOR GENE PLOTS AND NUMBER READS/COUNTS
-    if (PlotType != "Cluster" & is.null(ShowFilter)){
+    if (plotType != "Cluster" & is.null(showFilter)){
         p <- p +
             ggplot2::scale_colour_gradient(low="#ff3300", high="#ffff00") +
-            ggplot2::scale_size_continuous(range=c(pt.size.min,
-                                                    pt.size.max)) +
+            ggplot2::scale_size_continuous(range=c(ptSizeMin,
+                                                    ptSizeMax)) +
             ggplot2::guides(color= ggplot2::guide_legend(), 
                             size = ggplot2::guide_legend())
         
     }
     ### FOR CLUSTER PLOTS
-    if (PlotType == "Cluster"){
+    if (plotType == "Cluster"){
         p <- p + ggplot2::guides(size=FALSE) +
-            ggplot2::scale_size_continuous(range=c(pt.size,
-                                                    pt.size))
+            ggplot2::scale_size_continuous(range=c(ptSize,
+                                                    ptSize))
     }
     
     return(p)

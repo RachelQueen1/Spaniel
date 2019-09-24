@@ -39,8 +39,8 @@ test.seurat <- Seurat::CreateSeuratObject(counts = counts,
 test.md.before <- getMetadata(test.seurat)
 
 ### prefix all columns containing patten with "cluster_"
-pattern <- "res"
-test.seurat <- markClusterCol(test.seurat, Pattern = pattern)
+pat <- "res"
+test.seurat <- markClusterCol(test.seurat, pattern = pat)
 test.md.after <- getMetadata(test.seurat)
 
 # check that no columns are marked before running markClusterCol
@@ -79,8 +79,8 @@ test.sce <- SingleCellExperiment(assays = list(counts = as.matrix(counts)),
 test.md.before <- getMetadata(test.sce)
 
 ### prefix all columns containing patten with "cluster_"
-pattern <- "res"
-test.sce <- markClusterCol(test.sce, Pattern = pattern)
+pat <- "res"
+test.sce <- markClusterCol(test.sce, pattern = pat)
 test.md.after <- getMetadata(test.sce)
 
 # check that no columns are marked before running markClusterCol
@@ -109,3 +109,4 @@ test_that("markClusterCol check that columns
               expect_equal(test.marked.after, 3)
               expect_equal(test.marked.after.other, 0)
           })
+

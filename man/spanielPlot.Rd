@@ -4,22 +4,22 @@
 \alias{spanielPlot}
 \title{Spatial Transcriptomics Plot}
 \usage{
-spanielPlot(Object, Grob, PlotType = c("NoGenes",
+spanielPlot(object, grob, plotType = c("NoGenes",
                                             "CountsPerSpot",
                                             "Cluster",
                                             "Gene"),
-                Gene = NULL, ClusterRes = NULL, CustomTitle = NULL,
-                ScaleData = TRUE, ShowFilter = NULL, pt.size = 2,
-                pt.size.min = 0, pt.size.max = 5)
+                gene= NULL, clusterRes = NULL, customTitle = NULL,
+                scaleData = TRUE, showFilter = NULL, ptSize = 2,
+                ptSizeMin = 0, ptSizeMax = 5)
 }
 \arguments{
-\item{Object}{Either a Seurat object (version 3) or a SingleCellExperiment 
+\item{object}{Either a Seurat object (version 3) or a SingleCellExperiment 
 object containing barcode coordinates in the metadata (Seurat) or
 colData (SingleCellExperiment).}
 
-\item{Grob}{an grob to be used as the backgound image see(parseImage)}
+\item{grob}{an grob to be used as the backgound image see(parseImage)}
 
-\item{PlotType}{There are 5 types of plots avaiable:
+\item{plotType}{There are 5 types of plots avaiable:
 1) NoGenes - This shows the number of genes per spot 
 and uses information from "nFeature_RNA" column of 
 Seurat object or "detected" from a 
@@ -30,29 +30,29 @@ Seurat object or "sum" from a
 singleCellExperiment object.
 3) Cluster - This plot is designed to show clustering
 results stored in the meta.data or colData of an object
-4) Gene - This plot shows the expression of a single 
+4) Gene- This plot shows the expression of a single 
 gene. This plot uses scaled/normalised expressin data 
 from the scale.data slot of Seurat object or logcounts 
 of a SingleCellExperiment object.
 5) Other - A generic plot to plot any column from the
 meta.data or colData of an object.}
 
-\item{Gene}{Gene to plot}
+\item{gene}{Gene to plot}
 
-\item{ClusterRes}{which cluster resolution to plot}
+\item{clusterRes}{which cluster resolution to plot}
 
-\item{CustomTitle}{Specify plot title (optional)}
+\item{customTitle}{Specify plot title (optional)}
 
-\item{ScaleData}{Show scaled data on plot (default is TRUE)}
+\item{scaleData}{Show scaled data on plot (default is TRUE)}
 
-\item{ShowFilter}{Logical filter showing pass/fail for spots}
+\item{showFilter}{Logical filter showing pass/fail for spots}
 
-\item{pt.size}{Point size used for cluster plot default is 2}
+\item{ptSize}{Point size used for cluster plot default is 2}
 
-\item{pt.size.min}{Minimum point size used for QC and Gene Expression plots 
+\item{ptSizeMin}{Minimum point size used for QC and Gene Expression plots 
 default is 0}
 
-\item{pt.size.max}{Maximum point size used for QC and Gene Expression plots
+\item{ptSizeMax}{Maximum point size used for QC and Gene Expression plots
 default is 5}
 }
 \value{
@@ -79,17 +79,17 @@ minGenes <- 2000
 minUMI <- 300000
 filter <- SeuratObj$nFeature_RNA > minGenes &
             SeuratObj$nCount_RNA > minUMI
-spanielPlot(Object = SeuratObj, Grob = imgFile,
-        PlotType = "CountsPerSpot",
-        ShowFilter = filter)
+spanielPlot(object = SeuratObj, grob = imgFile,
+        plotType = "CountsPerSpot",
+        showFilter = filter)
 
 ## Cluster plot
-spanielPlot(Object = SeuratObj, Grob = imgFile,
-        PlotType = "Cluster",
-        ClusterRes = "cluster_RNA_snn_res.0.6")
+spanielPlot(object = SeuratObj, grob = imgFile,
+        plotType = "Cluster",
+        clusterRes = "cluster_RNA_snn_res.0.6")
 
 ## Gene plot
-spanielPlot(Object = SeuratObj, Grob = imgFile,
-        PlotType = "Gene",
-        Gene = "Nrgn")
+spanielPlot(object = SeuratObj, grob = imgFile,
+        plotType = "Gene",
+        gene= "Nrgn")
 }

@@ -18,10 +18,10 @@ projectname = "test_project"
 sectionNo = "1A"
 
 # create a test dataset
-test.seurat <- createSeurat(Counts = counts,
-                          BarcodeFile = barcodefile,
-                          ProjectName=projectname,
-                          SectionNumber=sectionNo)
+test.seurat <- createSeurat(counts,
+                          barcodefile,
+                          projectname,
+                          sectionNo)
 
 test_that("createSeurat creates a Seurat object containing barcodes correctly", {
     expect_is(test.seurat, "Seurat")

@@ -116,8 +116,8 @@ project.name slot of the Seurat object.
 
 seuratObj <- createSeurat(counts,
                         barcodesFile, 
-                        ProjectName = "TestProj", 
-                        SectionNumber = 1
+                        projectName = "TestProj", 
+                        sectionNumber = 1
 )
 
 ```
@@ -145,10 +145,10 @@ per spot are calculated by the calculateQCMetrics() from the scater
 bioconductor package.
 
 ```{r readSCE}
-sce <- createSCE(Counts = counts,
-                BarcodeFile = barcodesFile, 
-                ProjectName = "TestProj", 
-                SectionNumber = 1)
+sce <- createSCE(counts = counts,
+                barcodeFile = barcodesFile, 
+                projectName = "TestProj", 
+                sectionNumber = 1)
 ```
 
 Barcodes are stored in the colData
@@ -217,10 +217,10 @@ minUMI <- 67500
 filter <- seuratObj$nCount_RNA > minUMI &
             seuratObj$nFeature_RNA > minGenes 
 
-spanielPlot(Object = seuratObj, 
-        Grob = image, 
-        PlotType = "NoGenes", 
-        ShowFilter = filter)
+spanielPlot(object = seuratObj, 
+        grob = image, 
+        plotType = "NoGenes", 
+        showFilter = filter)
 
 ```
 
@@ -233,9 +233,9 @@ seuratFiltered <- subset(x = seuratObj, subset = nFeature_RNA > minGenes &
                                 nCount_RNA > minUMI)
 
 
-spanielPlot(Object = seuratFiltered, 
-        Grob = image, 
-        PlotType = "NoGenes") 
+spanielPlot(object = seuratFiltered, 
+        grob = image, 
+        plotType = "NoGenes") 
 
 
 ```
@@ -272,9 +272,9 @@ seuratFiltered <- removeSpots(seuratFiltered,
                                 pointsToRemove = spotsToRemove)
 
 
-spanielPlot(Object = seuratFiltered, 
-        Grob = image, 
-        PlotType = "NoGenes") 
+spanielPlot(object = seuratFiltered, 
+        grob = image, 
+        plotType = "NoGenes") 
 
 
 
@@ -330,9 +330,9 @@ will be taken from the logcounts slot.
 
 
 gene = "Nrgn"
-spanielPlot(Object = seuratFiltered, Grob = image, 
-        PlotType = "Gene", 
-        Gene = gene)
+spanielPlot(object = seuratFiltered, grob = image, 
+        plotType = "Gene", 
+        gene = gene)
 
 
 ```
@@ -349,10 +349,10 @@ match a column name within the colData.
 
 ```{r, clusterPlot, warning= FALSE, message = FALSE, results = "hide" }
 
-spanielPlot(Object = seuratFiltered, 
-        Grob = image, 
-        PlotType = "Cluster", 
-        ClusterRes = "RNA_snn_res.0.8"
+spanielPlot(object = seuratFiltered, 
+        grob = image, 
+        plotType = "Cluster", 
+        clusterRes = "RNA_snn_res.0.8"
 )
 
 ```

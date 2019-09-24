@@ -27,17 +27,17 @@ test_that("%=% splits the list correctly", {
 
 # Test setVars creates the correct variables
 # ------------------------------------------------------------------------------
-## Test with Seurat Object
-Object <- readRDS(file.path(system.file(package = "Spaniel"), 
+## Test with Seurat object
+object <- readRDS(file.path(system.file(package = "Spaniel"), 
                             "extdata/SeuratData.rds"))
-pt.size <- 2
-Gene <- "Nrgn"
+pointSize <- 2
+gene <- "Nrgn"
 ClusterRes <- "cluster_RNA_snn_res.0.4"
 
-# No Genes
-PlotType <- "NoGenes"
+# No genes
+plotType <- "NoGenes"
 ungroupVars(plotTitle,cl,sz,shp, show_size_legend, colPlot) %=% 
-    setVars(Object, PlotType, pt.size, Gene, ClusterRes)
+    setVars(object, plotType, pointSize, gene, ClusterRes)
 
 test_that("setVars sets the correct variables", {
     expect_equal(plotTitle, "Number of Genes Per Spot")
@@ -49,9 +49,9 @@ test_that("setVars sets the correct variables", {
 })
 
 # CountsPerSpot
-PlotType <- "CountsPerSpot"
+plotType <- "CountsPerSpot"
 ungroupVars(plotTitle,cl,sz,shp, show_size_legend, colPlot) %=% 
-    setVars(Object, PlotType, pt.size, Gene, ClusterRes)
+    setVars(object, plotType, pointSize, gene, ClusterRes)
 
 test_that("setVars sets the correct variables: CountsPerSpot", {
     expect_equal(plotTitle, "Total Counts Per Spot")
@@ -63,11 +63,11 @@ test_that("setVars sets the correct variables: CountsPerSpot", {
 })
 
 # Cluster
-PlotType <- "Cluster"
+plotType <- "Cluster"
 ClusterRes <- "cluster_RNA_snn_res.0.6"
 
 ungroupVars(plotTitle,cl,sz,shp, show_size_legend, colPlot) %=% 
-    setVars(Object, PlotType, pt.size, Gene, ClusterRes)
+    setVars(object, plotType, pointSize, gene, ClusterRes)
 
 test_that("setVars sets the correct variables", {
     expect_equal(plotTitle, "Spot Clusters")
@@ -78,40 +78,40 @@ test_that("setVars sets the correct variables", {
     expect_equal(colPlot, ClusterRes)
 })
 
-# Gene
-PlotType <- "Gene"
+# gene
+plotType <- "Gene"
 ungroupVars(plotTitle,cl,sz,shp, show_size_legend, colPlot) %=% 
-    setVars(Object, PlotType, pt.size, Gene, ClusterRes)
+    setVars(object, plotType, pointSize, gene, ClusterRes)
 
-test_that("setVars sets the correct variables: Gene", {
-    expect_equal(plotTitle, paste("Expression of", Gene))
+test_that("setVars sets the correct variables: gene", {
+    expect_equal(plotTitle, paste("Expression of", gene))
     expect_equal(cl, "Exp")
     expect_equal(sz, "Exp")
     expect_equal(shp, "NULL")
     expect_equal(show_size_legend, "TRUE")
-    expect_equal(colPlot, Gene)
+    expect_equal(colPlot, gene)
 })
 
 
-## Test setVars with SCE Object
-# No Genes
-Object <- readRDS(file.path(system.file(package = "Spaniel"), 
+## Test setVars with SCE object
+# No genes
+object <- readRDS(file.path(system.file(package = "Spaniel"), 
                             "extdata/sceData.rds"))
 
-PlotType <- "NoGenes"
+plotType <- "NoGenes"
 
 ungroupVars(plotTitle,cl,sz,shp, show_size_legend, colPlot) %=% 
-    setVars(Object, PlotType, pt.size, Gene)
+    setVars(object, plotType, pointSize, gene)
 
 test_that("setVars sets the correct variables", {
     expect_equal(colPlot, "detected")
 })
 
 # No Counts
-PlotType <- "CountsPerSpot"
+plotType <- "CountsPerSpot"
 
 ungroupVars(plotTitle,cl,sz,shp, show_size_legend, colPlot) %=% 
-    setVars(Object, PlotType, pt.size, Gene)
+    setVars(object, plotType, pointSize, gene)
 
 test_that("setVars sets the correct variables", {
     expect_equal(colPlot, "sum")
@@ -120,35 +120,35 @@ test_that("setVars sets the correct variables", {
 
 # Test makeGGDF creates the correct data frame
 # ------------------------------------------------------------------------------
-## Test with Seurat Object
-Object <- readRDS(file.path(system.file(package = "Spaniel"), 
+## Test with Seurat object
+object <- readRDS(file.path(system.file(package = "Spaniel"), 
                             "extdata/SeuratData.rds"))
 
 
 ### using column from metadata
-PlotType <- "CountsPerSpot"
-colPlot <- colnames(Object@meta.data)[2]
+plotType <- "CountsPerSpot"
+colPlot <- colnames(object@meta.data)[2]
 cl <- "Exprs"
 
-test.tmp <- makeGGDF(Object, PlotType, colPlot, cl)
+testTmp <- makeGGDF(object, plotType, colPlot, cl)
 
 test_that("setVars sets the correct variables", {
-    expect_is(test.tmp, "data.frame")
-    expect_equal(dim(test.tmp), c(248, 4))
-    expect_equal(colnames(test.tmp), c(cl, "spot", "x", "y"))
+    expect_is(testTmp, "data.frame")
+    expect_equal(dim(testTmp), c(248, 4))
+    expect_equal(colnames(testTmp), c(cl, "spot", "x", "y"))
 })
 
 # test that works for gene plots correctly
-PlotType <- "Gene"
-colPlot <- rownames(Object)[2]
+plotType <- "Gene"
+colPlot <- rownames(object)[2]
 cl <- "Exprs"
 
-test.tmp <- makeGGDF(Object, PlotType, colPlot, cl)
+testTmp <- makeGGDF(object, plotType, colPlot, cl)
 
 test_that("setVars sets the correct variables", {
-    expect_is(test.tmp, "data.frame")
-    expect_equal(dim(test.tmp), c(248, 4))
-    expect_equal(colnames(test.tmp), c(cl, "spot", "x", "y"))
+    expect_is(testTmp, "data.frame")
+    expect_equal(dim(testTmp), c(248, 4))
+    expect_equal(colnames(testTmp), c(cl, "spot", "x", "y"))
 })
 
 
@@ -158,22 +158,22 @@ test_that("setVars sets the correct variables", {
 
 ### Test plot image function
 # ------------------------------------------------------------------------------
-test.md <- getMetadata(Object)
-test.cood <- test.cood <- getCoordinates(test.md)
-test.cood$plotCols <- seq(1, 248)
-test.cood$plotSize <- seq(1, 248)
+testMd <- getMetadata(object)
+testCood <- getCoordinates(testMd)
+testCood$plotCols <- seq(1, 248)
+testCood$plotSize <- seq(1, 248)
+testPlot <- plotImage(grob = grid::roundrectGrob(),
+                       tmp = testCood, 
+                       pointColour = "plotCols", 
+                       pointSize = "plotSize",
+                       plotTitle = "Title")
 
-test.plot <- plotImage(Tmp = test.cood,
-                       Grob = grid::roundrectGrob(),
-                       Colour = "plotCols",
-                       Size = "plotSize",
-                       PlotTitle = "Title")
 test_that("plotImages test plotting function", {
-    expect_is(test.plot , c("gg","ggplot"))
-    expect_equal(test.plot$data, test.cood)
-    expect_equal(test.plot$labels$title, "Title")
-    expect_equal(test.plot$labels$size, "plotSize")
-    expect_equal(test.plot$labels$colour, "plotCols")
+    expect_is(testPlot , c("gg","ggplot"))
+    expect_equal(testPlot$data, testCood)
+    expect_equal(testPlot$labels$title, "Title")
+    expect_equal(testPlot$labels$size, "plotSize")
+    expect_equal(testPlot$labels$colour, "plotCols")
 })
 
 

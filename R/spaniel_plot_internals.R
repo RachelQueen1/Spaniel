@@ -2,7 +2,7 @@
 
 
 
-# General Functions
+# general Functions
 # ------------------------------------------------------------------------------
 
 # Grouping the left hand side
@@ -14,63 +14,63 @@ ungroupVars <- function(...) {
 
 # Binary Operator
 '%=%' <- function(l, r) {
-    Envir <- as.environment(-1)
+    envir <- as.environment(-1)
     for (i in seq_len(length(l))) {
-        do.call('<-', list(l[[i]], r[[i]]), envir=Envir)
+        do.call('<-', list(l[[i]], r[[i]]), envir=envir)
     }
 }
 
 
 # Set the variables for plot
 # ------------------------------------------------------------------------------
-setVars <- function(Object, 
-                    PlotType, 
-                    pt.size = NULL, 
-                    Gene = NULL, 
-                    ClusterRes = NULL){
-    if (PlotType == "NoGenes") {
+setVars <- function(object, 
+                    plotType, 
+                    pointpointSize = NULL, 
+                    gene = NULL, 
+                    clusterRes = NULL){
+    if (plotType == "NoGenes") {
         plotTitle <- "Number of Genes Per Spot"
         cl <- "No_Of_Genes"
         sz <- "No_Of_Genes"
         shp <- "NULL"
-        colPlot <- ifelse(is(Object, "Seurat"),
+        colPlot <- ifelse(is(object, "Seurat"),
                             "nFeature_RNA",
                             "detected")
     }
     
-    if (PlotType == "CountsPerSpot") {
+    if (plotType == "CountsPerSpot") {
         plotTitle <- "Total Counts Per Spot"
         cl <- "Exprs"
         sz <- "Exprs"
         shp <- "NULL"
-        colPlot <- ifelse(is(Object, "Seurat"),
+        colPlot <- ifelse(is(object, "Seurat"),
                             "nCount_RNA",
                             "sum")
     }
     
-    if (PlotType == "Cluster") {
+    if (plotType == "Cluster") {
         plotTitle <- "Spot Clusters"
         cl <- "Cluster"
-        sz <- pt.size
+        sz <- pointpointSize
         shp <- "Cluster"
-        colPlot <- ClusterRes
+        colPlot <- clusterRes
     }
     
-    if (PlotType == "Gene") {
-        plotTitle <- paste("Expression of", Gene)
+    if (plotType == "Gene") {
+        plotTitle <- paste("Expression of", gene)
         cl <- "Exp"
         sz <- "Exp"
         shp <- "NULL"
-        colPlot <- Gene
+        colPlot <- gene
     }
     
-    show_size_legend <- ifelse(PlotType == "Cluster", FALSE, TRUE)
+    showpointSizeLegend <- ifelse(plotType == "Cluster", FALSE, TRUE)
     
     return(c(plotTitle,
                 cl,
                 sz,
                 shp,
-                show_size_legend,
+                showpointSizeLegend,
                 colPlot))
 }
 
@@ -79,33 +79,33 @@ setVars <- function(Object,
 # Create ggplot df for each plot type
 # ------------------------------------------------------------------------------
 ### Make a generic function for all 4 plot types
-makeGGDF <- function(Object, PlotType, colPlot, cl){
+makeGGDF <- function(object, plotType, colPlot, cl){
     
     ### Get Metadata and Coodinates
-    MetaData <- getMetadata(Object)
-    Coordinates <- MetaData[, c("x", "y")]
-    Coordinates$spot <- rownames(MetaData)
+    metaData <- getMetadata(object)
+    coordinates <- metaData[, c("x", "y")]
+    coordinates$spot <- rownames(metaData)
     
-    if (PlotType == "Gene"){
-        try(if(!colPlot %in% rownames(Object))  
-            stop(paste0(colPlot,  "not found in rownames(Object"))
+    if (plotType == "Gene"){
+        try(if(!colPlot %in% rownames(object))  
+            stop(paste0(colPlot,  "not found in rownames(object"))
         )
         # get expression data
-        tmp <- getExprs(Object)
+        tmp <- getExprs(object)
         tmp <- data.frame(toPlot = tmp[colPlot, ], 
-                            spot = rownames(MetaData))
+                            spot = rownames(metaData))
     } else {
-        try(if(!colPlot %in% colnames(MetaData))  
-            stop(paste0(colPlot, "not found in colames(Object"))
+        try(if(!colPlot %in% colnames(metaData))  
+            stop(paste0(colPlot, "not found in colames(object"))
         )
-        tmp <- data.frame(toPlot = MetaData[,colPlot],
-                            spot = rownames(MetaData))
+        tmp <- data.frame(toPlot = metaData[,colPlot],
+                            spot = rownames(metaData))
     }
     
     # join by spot
     tmp$spot <- tmp$spot %>% as.character()
     tmp <- tmp %>% 
-        dplyr::inner_join(Coordinates, by = "spot") 
+        dplyr::inner_join(coordinates, by = "spot") 
     # set colname for the to plot column
     colnames(tmp)[1] <- cl
     
@@ -118,16 +118,18 @@ makeGGDF <- function(Object, PlotType, colPlot, cl){
 
 # Plot image
 # ------------------------------------------------------------------------------
-plotImage <- function(Grob, Tmp, Colour, Size, ShowSizeLegend = TRUE, 
-                        PlotTitle = NULL){
-    p <- ggplot2::ggplot(Tmp ,ggplot2::aes_string("x", "y", color = 
-                                                        Colour, size = Size)) +
+plotImage <- function(grob, tmp, pointColour, pointSize, plotTitle = NULL, 
+                      sizeLegend = TRUE 
+                        ){
+    p <- ggplot2::ggplot(tmp ,ggplot2::aes_string("x", "y", 
+                                                  color = pointColour, 
+                                                  size = pointSize)) +
         ggplot2::xlim(1, 33) +
         ggplot2::ylim(1, 35) +
-        ggplot2::annotation_custom(Grob, xmin = 1, xmax = 33, 
+        ggplot2::annotation_custom(grob, xmin = 1, xmax = 33, 
                                     ymin = 1, ymax = 35) +
         ggplot2::geom_point(alpha = 0.6)  +
-        ggplot2::labs(title = PlotTitle) +
+        ggplot2::labs(title = plotTitle) +
         ggplot2::theme(axis.title.x=ggplot2::element_blank(),
                         axis.text.x=ggplot2::element_blank(),
                         axis.ticks.x=ggplot2::element_blank(),
@@ -137,7 +139,7 @@ plotImage <- function(Grob, Tmp, Colour, Size, ShowSizeLegend = TRUE,
     NULL
     
     ### if show size false
-    if (ShowSizeLegend == FALSE){
+    if (sizeLegend == FALSE){
         p <- p + ggplot2::guides(size=FALSE)}
     ### show plot
     p + ggplot2::guides(color = ggplot2::guide_legend(), 

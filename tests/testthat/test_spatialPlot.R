@@ -10,7 +10,8 @@ clusterRes = "cluster_RNA_snn_res.0.6"
 
 test.p <- spanielPlot(object, 
                     grob, 
-                    plotType, 
+                    plotType,
+                    gene =NULL,
                     clusterRes)
 
 test_that("spanielPlot creates a plot", {
