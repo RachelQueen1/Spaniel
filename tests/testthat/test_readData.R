@@ -18,12 +18,12 @@ projectname = "test_project"
 sectionNo = "1A"
 
 # create a test dataset
-test.seurat <- readSeurat(Counts = counts,
+test.seurat <- createSeurat(Counts = counts,
                           BarcodeFile = barcodefile,
                           ProjectName=projectname,
                           SectionNumber=sectionNo)
 
-test_that("readSeurat creates a Seurat object containing barcodes correctly", {
+test_that("createSeurat creates a Seurat object containing barcodes correctly", {
     expect_is(test.seurat, "Seurat")
     expect_equal(test.seurat@meta.data[12, "x"], 7)
     expect_equal(test.seurat@meta.data[8, "y"], 15)

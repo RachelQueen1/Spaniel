@@ -100,15 +100,15 @@ https://bioconductor.org/packages/release/bioc/html/SingleCellExperiment.html
 
 ### Creating a Seurat object
 
-The readSeurat() function can be used to create a Seurat object. The count data 
+The createSeurat() function can be used to create a Seurat object. The count data 
 is stored in the counts slot of the assay slot of the object, the barcodes are 
 stored in the meta.data slot and the ProjectName and SectionNumber arguments 
 can be used to add information about the Sample and position on slide to the 
 project.name slot of the Seurat object.
 
-```{r readSeurat}
+```{r createSeurat}
 
-SeuratObj <- readSeurat(counts,
+SeuratObj <- createSeurat(counts,
                         barcodesFile, 
                         ProjectName = "TestProj", 
                         SectionNumber = 1
@@ -117,17 +117,17 @@ SeuratObj <- readSeurat(counts,
 ```
 
 The barcodes are stored in the metadata:
-```{r readSeurat_meta}
+```{r createSeurat_meta}
 head(SeuratObj[[]])
 ```
 
 Corner of the count data:
-```{r readSeurat_counts}
+```{r createSeurat_counts}
 GetAssayData(SeuratObj, "counts")[1:10, 1:5]
 ```
 
 Project name
-```{r readSeurat_project}
+```{r createSeurat_project}
 Project(SeuratObj)
 ```
 

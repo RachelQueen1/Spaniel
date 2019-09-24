@@ -23,7 +23,7 @@ NULL
 #' @param SectionNumber The location of the sample on the slide
 #' @return A Seurat Object
 #' 
-#' @usage  readSeurat(Counts, BarcodeFile, ProjectName = projectName,
+#' @usage  createSeurat(Counts, BarcodeFile, ProjectName = projectName,
 #'                         SectionNumber = sectionNo)
 #'  
 #' 
@@ -34,14 +34,14 @@ NULL
 #'                             "extdata/counts.rds"))
 #' exampleBarcodes <- file.path(system.file(package = "Spaniel"),
 #'                             "1000L2_barcodes.txt")
-#' SeuratObj <- readSeurat(exampleCounts,
+#' SeuratObj <- createSeurat(exampleCounts,
 #'                         exampleBarcodes,
 #'                         ProjectName = "TestProj",
 #'                         SectionNumber = 1
 #'                         )
 
 
-readSeurat <- function(Counts,
+createSeurat <- function(Counts,
                         BarcodeFile,
                         ProjectName = "projectName",
                         SectionNumber = "sectionNo") {
@@ -78,7 +78,7 @@ readSeurat <- function(Counts,
 #' @param ProjectName The name of the project which is stored in the Seurat
 #'                    Object.
 #' @param SectionNumber The location of the sample on the slide
-#' @usage  readSCE(Counts, BarcodeFile, ProjectName=projectName, 
+#' @usage  createSCE(Counts, BarcodeFile, ProjectName=projectName, 
 #'                 SectionNumber=sectionNo)
 
 
@@ -90,12 +90,12 @@ readSeurat <- function(Counts,
 #'                             "extdata/counts.rds"))
 #' exampleBarcodes <- file.path(system.file(package = "Spaniel"),
 #'                             "1000L2_barcodes.txt")
-#' seuratOb <- readSCE(exampleCounts,
+#' seuratOb <- createSCE(exampleCounts,
 #'                         exampleBarcodes,
 #'                         ProjectName = "TestProj",
 #'                         SectionNumber = 1)
 
-readSCE <- function(Counts,
+createSCE <- function(Counts,
                     BarcodeFile,
                     ProjectName="projectName",
                     SectionNumber="sectionNo"){
