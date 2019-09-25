@@ -22,7 +22,7 @@ A function to filter spots from analysis. It requires selectSpots to be
 run first.
 }
 \examples{
-SeuratObj <- readRDS(file.path(system.file(package = "Spaniel"),
+seuratObj <- readRDS(file.path(system.file(package = "Spaniel"),
                         "extdata/SeuratData.rds"))
 toRemove <- file.path(system.file(package = "Spaniel"),
                         "points_to_remove.txt")

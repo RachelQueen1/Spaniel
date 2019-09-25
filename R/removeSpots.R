@@ -41,11 +41,11 @@ selectSpots <- function(sObj, imgObj){
     server <- function(input, output, session) {
         output$plotImage <- renderPlot({
             ### create plot
-            spanielPlot(Object = sObj, 
-                    Grob = imgObj, 
-                    PlotType =  "NoGenes",
-                    CustomTitle = NULL, 
-                    ScaleData = TRUE)
+            spanielPlot(object = sObj, 
+                    grob = imgObj, 
+                    plotType =  "NoGenes",
+                    customTitle = NULL, 
+                    scaleData = TRUE)
         })
         
         output$click_info <- renderPrint({
@@ -80,7 +80,7 @@ selectSpots <- function(sObj, imgObj){
 #' "points_to_remove.txt" 
 #' @return A filtered Seurat or SingleCellExperiment Object
 #' @examples
-#' SeuratObj <- readRDS(file.path(system.file(package = "Spaniel"),
+#' seuratObj <- readRDS(file.path(system.file(package = "Spaniel"),
 #'                         "extdata/SeuratData.rds"))
 #' toRemove <- file.path(system.file(package = "Spaniel"),
 #'                         "points_to_remove.txt")
