@@ -22,19 +22,13 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE, include = TRUE,
 Spaniel is an R package designed to visualise results of Spatial Transcriptomics
 experiments. To install and load Spaniel:
 
-```{r install}
-if (!require("devtools")) 
-    install.packages("devtools")
+```{r install, eval = FALSE}
+BiocManager::install('Spaniel')
+```
 
-devtools::install_github(repo = "RachelQueen1/Spaniel", 
-                         build_opts = c("--no-resave-data", "--no-manual"), 
-                         build_vignettes = TRUE)
-
-#BiocManager::install('Spaniel')
-
+```{r, load libraries}
 library(Spaniel)
 library(Seurat)
-
 ```
 
 ## Load data
