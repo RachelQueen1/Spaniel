@@ -4,7 +4,7 @@
 \alias{removeSpots}
 \title{removeSpots}
 \usage{
-removeSpots(sObj, pointsToRemove = toRemove)
+removeSpots(sObj, pointsToRemove = "points_to_remove.txt")
 }
 \arguments{
 \item{sObj}{Either a Seurat object (version 3) or a SingleCellExperiment 
@@ -26,5 +26,5 @@ seuratObj <- readRDS(file.path(system.file(package = "Spaniel"),
                         "extdata/SeuratData.rds"))
 toRemove <- file.path(system.file(package = "Spaniel"),
                         "points_to_remove.txt")
-sObjFiltered <- removeSpots(seuratObj, toRemove)
+sObjFiltered <- removeSpots(sObj = seuratObj, pointsToRemove = toRemove)
 }
