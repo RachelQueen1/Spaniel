@@ -84,9 +84,9 @@ selectSpots <- function(sObj, imgObj){
 #'                         "extdata/SeuratData.rds"))
 #' toRemove <- file.path(system.file(package = "Spaniel"),
 #'                         "points_to_remove.txt")
-#' sObjFiltered <- removeSpots(SeuratObj, toRemove)
+#' sObjFiltered <- removeSpots(seuratObj, toRemove)
 #' @export
-#' @usage  removeSpots(sObj, pointsToRemove = "points_to_remove.txt")
+#' @usage  removeSpots(sObj, pointsToRemove = toRemove)
 
 removeSpots <-function(sObj, 
                         pointsToRemove = "points_to_remove.txt"){
