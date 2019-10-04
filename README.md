@@ -1,51 +1,21 @@
 # Spaniel Spatial Transcriptomics Analysis
 
-Spaniel is an R package for analysing Spatial Transcriptomics data.
+Spaniel includes a series of tools to aid the quality control and analysis of Spatial Transcriptomics data. The package contains functions to create a either a Seurat object or SingleCellExperiment from a count matrix and spatial barcode file and provides a method of loading a histologial image into R. The spanielPlot function allows visualisation of metrics contained within the S4 object overlaid onto the image of the tissue.
 
-# Install dependencies:
+# Installation
 
+Spaniel can be installed from Bioconductor. Bioconductor version: Development (3.10)
 
-## Mac Only
+## Install dependencies:
 
-xcode-select --install
-
-
-## All operating systems
-
-### DevTools
-install.packages('devtools')
-
-### Seurat
-Spaniel requires Seurat v3.0. This can be installed: <br/><br/>
-
-```{r}
-install.packages('Seurat')
-```
-
-### SingleCellExperiment
-
-```{r}
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
-BiocManager::install("SingleCellExperiment", version = "3.8")
-```
 
-### Scater
+## The following initializes usage of Bioc devel
+BiocManager::install(version='devel')
 
-```{r}
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-BiocManager::install("scater", version = "3.8")
-```
+BiocManager::install("Spaniel")
 
-# Install Spaniel:
+# View Vignette Online:
 
-```{r}
-install_github(repo = "RachelQueen1/Spaniel", 
-                             build_opts = c("--no-resave-data", "--no-manual"), 
-                             build_vignettes = TRUE)
-```
-
-# View Vignette:
-
-https://rachelqueen1.github.io/Spaniel_Documentation/
+https://bioconductor.org/packages/devel/bioc/vignettes/Spaniel/inst/doc/spaniel-vignette.html
