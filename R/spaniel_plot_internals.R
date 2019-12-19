@@ -119,18 +119,36 @@ makeGGDF <- function(object, plotType, colPlot, cl){
 # Plot image
 # ------------------------------------------------------------------------------
 plotImage <- function(grob, tmp, pointColour, pointSize, plotTitle = NULL, 
-                      sizeLegend = TRUE 
+                      sizeLegend = TRUE, plotType 
                         ){
     p <- ggplot2::ggplot(tmp ,ggplot2::aes_string("x", "y", 
                                                   color = pointColour, 
-                                                  size = pointSize)) +
-        ggplot2::xlim(1, 33) +
-        ggplot2::ylim(1, 35) +
-        ggplot2::annotation_custom(grob, xmin = 1, xmax = 33, 
-                                    ymin = 1, ymax = 35) +
-        ggplot2::geom_point(alpha = 0.6)  +
-        ggplot2::labs(title = plotTitle) +
-        ggplot2::theme(axis.title.x=ggplot2::element_blank(),
+                                                  size = pointSize)) 
+    
+    
+    if (plotType == "Original"){
+        p <- p + ggplot2::xlim(1, 33) +
+            ggplot2::ylim(1, 35) +
+            ggplot2::annotation_custom(grob, xmin = 1, xmax = 33, 
+                                   ymin = 1, ymax = 35)
+    } else if (plotType == "Visium"){
+        ### TO ADD
+        p    
+        
+    }
+    
+    
+    } else if (plotType == "Coordinates"){
+        ### TO ADD
+        p
+    
+    
+    }
+    
+    ## add theme to plot     
+    p<- p + ggplot2::geom_point(alpha = 0.6)  +
+                ggplot2::labs(title = plotTitle) +
+                ggplot2::theme(axis.title.x=ggplot2::element_blank(),
                         axis.text.x=ggplot2::element_blank(),
                         axis.ticks.x=ggplot2::element_blank(),
                         axis.title.y=ggplot2::element_blank(),

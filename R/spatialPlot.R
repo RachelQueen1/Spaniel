@@ -14,9 +14,11 @@ NULL
 #' @param object Either a Seurat object (version 3) or a SingleCellExperiment 
 #' object containing barcode coordinates in the metadata (Seurat) or
 #' colData (SingleCellExperiment). 
-#' @param grob an grob to be used as the backgound image see(parseImage)
-#' @param techType Either "ST_orig" (default) for the original Spatial 
-#' Transcriptomics slides or "Visium" for 10X slides.
+#' @param techType Either 1) "Original" (default) for the original Spatial 
+#' Transcriptomics slides where the image has been cropped to the edge of the 
+#' spots, 2) "Coordinates", for the original Spatial Transcriptomics experiment 
+#' where the pixel coordinate is to be used instead of spot position
+#' or 3) "Visium" for 10X slides.
 #' @param plotType There are 5 types of plots avaiable:
 #'                       1) NoGenes - This shows the number of genes per spot 
 #'                       and uses information from "nFeature_RNA" column of 
@@ -34,8 +36,6 @@ NULL
 #'                       of a SingleCellExperiment object.
 #'                       5) Other - A generic plot to plot any column from the
 #'                       meta.data or colData of an object.
-#'                                             
-#'                       
 #' @param gene Gene to plot
 #' @param clusterRes which cluster resolution to plot 
 #' @param ptSize Point size used for cluster plot default is 2
@@ -46,7 +46,8 @@ NULL
 #' @param customTitle Specify plot title (optional)
 #' @param scaleData Show scaled data on plot (default is TRUE)
 #' @param showFilter Logical filter showing pass/fail for spots
-#' @param techType Either "original", or "visium"
+#' @param grob an grob to be used as the backgound image see(parseImage). This 
+#' is used for original Spatial Transcriptomics objects but not Visium                      
 #' @return A ggplot spatial transcriptomics plot
 #' @export
 #' @examples
@@ -89,21 +90,21 @@ NULL
 
 # Main Spaniel Plot Function
 # ------------------------------------------------------------------------------
-spanielPlot <- function (object,  
-                        grob,
-                        techType = "ST_orig",
-                        plotType = c("NoGenes", 
-                                    "CountsPerSpot", 
-                                    "Cluster", 
-                                    "Gene"),
-                        gene= NULL, 
-                        clusterRes = NULL, 
-                        customTitle = NULL,
-                        scaleData = TRUE, 
-                        showFilter = NULL, 
-                        ptSize = 2,
-                        ptSizeMin = 0, 
-                        ptSizeMax = 5)
+spanielPlot <- function (object, 
+                         grob,
+                         techType = "Original",
+                         plotType = c("NoGenes", 
+                                      "CountsPerSpot", 
+                                      "Cluster", 
+                                      "Gene"),
+                         gene= NULL, 
+                         clusterRes = NULL, 
+                         customTitle = NULL,
+                         scaleData = TRUE, 
+                         showFilter = NULL, 
+                         ptSize = 2,
+                         ptSizeMin = 0, 
+                         ptSizeMax = 5)
 
 {
     ### Validate object is either a Seurat or SCE object
@@ -117,19 +118,14 @@ spanielPlot <- function (object,
     # convert shp NULL
     if(shp == "NULL"){shp = NULL}
     # convert size legend to logical
-        showSizeLegend = ifelse(showSizeLegend == "TRUE", TRUE, FALSE)
+    showSizeLegend = ifelse(showSizeLegend == "TRUE", TRUE, FALSE)
     # convert sz to numeric
     if (!is.na(as.numeric(sz))){
         sz = as.numeric(sz)
     }
     
     ### create data.frame for ggplot
-    if (techType == "ST_orig"){    
     tmp <- makeGGDF(object, plotType, colPlot, cl)
-    }
-    if (techType == "Visium"){    
-        tmp <- makeGGDF_10X(object, plotType, colPlot, cl)
-    }
     
     
     ### Update tmp optional arguments if supplied
@@ -142,35 +138,26 @@ spanielPlot <- function (object,
         plotTitle = customTitle
     }
     
-    ### Create plot
-    if (techType == "ST_orig"){    
-        p <- plotImage(grob, 
-                       tmp,
-                       cl, 
-                       sz, 
-                       plotTitle, 
-                       showSizeLegend)
-    }
-    if (techType == "Visium"){    
-        p <- plot10X(grob, 
-                       tmp,
-                       cl, 
-                       sz, 
-                       plotTitle, 
-                       showSizeLegend)
-    }
-        
-        
-        
-        
     
+    if (techType == "Visium"){
+        grob <- metadata(sce)$Grob
+    }
+    
+    ### Create plot
+    p <- plotImage(grob, 
+                   tmp,
+                   cl, 
+                   sz, 
+                   plotTitle, 
+                   showSizeLegend,
+                   techType)
     
     
     ### FOR QC PLOTS
     if (!is.null(showFilter)){
         p <- p +
             ggplot2::scale_size_continuous(range=c(ptSizeMin,
-                                                    ptSizeMax)) +
+                                                   ptSizeMax)) +
             ggplot2::guides(color= ggplot2::guide_legend(), 
                             size = ggplot2::guide_legend())
     }
@@ -180,7 +167,7 @@ spanielPlot <- function (object,
         p <- p +
             ggplot2::scale_colour_gradient(low="#ff3300", high="#ffff00") +
             ggplot2::scale_size_continuous(range=c(ptSizeMin,
-                                                    ptSizeMax)) +
+                                                   ptSizeMax)) +
             ggplot2::guides(color= ggplot2::guide_legend(), 
                             size = ggplot2::guide_legend())
         
@@ -189,22 +176,10 @@ spanielPlot <- function (object,
     if (plotType == "Cluster"){
         p <- p + ggplot2::guides(size=FALSE) +
             ggplot2::scale_size_continuous(range=c(ptSize,
-                                                    ptSize))
+                                                   ptSize))
     }
     
     return(p)
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
