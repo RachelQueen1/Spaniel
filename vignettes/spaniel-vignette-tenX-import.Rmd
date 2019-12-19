@@ -1,0 +1,383 @@
+---
+title: "Spaniel"
+author: "Rachel Queen"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+    %\VignetteIndexEntry{Using Spaniel}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
+---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE, message=FALSE, include = TRUE,
+                        fig.height = 8, fig.width = 8, fig.align = "center",
+                        echo=TRUE
+                        )
+
+```  
+
+## About Spaniel
+
+Spaniel is an R package designed to visualise results of Spatial Transcriptomics
+experiments. To install and load Spaniel:
+
+```{r install, eval = FALSE}
+BiocManager::install('Spaniel')
+```
+
+
+
+
+```{r, load libraries}
+library(Spaniel)
+library(DropletUtils)
+```
+
+## Data
+
+This vignette will show how to load the results of 10X Visium spatial 
+transcriptomics experiment which has been run through the Space Ranger pipeline.
+The data is distributed as part of the Space Ranger software package which can 
+be downloaded here:
+
+(add in link)
+
+The output from from the ?? is used as an example. 
+
+
+### Import the expression data
+
+Spaniel requires a data frame of counts where the genes equate to the rows and 
+the columns equate to a Spatial Transcriptomics spot/barcode. This can be loaded 
+in from SpaceRanger output using the createVisiumSCE function which imports the 
+gene expression data, spatial barcodes, and image dimensions into 
+the SingleCellExperiment object. 
+
+```{r counts}
+
+sce <- createVisiumSCE(tenXDir="../outs", 
+                            resolution="Low")
+```
+
+### SCE Object
+
+The pixel coordinates are added to the colData of the SCE object shown below:
+
+
+```{r barcodes}
+colData(sce)[, c("Barcode", "pixel_x", "pixel_y")]
+```
+
+The image dimensions are added to the metadata of the SCE object:
+
+```{r image_dimensions}
+metadata(sce)$ImgDims
+```
+
+The image is stored as a rasterised grob.
+
+```{r grob}
+metadata(sce)$Grob
+```
+
+
+
+### Creating a SingleCellExperiment object
+Alternatively, the `readSCE()` function can be used to create a 
+SingleCellExperiment object. This time the ProjectName and SectionNumber are 
+added as a column of the colData of the object. The number of genes and counts
+per spot are calculated by the `calculateQCMetrics()` from the scater 
+bioconductor package.
+
+```{r readSCE}
+sce <- createSCE(counts = counts,
+                barcodeFile = barcodesFile, 
+                projectName = "TestProj", 
+                sectionNumber = 1)
+```
+
+Barcodes are stored in the colData
+```{r readSCE_ColData}
+head(colData(sce)[1:5,1:5])
+```
+
+Corner of the count data:
+```{r readSCE_counts}
+counts(sce)[1:10, 1:5]
+```
+
+Project name:
+```{r readSCE_Project}
+colData(sce)$project[1]
+```
+
+## Load image
+The next step is to load the histological image into R. The image example has 
+been scaled down in size, using photoshop,  to increase the plotting speeds. 
+The image is cropped to around te edges of the spots. 
+
+```{r, fig.show='hold'}
+### Load histological image into R
+
+imgFile <- file.path(system.file(package = "Spaniel"), 
+                        "HE_Rep1_resized.jpg")
+
+image <- parseImage(imgFile)
+
+
+```
+
+## Spatial Transcriptomics using Seurat
+
+The rest of this vignette will focus on using a Seurat workflow. 
+
+
+## Quality Control
+
+Assessing the number of genes and number of counts per spot is a useful quality 
+control step. Spaniel allows QC metrics to be viewed on top of the 
+histological image so that any quality issues can be pinpointed. 
+Spots within the tissue region which have a low number of genes or counts may 
+be due to experimental problems which should be addressed. Conversely spots 
+which lie  outside of the tissue and have a high number of counts or large 
+number of genes may indicate that there is background contamination. 
+
+
+### Visualisation
+
+The plotting function allows the use of a binary filter to visualise which 
+spots pass filtering thresholds. We create a filter to show spots which have 
+greater than 280 genes and a minimum of 67500. 
+
+__NOTE:__ The parameters are set for subset of counts used in this data set and 
+will be lower the a dataset where the full count matrix is used.  
+The filter thresholds will be experiment specific and should be adjusted as 
+necessary.
+
+```{r, qcplotting,  results = "hide" }
+
+minGenes <- 280
+minUMI <- 67500
+
+filter <- seuratObj$nCount_RNA > minUMI &
+            seuratObj$nFeature_RNA > minGenes 
+
+spanielPlot(object = seuratObj, 
+        grob = image, 
+        plotType = "NoGenes", 
+        showFilter = filter)
+
+```
+
+### Filtering
+
+Spots which don't pass QC thresholds can then be filtered from the data:
+
+```{r, filter_seurat}
+seuratFiltered <- subset(x = seuratObj, subset = nFeature_RNA > minGenes &
+                                nCount_RNA > minUMI)
+
+
+spanielPlot(object = seuratFiltered, 
+        grob = image, 
+        plotType = "NoGenes") 
+
+
+```
+
+### Remove additional spots
+
+After filtering some spots remain which fall outside of the tissue area. 
+Spaniel includes a shiny apply to select these spots. This can be run by 
+issuing the command:
+
+
+```{r, select_spots, eval = FALSE }
+selectSpots(seuratFiltered, image)
+
+```
+
+
+This opens an interactive plot allowing you to click on any spots to be removed 
+from downstream analysis. Once all the spots have been selected close the shiny 
+app window. 
+A list of spots is stored in a text file called `points_to_remove.txt`
+in the working directory. As this is an interactive step it is not run in this 
+vignette. Instead we can load a list of points to remove and run the function 
+`removeSpots()` to remove the points that fall outside of the tissue area.
+
+
+
+```{r, remove_spots}
+
+spotsToRemove <- file.path(system.file(package = "Spaniel"), 
+                            "points_to_remove.txt")
+
+seuratFiltered <- removeSpots(seuratFiltered, 
+                                pointsToRemove = spotsToRemove)
+
+
+spanielPlot(object = seuratFiltered, 
+        grob = image, 
+        plotType = "NoGenes") 
+
+
+
+```
+
+
+## Cluster Spots
+
+A clustering analysis can now be performed using methods found in Seurat 
+package. For more details see:
+
+https://satijalab.org/seurat/get_started.html
+
+
+```{r, find_clusters, message=FALSE, warning=FALSE, echo=TRUE, results = "hide"}
+
+
+
+seuratFiltered <- NormalizeData(object = seuratFiltered,
+                                normalization.method = "LogNormalize",
+                                scale.factor = 10000)
+
+seuratFiltered <- FindVariableFeatures(object = seuratFiltered,
+                                        selection.method = "vst",
+                                        nfeatures = 2000)
+
+all.genes <- rownames(x = seuratFiltered)
+
+
+seuratFiltered <- ScaleData(object = seuratFiltered, features = all.genes)
+seuratFiltered <- RunPCA(object = seuratFiltered,
+                            features = VariableFeatures(object = seuratFiltered)
+                        )
+
+
+seuratFiltered <- FindNeighbors(object = seuratFiltered, dims = 1:10)
+seuratFiltered <- FindClusters(object = seuratFiltered,
+                                resolution = c(0.4, 0.5, 0.6, 0.8))
+
+
+```
+
+### View Genes
+
+`spanielPlot()` can be used to view gene expression an image. The normalised scaled data
+from the scale_data slot of a seurat object is shown.
+
+__NOTE__: if this plot is used with a SingleCellExperiment object expression data 
+will be taken from the logcounts slot.
+
+
+```{r, genePlot, results = "hide" }
+
+
+gene = "Nrgn"
+spanielPlot(object = seuratFiltered, grob = image, 
+        plotType = "Gene", 
+        gene = gene)
+
+
+```
+
+
+### View Clusters
+
+It can also be useful to look at how different clustering resolutions can be 
+viewed match up with the image. Again this can done using the `spanielPlot()`. 
+The `ClusterRes` argument should match a name in the meta.data to plot. 
+
+__NOTE__: if this plot is used with a SingleCellExperiment object ClusterRes should 
+match a column name within the colData.
+
+```{r, clusterPlot, warning= FALSE, message = FALSE, results = "hide" }
+
+spanielPlot(object = seuratFiltered, 
+        grob = image, 
+        plotType = "Cluster", 
+        clusterRes = "RNA_snn_res.0.8"
+)
+
+```
+
+## ShinySpaniel
+
+## Using the RunShinySpaniel function in R
+
+Spaniel includes a shiny app designed to share preprocessed data. The app is 
+included as the runShinySpaniel function. 
+
+### Mark Cluster Columns
+
+The shiny Spaniel app has the option of visualising any cluster data on a plot.
+First the columns containing the different clustering solutions need to be 
+marked in the meta.dat with the prefix "cluster_"  so that Spaniel knows where 
+to look for them. 
+
+```{r, markClusters}
+seuratFiltered <- markClusterCol(seuratFiltered, "res")
+```
+
+### Save data object
+
+```{r, eval = FALSE,  echo=TRUE}
+saveRDS(seuratFiltered, "data.rds")
+```
+
+An example of processed data set can be found:
+
+```{r, eval = FALSE, echo=TRUE}
+file.path(system.file(package = "Spaniel"), "extdata/SeuratData.rds" )
+```
+
+### Save image object
+
+```{r, eval = FALSE, echo=TRUE}
+saveRDS(image, "image.rds")
+
+```
+An example of processed image file  can be found:
+
+```{r, eval = FALSE}
+file.path(system.file(package = "Spaniel"), "extdata/image.rds" )
+```
+
+### Run shinySpaniel!
+To launch the shiny Spaniel app issue the command:
+```{r, markclusterCols, eval = FALSE}
+runShinySpaniel()
+
+```
+
+## Deploying ShinySpaniel
+For sharing analysis it is also possible to deploy the ShinySpaniel app to 
+Shiny.io or any other server running R Server. The standalone app is located:
+
+```{r, eval = FALSE}
+spanielApp <- file.path(system.file(package = "Spaniel"), "ShinySpaniel" )
+```
+
+You can sign up for a shinyapps.io account:
+
+https://www.shinyapps.io/
+
+Sign into your account and follow steps 1 and and 2 in the getting started 
+instructions to authorise your account in R. 
+
+Then run the following code:
+
+
+```{r, eval = FALSE}
+library(rsconnect)
+rsconnect::deployApp(spanielApp)
+
+```
+
+
+
+
+
+
