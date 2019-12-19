@@ -15,6 +15,8 @@ NULL
 #' object containing barcode coordinates in the metadata (Seurat) or
 #' colData (SingleCellExperiment). 
 #' @param grob an grob to be used as the backgound image see(parseImage)
+#' @param techType Either "ST_orig" (default) for the original Spatial 
+#' Transcriptomics slides or "Visium" for 10X slides.
 #' @param plotType There are 5 types of plots avaiable:
 #'                       1) NoGenes - This shows the number of genes per spot 
 #'                       and uses information from "nFeature_RNA" column of 
@@ -44,6 +46,7 @@ NULL
 #' @param customTitle Specify plot title (optional)
 #' @param scaleData Show scaled data on plot (default is TRUE)
 #' @param showFilter Logical filter showing pass/fail for spots
+#' @param techType Either "original", or "visium"
 #' @return A ggplot spatial transcriptomics plot
 #' @export
 #' @examples
@@ -88,6 +91,7 @@ NULL
 # ------------------------------------------------------------------------------
 spanielPlot <- function (object,  
                         grob,
+                        techType = "ST_orig",
                         plotType = c("NoGenes", 
                                     "CountsPerSpot", 
                                     "Cluster", 
@@ -120,7 +124,12 @@ spanielPlot <- function (object,
     }
     
     ### create data.frame for ggplot
+    if (techType == "ST_orig"){    
     tmp <- makeGGDF(object, plotType, colPlot, cl)
+    }
+    if (techType == "Visium"){    
+        tmp <- makeGGDF_10X(object, plotType, colPlot, cl)
+    }
     
     
     ### Update tmp optional arguments if supplied
@@ -134,12 +143,27 @@ spanielPlot <- function (object,
     }
     
     ### Create plot
-    p <- plotImage(grob, 
-                    tmp,
-                    cl, 
-                    sz, 
-                    plotTitle, 
-                    showSizeLegend)
+    if (techType == "ST_orig"){    
+        p <- plotImage(grob, 
+                       tmp,
+                       cl, 
+                       sz, 
+                       plotTitle, 
+                       showSizeLegend)
+    }
+    if (techType == "Visium"){    
+        p <- plot10X(grob, 
+                       tmp,
+                       cl, 
+                       sz, 
+                       plotTitle, 
+                       showSizeLegend)
+    }
+        
+        
+        
+        
+    
     
     
     ### FOR QC PLOTS
