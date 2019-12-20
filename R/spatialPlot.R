@@ -19,6 +19,9 @@ NULL
 #' spots, 2) "Coordinates", for the original Spatial Transcriptomics experiment 
 #' where the pixel coordinate is to be used instead of spot position
 #' or 3) "Visium" for 10X slides.
+#' @param byCoord TRUE/FALSE option to plot spot postions using pixel 
+#' coordinates instead of by spot. 
+#' Used for original Spatial Transcriptomics experiments. Default is FALSE.
 #' @param plotType There are 5 types of plots avaiable:
 #'                       1) NoGenes - This shows the number of genes per spot 
 #'                       and uses information from "nFeature_RNA" column of 
@@ -93,6 +96,7 @@ NULL
 spanielPlot <- function (object, 
                          grob,
                          techType = "Original",
+                         byCoord = FALSE,
                          plotType = c("NoGenes", 
                                       "CountsPerSpot", 
                                       "Cluster", 
@@ -150,7 +154,8 @@ spanielPlot <- function (object,
                    sz, 
                    plotTitle, 
                    showSizeLegend,
-                   techType)
+                   techType,
+                   byCoord)
     
     
     ### FOR QC PLOTS

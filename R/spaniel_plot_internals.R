@@ -119,28 +119,37 @@ makeGGDF <- function(object, plotType, colPlot, cl){
 # Plot image
 # ------------------------------------------------------------------------------
 plotImage <- function(grob, tmp, pointColour, pointSize, plotTitle = NULL, 
-                      sizeLegend = TRUE, plotType 
+                      sizeLegend = TRUE, plotType, techType, byCoord 
                         ){
     p <- ggplot2::ggplot(tmp ,ggplot2::aes_string("x", "y", 
                                                   color = pointColour, 
                                                   size = pointSize)) 
     
     
-    if (plotType == "Original"){
+    if (techType == "Original" & byCoord == FALSE){
         p <- p + ggplot2::xlim(1, 33) +
             ggplot2::ylim(1, 35) +
             ggplot2::annotation_custom(grob, xmin = 1, xmax = 33, 
                                    ymin = 1, ymax = 35)
-    } else if (plotType == "Visium"){
+    } else if (techType == "Visium"){
         ### TO ADD
-        p    
+        
+        p    + ggplot2::xlim(x_min, x_max) +
+            ggplot2::ylim(y_min, y_max) +
+            ggplot2::annotation_custom(grob, xmin = x_min, xmax = x_max, 
+                                       ymin = y_min, ymax = y_max)
         
     }
     
     
-    } else if (plotType == "Coordinates"){
+    } 
+
+    if (byCoord == TRUE){
         ### TO ADD
-        p
+        p + ggplot2::xlim(x_min, x_max) +
+            ggplot2::ylim(y_min, y_max) +
+            ggplot2::annotation_custom(grob, xmin = x_min, xmax = x_max, 
+                                       ymin = y_min, ymax = y_max)
     
     
     }
