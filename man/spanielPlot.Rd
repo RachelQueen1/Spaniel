@@ -22,13 +22,11 @@ is used for original Spatial Transcriptomics objects but not Visium}
 
 \item{techType}{Either 1) "Original" (default) for the original Spatial 
 Transcriptomics slides where the image has been cropped to the edge of the 
-spots, 2) "Coordinates", for the original Spatial Transcriptomics experiment 
-where the pixel coordinate is to be used instead of spot position
-or 3) "Visium" for 10X slides.}
+spots 2) "Visium" for 10X slides.}
 
-\item{byCoord}{TRUE/FALSE option to plot spot postions using pixel 
-coordinates instead of by spot. Not required if techType = "Visium".
-Used for original Spatial Transcriptomics experiments. Default is FALSE.}
+\item{byCoord}{TRUE/FALSE option to plot original Spatial Transcriptomics data using pixel 
+coordinates instead of by spot coordinates. Not required if techType = "Visium".
+Default is FALSE.}
 
 \item{imgDims}{pixel dimensions of histological image. Required when 
 byCoord parameter is set to TRUE, Not required if techType = "Visium".}
