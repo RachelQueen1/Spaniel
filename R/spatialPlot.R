@@ -20,8 +20,10 @@ NULL
 #' where the pixel coordinate is to be used instead of spot position
 #' or 3) "Visium" for 10X slides.
 #' @param byCoord TRUE/FALSE option to plot spot postions using pixel 
-#' coordinates instead of by spot. 
+#' coordinates instead of by spot. Not required if techType = "Visium".
 #' Used for original Spatial Transcriptomics experiments. Default is FALSE.
+#' @param imgDims pixel dimensions of histological image. Required when 
+#' byCoord parameter is set to TRUE, Not required if techType = "Visium".
 #' @param plotType There are 5 types of plots avaiable:
 #'                       1) NoGenes - This shows the number of genes per spot 
 #'                       and uses information from "nFeature_RNA" column of 
@@ -97,6 +99,7 @@ spanielPlot <- function (object,
                          grob,
                          techType = "Original",
                          byCoord = FALSE,
+                         imgDims = NULL,
                          plotType = c("NoGenes", 
                                       "CountsPerSpot", 
                                       "Cluster", 
@@ -155,7 +158,8 @@ spanielPlot <- function (object,
                    plotTitle, 
                    showSizeLegend,
                    techType,
-                   byCoord)
+                   byCoord, 
+                   imgDims)
     
     
     ### FOR QC PLOTS

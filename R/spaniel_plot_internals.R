@@ -119,7 +119,7 @@ makeGGDF <- function(object, plotType, colPlot, cl){
 # Plot image
 # ------------------------------------------------------------------------------
 plotImage <- function(grob, tmp, pointColour, pointSize, plotTitle = NULL, 
-                      sizeLegend = TRUE, plotType, techType, byCoord 
+                      sizeLegend = TRUE, plotType, techType, byCoord, imgDims 
                         ){
     p <- ggplot2::ggplot(tmp ,ggplot2::aes_string("x", "y", 
                                                   color = pointColour, 
@@ -133,29 +133,20 @@ plotImage <- function(grob, tmp, pointColour, pointSize, plotTitle = NULL,
                                    ymin = 1, ymax = 35)
     } else if (techType == "Visium"){
         ### TO ADD
-        
-        p    + ggplot2::xlim(x_min, x_max) +
-            ggplot2::ylim(y_min, y_max) +
-            ggplot2::annotation_custom(grob, xmin = x_min, xmax = x_max, 
-                                       ymin = y_min, ymax = y_max)
-        
-    }
-    
-    
-    } 
+        imgDims <- metadata(sce)$ImgDims
+            }
 
-    if (byCoord == TRUE){
-        ### TO ADD
-        p + ggplot2::xlim(x_min, x_max) +
-            ggplot2::ylim(y_min, y_max) +
-            ggplot2::annotation_custom(grob, xmin = x_min, xmax = x_max, 
-                                       ymin = y_min, ymax = y_max)
-    
-    
+    if (byCoord == TRUE | techType == "Visium"){
+        x_max <- imgDims[2]
+        y_max <-  imgDims[1]
+        p <- p + ggplot2::xlim(0, x_max) +
+                ggplot2::ylim(0, y_max) +
+                ggplot2::annotation_custom(grob, xmin = 0, xmax = x_max, 
+                                       ymin = 0, ymax = y_max)
     }
     
     ## add theme to plot     
-    p<- p + ggplot2::geom_point(alpha = 0.6)  +
+    p <- p + ggplot2::geom_point(alpha = 0.6)  +
                 ggplot2::labs(title = plotTitle) +
                 ggplot2::theme(axis.title.x=ggplot2::element_blank(),
                         axis.text.x=ggplot2::element_blank(),
@@ -169,7 +160,11 @@ plotImage <- function(grob, tmp, pointColour, pointSize, plotTitle = NULL,
     if (sizeLegend == FALSE){
         p <- p + ggplot2::guides(size=FALSE)}
     ### show plot
-    p + ggplot2::guides(color = ggplot2::guide_legend(), 
+    p <- p + ggplot2::guides(color = ggplot2::guide_legend(), 
                         size = ggplot2::guide_legend())
+    
+    return(p)
+    
+    
 }
 
