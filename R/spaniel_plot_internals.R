@@ -150,7 +150,17 @@ plotImage <- function(grob, tmp, pointColour, pointSize, plotTitle = NULL,
                 ggplot2::ylim(0, y_max) +
                 ggplot2::annotation_custom(grob, xmin = 0, xmax = x_max, 
                                        ymin = 0, ymax = y_max)
-        print("Visium")
+        
+    }
+    
+    if (byCoord == TRUE){
+        x_max <- as.numeric(imgDims[2])
+        y_max <- as.numeric(imgDims[1])
+        p <- p + ggplot2::xlim(0, x_max) +
+            ggplot2::ylim(0, y_max) +
+            ggplot2::annotation_custom(grob, xmin = 0, xmax = x_max, 
+                                       ymin = 0, ymax = y_max)
+        
     }
     
     ## add theme to plot
