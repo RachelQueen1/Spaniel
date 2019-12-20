@@ -17,7 +17,21 @@ spanielPlot(object, grob, plotType = c("NoGenes",
 object containing barcode coordinates in the metadata (Seurat) or
 colData (SingleCellExperiment).}
 
-\item{grob}{an grob to be used as the backgound image see(parseImage)}
+\item{grob}{an grob to be used as the backgound image see(parseImage). This 
+is used for original Spatial Transcriptomics objects but not Visium}
+
+\item{techType}{Either 1) "Original" (default) for the original Spatial 
+Transcriptomics slides where the image has been cropped to the edge of the 
+spots, 2) "Coordinates", for the original Spatial Transcriptomics experiment 
+where the pixel coordinate is to be used instead of spot position
+or 3) "Visium" for 10X slides.}
+
+\item{byCoord}{TRUE/FALSE option to plot spot postions using pixel 
+coordinates instead of by spot. Not required if techType = "Visium".
+Used for original Spatial Transcriptomics experiments. Default is FALSE.}
+
+\item{imgDims}{pixel dimensions of histological image. Required when 
+byCoord parameter is set to TRUE, Not required if techType = "Visium".}
 
 \item{plotType}{There are 5 types of plots avaiable:
 1) NoGenes - This shows the number of genes per spot 

@@ -75,13 +75,13 @@ createVisiumSCE <- function(tenXDir="../outs",
     )
     
     ### add image dimensions to sce
-    sce@metadata$ImgDims <- c(imgDims, resolution)
+    sce@metadata$ImgDims <- c(imgageDims, resolution)
     
     ### add grob to sce
     sce@metadata$Grob <- grob
     
     ### read barcodes and add to sce
-    barcodes <- read10XBarcodes(spatialDir, imgDims, resolution)
+    barcodes <- read10XBarcodes(spatialDir, imgageDims, resolution)
     
     sce@colData <- sce@colData %>% 
         data.frame() %>% 
@@ -104,34 +104,34 @@ createVisiumSCE <- function(tenXDir="../outs",
 
 
 
-### 1 add option to read in png to parseImage function
-img <- png::readPNG("tiny/spatial/tissue_hires_image.png")
-
-g <- grid::rasterGrob(img, 
-                      interpolate = FALSE, 
-                      width = grid::unit(1, "npc"), 
-                      height = grid::unit(1, "npc"))
-
-toPlot <- colData(sce) %>% data.frame
-
-ggplot(toPlot, aes(highResX, highResY))  +
-    ggplot2::annotation_custom(g, xmin = 0, xmax = dim(img)[1], 
-                               ymin = 0, ymax = dim(img)[2])  + xlim(0,  
-                                                                     dim(img)[1]) + 
-    ylim(0, dim(img)[2]) + geom_point()
-
-
-scale <- "hires"
-scale <- match.arg(arg = scale, choices = c('spot', 'fiducial', 'hires', 'lowres'))
-
-
-
-dim(img)
-scale.factors <- fromJSON(txt = file.path("tiny/spatial/scalefactors_json.json"))
-spanielPlot(sObj, g, plotType = c("NoGenes"),
-            gene= NULL, clusterRes = NULL, customTitle = NULL,
-            scaleData = TRUE, showFilter = NULL, ptSize = 2,
-            ptSizeMin = 0, ptSizeMax = 5)
-
-
-barcodes$V5 %>% range()
+# ### 1 add option to read in png to parseImage function
+# img <- png::readPNG("tiny/spatial/tissue_hires_image.png")
+# 
+# g <- grid::rasterGrob(img, 
+#                       interpolate = FALSE, 
+#                       width = grid::unit(1, "npc"), 
+#                       height = grid::unit(1, "npc"))
+# 
+# toPlot <- colData(sce) %>% data.frame
+# 
+# ggplot(toPlot, aes(highResX, highResY))  +
+#     ggplot2::annotation_custom(g, xmin = 0, xmax = dim(img)[1], 
+#                                ymin = 0, ymax = dim(img)[2])  + xlim(0,  
+#                                                                      dim(img)[1]) + 
+#     ylim(0, dim(img)[2]) + geom_point()
+# 
+# 
+# scale <- "hires"
+# scale <- match.arg(arg = scale, choices = c('spot', 'fiducial', 'hires', 'lowres'))
+# 
+# 
+# 
+# dim(img)
+# scale.factors <- fromJSON(txt = file.path("tiny/spatial/scalefactors_json.json"))
+# spanielPlot(sObj, g, plotType = c("NoGenes"),
+#             gene= NULL, clusterRes = NULL, customTitle = NULL,
+#             scaleData = TRUE, showFilter = NULL, ptSize = 2,
+#             ptSizeMin = 0, ptSizeMax = 5)
+# 
+# 
+# barcodes$V5 %>% range()

@@ -96,7 +96,7 @@ NULL
 # Main Spaniel Plot Function
 # ------------------------------------------------------------------------------
 spanielPlot <- function (object, 
-                         grob,
+                         grob = NULL,
                          techType = "Original",
                          byCoord = FALSE,
                          imgDims = NULL,
@@ -132,7 +132,9 @@ spanielPlot <- function (object,
     }
     
     ### create data.frame for ggplot
-    tmp <- makeGGDF(object, plotType, colPlot, cl)
+    tmp <- makeGGDF(object, plotType, colPlot, cl, 
+                    techType, 
+                    byCoord)
     
     
     ### Update tmp optional arguments if supplied
@@ -148,18 +150,19 @@ spanielPlot <- function (object,
     
     if (techType == "Visium"){
         grob <- metadata(sce)$Grob
+        imgDims <- metadata(sce)$ImgDims
     }
     
     ### Create plot
     p <- plotImage(grob, 
                    tmp,
-                   cl, 
-                   sz, 
+                   pointColour=cl, 
+                   pointSize=sz, 
                    plotTitle, 
-                   showSizeLegend,
-                   techType,
-                   byCoord, 
-                   imgDims)
+                   sizeLegend=showSizeLegend,
+                   techType = techType,
+                   byCoord = byCoord, 
+                   imgDims = imgDims)
     
     
     ### FOR QC PLOTS

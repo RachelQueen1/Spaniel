@@ -20,12 +20,27 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE, include = TRUE,
 ## About Spaniel
 
 Spaniel is an R package designed to visualise results of Spatial Transcriptomics
-experiments. To install and load Spaniel:
+experiments. The current stable version of Spaniel (version 1.1.0) is available from Bioconductor:
 
 ```{r install, eval = FALSE}
-BiocManager::install('Spaniel')
+
+devtools::install_github("RachelQueen1/Spaniel", repos = "Dev" )
+
+
 ```
 
+### Spaniel - with 10X import option
+
+This vignette refers to a development version of Spaniel (version 1.2) designed to import data from a 10X Genomics Visium experiment.  
+This version will be tested and pushed to Bioconductor early in the new year (2020). If you would like to test the features described in this vignette you can install Spaniel using the following command:
+
+
+```{r install, eval = FALSE}
+
+devtools::install_github("RachelQueen1/Spaniel", repos = "Dev" )
+
+
+```
 
 
 
@@ -56,8 +71,9 @@ the SingleCellExperiment object.
 
 ```{r counts}
 
-sce <- createVisiumSCE(tenXDir="../outs", 
+sce <- createVisiumSCE(tenXDir="C:/Users/nrq2/Documents/GitHub/outs", 
                             resolution="Low")
+
 ```
 
 ### SCE Object
@@ -81,58 +97,6 @@ The image is stored as a rasterised grob.
 metadata(sce)$Grob
 ```
 
-
-
-### Creating a SingleCellExperiment object
-Alternatively, the `readSCE()` function can be used to create a 
-SingleCellExperiment object. This time the ProjectName and SectionNumber are 
-added as a column of the colData of the object. The number of genes and counts
-per spot are calculated by the `calculateQCMetrics()` from the scater 
-bioconductor package.
-
-```{r readSCE}
-sce <- createSCE(counts = counts,
-                barcodeFile = barcodesFile, 
-                projectName = "TestProj", 
-                sectionNumber = 1)
-```
-
-Barcodes are stored in the colData
-```{r readSCE_ColData}
-head(colData(sce)[1:5,1:5])
-```
-
-Corner of the count data:
-```{r readSCE_counts}
-counts(sce)[1:10, 1:5]
-```
-
-Project name:
-```{r readSCE_Project}
-colData(sce)$project[1]
-```
-
-## Load image
-The next step is to load the histological image into R. The image example has 
-been scaled down in size, using photoshop,  to increase the plotting speeds. 
-The image is cropped to around te edges of the spots. 
-
-```{r, fig.show='hold'}
-### Load histological image into R
-
-imgFile <- file.path(system.file(package = "Spaniel"), 
-                        "HE_Rep1_resized.jpg")
-
-image <- parseImage(imgFile)
-
-
-```
-
-## Spatial Transcriptomics using Seurat
-
-The rest of this vignette will focus on using a Seurat workflow. 
-
-
 ## Quality Control
 
 Assessing the number of genes and number of counts per spot is a useful quality 
@@ -147,161 +111,47 @@ number of genes may indicate that there is background contamination.
 ### Visualisation
 
 The plotting function allows the use of a binary filter to visualise which 
-spots pass filtering thresholds. We create a filter to show spots which have 
-greater than 280 genes and a minimum of 67500. 
+spots pass filtering thresholds. We create a filter to show spots at 1 gene is detected. Spots where no genes are detected will be removed from the remainder of the analysis.
 
-__NOTE:__ The parameters are set for subset of counts used in this data set and 
-will be lower the a dataset where the full count matrix is used.  
+__NOTE:__ The parameters are set for subset of counts used in this dataset.  
 The filter thresholds will be experiment specific and should be adjusted as 
 necessary.
 
 ```{r, qcplotting,  results = "hide" }
 
-minGenes <- 280
-minUMI <- 67500
-
-filter <- seuratObj$nCount_RNA > minUMI &
-            seuratObj$nFeature_RNA > minGenes 
-
-spanielPlot(object = seuratObj, 
-        grob = image, 
+filter <- sce$detected > 0
+spanielPlot(object = sce,
         plotType = "NoGenes", 
-        showFilter = filter)
-
-```
-
-### Filtering
-
-Spots which don't pass QC thresholds can then be filtered from the data:
-
-```{r, filter_seurat}
-seuratFiltered <- subset(x = seuratObj, subset = nFeature_RNA > minGenes &
-                                nCount_RNA > minUMI)
-
-
-spanielPlot(object = seuratFiltered, 
-        grob = image, 
-        plotType = "NoGenes") 
-
-
-```
-
-### Remove additional spots
-
-After filtering some spots remain which fall outside of the tissue area. 
-Spaniel includes a shiny apply to select these spots. This can be run by 
-issuing the command:
-
-
-```{r, select_spots, eval = FALSE }
-selectSpots(seuratFiltered, image)
+        showFilter = filter, 
+        techType = "Visium", 
+        ptSizeMax = 2)
 
 ```
 
 
-This opens an interactive plot allowing you to click on any spots to be removed 
-from downstream analysis. Once all the spots have been selected close the shiny 
-app window. 
-A list of spots is stored in a text file called `points_to_remove.txt`
-in the working directory. As this is an interactive step it is not run in this 
-vignette. Instead we can load a list of points to remove and run the function 
-`removeSpots()` to remove the points that fall outside of the tissue area.
+Spots where no genes are detected can be removed from the remainder of the analysis.
+
+```{r}
+sce <- sce[, filter]
+```
+
+The filtered data can then be normalised using the the "normalize" function from scater and the expression of selected genes can be viewed on the histological image.
+
+```{r, gene plot,  results = "hide" }
 
 
+sce <- logNormCounts(sce)
 
-```{r, remove_spots}
-
-spotsToRemove <- file.path(system.file(package = "Spaniel"), 
-                            "points_to_remove.txt")
-
-seuratFiltered <- removeSpots(seuratFiltered, 
-                                pointsToRemove = spotsToRemove)
-
-
-spanielPlot(object = seuratFiltered, 
-        grob = image, 
-        plotType = "NoGenes") 
-
-
+gene <- "ENSMUSG00000024843"
+p2 <- spanielPlot(object = sce,
+        plotType = "Gene", gene = gene,
+        showFilter = NULL, 
+        techType = "Visium", 
+        ptSizeMax = 2)
 
 ```
 
 
-## Cluster Spots
-
-A clustering analysis can now be performed using methods found in Seurat 
-package. For more details see:
-
-https://satijalab.org/seurat/get_started.html
-
-
-```{r, find_clusters, message=FALSE, warning=FALSE, echo=TRUE, results = "hide"}
-
-
-
-seuratFiltered <- NormalizeData(object = seuratFiltered,
-                                normalization.method = "LogNormalize",
-                                scale.factor = 10000)
-
-seuratFiltered <- FindVariableFeatures(object = seuratFiltered,
-                                        selection.method = "vst",
-                                        nfeatures = 2000)
-
-all.genes <- rownames(x = seuratFiltered)
-
-
-seuratFiltered <- ScaleData(object = seuratFiltered, features = all.genes)
-seuratFiltered <- RunPCA(object = seuratFiltered,
-                            features = VariableFeatures(object = seuratFiltered)
-                        )
-
-
-seuratFiltered <- FindNeighbors(object = seuratFiltered, dims = 1:10)
-seuratFiltered <- FindClusters(object = seuratFiltered,
-                                resolution = c(0.4, 0.5, 0.6, 0.8))
-
-
-```
-
-### View Genes
-
-`spanielPlot()` can be used to view gene expression an image. The normalised scaled data
-from the scale_data slot of a seurat object is shown.
-
-__NOTE__: if this plot is used with a SingleCellExperiment object expression data 
-will be taken from the logcounts slot.
-
-
-```{r, genePlot, results = "hide" }
-
-
-gene = "Nrgn"
-spanielPlot(object = seuratFiltered, grob = image, 
-        plotType = "Gene", 
-        gene = gene)
-
-
-```
-
-
-### View Clusters
-
-It can also be useful to look at how different clustering resolutions can be 
-viewed match up with the image. Again this can done using the `spanielPlot()`. 
-The `ClusterRes` argument should match a name in the meta.data to plot. 
-
-__NOTE__: if this plot is used with a SingleCellExperiment object ClusterRes should 
-match a column name within the colData.
-
-```{r, clusterPlot, warning= FALSE, message = FALSE, results = "hide" }
-
-spanielPlot(object = seuratFiltered, 
-        grob = image, 
-        plotType = "Cluster", 
-        clusterRes = "RNA_snn_res.0.8"
-)
-
-```
 
 ## ShinySpaniel
 

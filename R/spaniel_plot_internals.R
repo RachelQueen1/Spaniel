@@ -79,11 +79,21 @@ setVars <- function(object,
 # Create ggplot df for each plot type
 # ------------------------------------------------------------------------------
 ### Make a generic function for all 4 plot types
-makeGGDF <- function(object, plotType, colPlot, cl){
+makeGGDF <- function(object, plotType, colPlot, cl, techType, byCoord){
     
     ### Get Metadata and Coodinates
     metaData <- getMetadata(object)
-    coordinates <- metaData[, c("x", "y")]
+    if (techType == "Original" & byCoord == FALSE){
+        coordinates <- metaData[, c("x", "y")]
+        ## reverse the order of the y coordinates
+        tmp$y <- 36 - tmp$y
+    }
+    if (techType == "Visium" | byCoord == TRUE){
+        coordinates <- metaData[, c("pixel_x", "pixel_y")]
+        colnames(coordinates) <- c("x", "y")
+    }
+        
+    
     coordinates$spot <- rownames(metaData)
     
     if (plotType == "Gene"){
@@ -109,8 +119,7 @@ makeGGDF <- function(object, plotType, colPlot, cl){
     # set colname for the to plot column
     colnames(tmp)[1] <- cl
     
-    ## reverse the order of the y coordinates
-    tmp$y <- 36 - tmp$y
+   
     
     return(tmp)
 }
@@ -121,31 +130,30 @@ makeGGDF <- function(object, plotType, colPlot, cl){
 plotImage <- function(grob, tmp, pointColour, pointSize, plotTitle = NULL, 
                       sizeLegend = TRUE, plotType, techType, byCoord, imgDims 
                         ){
+    
     p <- ggplot2::ggplot(tmp ,ggplot2::aes_string("x", "y", 
                                                   color = pointColour, 
                                                   size = pointSize)) 
     
     
-    if (techType == "Original" & byCoord == FALSE){
+    if (techType == "Original"){
         p <- p + ggplot2::xlim(1, 33) +
             ggplot2::ylim(1, 35) +
             ggplot2::annotation_custom(grob, xmin = 1, xmax = 33, 
                                    ymin = 1, ymax = 35)
-    } else if (techType == "Visium"){
-        ### TO ADD
-        imgDims <- metadata(sce)$ImgDims
-            }
-
-    if (byCoord == TRUE | techType == "Visium"){
-        x_max <- imgDims[2]
-        y_max <-  imgDims[1]
+    }
+    
+    if (techType == "Visium"){
+        x_max <- as.numeric(imgDims[2])
+        y_max <- as.numeric(imgDims[1])
         p <- p + ggplot2::xlim(0, x_max) +
                 ggplot2::ylim(0, y_max) +
                 ggplot2::annotation_custom(grob, xmin = 0, xmax = x_max, 
                                        ymin = 0, ymax = y_max)
+        print("Visium")
     }
     
-    ## add theme to plot     
+    ## add theme to plot
     p <- p + ggplot2::geom_point(alpha = 0.6)  +
                 ggplot2::labs(title = plotTitle) +
                 ggplot2::theme(axis.title.x=ggplot2::element_blank(),
@@ -155,16 +163,16 @@ plotImage <- function(grob, tmp, pointColour, pointSize, plotTitle = NULL,
                         axis.text.y=ggplot2::element_blank(),
                         axis.ticks.y=ggplot2::element_blank())
     NULL
-    
+
     ### if show size false
     if (sizeLegend == FALSE){
         p <- p + ggplot2::guides(size=FALSE)}
     ### show plot
-    p <- p + ggplot2::guides(color = ggplot2::guide_legend(), 
+     p <- p + ggplot2::guides(color = ggplot2::guide_legend(),
                         size = ggplot2::guide_legend())
     
+   
     return(p)
-    
     
 }
 
