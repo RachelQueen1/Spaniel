@@ -24,7 +24,7 @@ experiments. The current stable version of Spaniel (version 1.1.0) is available 
 
 ```{r install, eval = FALSE}
 
-devtools::install_github("RachelQueen1/Spaniel", repos = "Dev" )
+BiocManager::install('Spaniel')
 
 
 ```
@@ -32,7 +32,7 @@ devtools::install_github("RachelQueen1/Spaniel", repos = "Dev" )
 ### Spaniel - with 10X import option
 
 This vignette refers to a development version of Spaniel (version 1.2) designed to import data from a 10X Genomics Visium experiment.  
-This version will be tested and pushed to Bioconductor early in the new year (2020). If you would like to test the features described in this vignette you can install Spaniel using the following command:
+This version will be tested and pushed to Bioconductor early in the new year (January 2020). If you would like to test the features described in this vignette you can install Spaniel using the following command:
 
 
 ```{r install, eval = FALSE}
@@ -47,6 +47,7 @@ devtools::install_github("RachelQueen1/Spaniel", repos = "Dev" )
 ```{r, load libraries}
 library(Spaniel)
 library(DropletUtils)
+library(scater)
 ```
 
 ## Data
@@ -56,21 +57,18 @@ transcriptomics experiment which has been run through the Space Ranger pipeline.
 The data is distributed as part of the Space Ranger software package which can 
 be downloaded here:
 
-(add in link)
+https://support.10xgenomics.com/spatial-gene-expression/software/overview/welcome
 
-The output from from the ?? is used as an example. 
+The output from from the "spaceranger testrun" is used as an example here. 
 
 
 ### Import the expression data
 
-Spaniel requires a data frame of counts where the genes equate to the rows and 
-the columns equate to a Spatial Transcriptomics spot/barcode. This can be loaded 
-in from SpaceRanger output using the createVisiumSCE function which imports the 
-gene expression data, spatial barcodes, and image dimensions into 
-the SingleCellExperiment object. 
+Spaniel can be load the output directly from SpaceRanger output using the createVisiumSCE function. This which imports the gene expression data, spatial barcodes, and image dimensions into the SingleCellExperiment object. 
 
 ```{r counts}
 
+pathToTenXOuts <- system.file(package = "Spaniel")
 sce <- createVisiumSCE(tenXDir="C:/Users/nrq2/Documents/GitHub/outs", 
                             resolution="Low")
 
