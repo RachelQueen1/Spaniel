@@ -88,6 +88,12 @@ makeGGDF <- function(object, plotType, colPlot, cl, techType, byCoord){
         ## reverse the order of the y coordinates
         tmp$y <- 36 - tmp$y
     }
+    if (techType == "Original" | byCoord == TRUE){
+        coordinates <- metaData[, c("pixel_x", "pixel_y")]
+        colnames(coordinates) <- c("x", "y")
+    }
+    
+    
     if (techType == "Visium" | byCoord == TRUE){
         coordinates <- metaData[, c("pixel_x", "pixel_y")]
         colnames(coordinates) <- c("x", "y")
@@ -136,7 +142,7 @@ plotImage <- function(grob, tmp, pointColour, pointSize, plotTitle = NULL,
                                                   size = pointSize)) 
     
     
-    if (techType == "Original"){
+    if (techType == "Original" & byCoord == FALSE){
         p <- p + ggplot2::xlim(1, 33) +
             ggplot2::ylim(1, 35) +
             ggplot2::annotation_custom(grob, xmin = 1, xmax = 33, 

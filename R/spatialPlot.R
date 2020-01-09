@@ -80,13 +80,19 @@ NULL
 #' spanielPlot(object = SeuratObj, grob = imgFile,
 #'         plotType = "Gene",
 #'         gene= "Nrgn")
-#' @usage  spanielPlot(object, grob, plotType = c("NoGenes",
-#'                                             "CountsPerSpot",
-#'                                             "Cluster",
-#'                                             "Gene"),
-#'                 gene= NULL, clusterRes = NULL, customTitle = NULL,
-#'                 scaleData = TRUE, showFilter = NULL, ptSize = 2,
-#'                 ptSizeMin = 0, ptSizeMax = 5)
+#' @usage  spanielPlot(object, grob = NULL, techType = "Original", 
+#'  byCoord = FALSE, imgDims = NULL, plotType = c("NoGenes", 
+#'               "CountsPerSpot", 
+#'               "Cluster", 
+#'               "Gene"),
+#'                gene= NULL, 
+#'                clusterRes = NULL, 
+#'                customTitle = NULL,
+#'                scaleData = TRUE, 
+#'                showFilter = NULL, 
+#'                ptSize = 2,
+#'                ptSizeMin = 0, 
+#'                ptSizeMax = 5)
 
 
 
@@ -130,7 +136,10 @@ spanielPlot <- function (object,
     }
     
     ### create data.frame for ggplot
-    tmp <- makeGGDF(object, plotType, colPlot, cl, 
+    tmp <- makeGGDF(object, 
+                    plotType, 
+                    colPlot, 
+                    cl, 
                     techType, 
                     byCoord)
     
@@ -145,11 +154,18 @@ spanielPlot <- function (object,
         plotTitle = customTitle
     }
     
-    
+    ### TO DO! add in option for seurat object
     if (techType == "Visium"){
         grob <- metadata(sce)$Grob
         imgDims <- metadata(sce)$ImgDims
     }
+    
+    if (techType == "Original" & byCoord == TRUE){
+        try(if(is.null(imgDims)) 
+            stop("image dimensions must be specified to plot by coordinate")
+        )
+    }
+    
     
     ### Create plot
     p <- plotImage(grob, 
