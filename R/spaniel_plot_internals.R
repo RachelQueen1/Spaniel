@@ -84,11 +84,12 @@ makeGGDF <- function(object, plotType, colPlot, cl, techType, byCoord){
     ### Get Metadata and Coodinates
     metaData <- getMetadata(object)
     if (techType == "Original" & byCoord == FALSE){
+        
         coordinates <- metaData[, c("x", "y")]
         ## reverse the order of the y coordinates
-        tmp$y <- 36 - tmp$y
+        coordinates$y <- 36 - coordinates$y
     }
-    if (techType == "Original" | byCoord == TRUE){
+    if (techType == "Original" & byCoord == TRUE){
         coordinates <- metaData[, c("pixel_x", "pixel_y")]
         colnames(coordinates) <- c("x", "y")
     }
@@ -143,7 +144,7 @@ plotImage <- function(grob, tmp, pointColour, pointSize, plotTitle = NULL,
     
     
     if (techType == "Original" & byCoord == FALSE){
-        p <- p + ggplot2::xlim(1, 33) +
+            p <- p + ggplot2::xlim(1, 33) +
             ggplot2::ylim(1, 35) +
             ggplot2::annotation_custom(grob, xmin = 1, xmax = 33, 
                                    ymin = 1, ymax = 35)
