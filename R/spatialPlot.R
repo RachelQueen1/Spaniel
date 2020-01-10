@@ -121,6 +121,12 @@ spanielPlot <- function (object,
     ### Validate object is either a Seurat or SCE object
     testObject(object)
     
+    if (techType == "Original" & byCoord == TRUE){
+        try(if(is.null(imgDims)) 
+            stop("image dimensions must be specified to plot by coordinate")
+        )
+    }
+    
     ### set title, colour column, and size column according to plotType
     colPlot = NULL
     ungroupVars(plotTitle,cl,sz,shp, showSizeLegend, colPlot) %=% 
@@ -141,7 +147,8 @@ spanielPlot <- function (object,
                     colPlot, 
                     cl, 
                     techType, 
-                    byCoord)
+                    byCoord, 
+                    imgDims)
     
     
     ### Update tmp optional arguments if supplied
@@ -160,11 +167,7 @@ spanielPlot <- function (object,
         imgDims <- metadata(sce)$ImgDims
     }
     
-    if (techType == "Original" & byCoord == TRUE){
-        try(if(is.null(imgDims)) 
-            stop("image dimensions must be specified to plot by coordinate")
-        )
-    }
+    
     
     
     ### Create plot

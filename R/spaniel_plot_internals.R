@@ -79,7 +79,7 @@ setVars <- function(object,
 # Create ggplot df for each plot type
 # ------------------------------------------------------------------------------
 ### Make a generic function for all 4 plot types
-makeGGDF <- function(object, plotType, colPlot, cl, techType, byCoord){
+makeGGDF <- function(object, plotType, colPlot, cl, techType, byCoord, imgDims){
     
     ### Get Metadata and Coodinates
     metaData <- getMetadata(object)
@@ -90,12 +90,14 @@ makeGGDF <- function(object, plotType, colPlot, cl, techType, byCoord){
         coordinates$y <- 36 - coordinates$y
     }
     if (techType == "Original" & byCoord == TRUE){
+        
         coordinates <- metaData[, c("pixel_x", "pixel_y")]
+        ## reverse the order of the pixel coordinates
+        coordinates$pixel_y <- imgDims[2] - coordinates$pixel_y
         colnames(coordinates) <- c("x", "y")
     }
-    
-    
-    if (techType == "Visium" | byCoord == TRUE){
+    if (techType == "Visium" & byCoord == TRUE){
+        
         coordinates <- metaData[, c("pixel_x", "pixel_y")]
         colnames(coordinates) <- c("x", "y")
     }
