@@ -37,6 +37,7 @@ RoxygenNote: 6.1.1.9000
 Collate: 
     'utilities.R'
     'addClusterCols.R'
+    'add_coordinates.R'
     'parseImage.R'
     'readData.R'
     'removeSpots.R'

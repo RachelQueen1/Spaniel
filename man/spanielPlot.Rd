@@ -4,13 +4,19 @@
 \alias{spanielPlot}
 \title{Spatial Transcriptomics Plot}
 \usage{
-spanielPlot(object, grob, plotType = c("NoGenes",
-                                            "CountsPerSpot",
-                                            "Cluster",
-                                            "Gene"),
-                gene= NULL, clusterRes = NULL, customTitle = NULL,
-                scaleData = TRUE, showFilter = NULL, ptSize = 2,
-                ptSizeMin = 0, ptSizeMax = 5)
+spanielPlot(object, grob = NULL, techType = "Original", 
+ byCoord = FALSE, imgDims = NULL, plotType = c("NoGenes", 
+              "CountsPerSpot", 
+              "Cluster", 
+              "Gene"),
+               gene= NULL, 
+               clusterRes = NULL, 
+               customTitle = NULL,
+               scaleData = TRUE, 
+               showFilter = NULL, 
+               ptSize = 2,
+               ptSizeMin = 0, 
+               ptSizeMax = 5)
 }
 \arguments{
 \item{object}{Either a Seurat object (version 3) or a SingleCellExperiment 
