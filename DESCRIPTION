@@ -14,19 +14,22 @@ Description: Spaniel includes a series of tools to aid the quality control and
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Depends: R (>= 3.6),
-         Seurat,
+Depends: R (>= 3.6)
+Imports: Seurat,
          SingleCellExperiment,
          SummarizedExperiment,
-         dplyr
-Imports: methods,
+         dplyr,
+         methods,
          ggplot2,
-         scater (>= 1.13.27),
+         scater (>= 1.13),
          shiny,
          jpeg,
          magrittr,
          utils,
-         S4Vectors
+         S4Vectors,
+         DropletUtils,
+         jsonlite,
+         png
 Suggests: 
     knitr,
     rmarkdown,
@@ -38,6 +41,7 @@ Collate:
     'utilities.R'
     'addClusterCols.R'
     'add_coordinates.R'
+    'imports.R'
     'parseImage.R'
     'readData.R'
     'removeSpots.R'
