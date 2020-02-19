@@ -110,20 +110,11 @@ spanielPlot <- function (object,
     ungroupVars(plotTitle,cl,sz,shp, showSizeLegend, colPlot) %=% 
         setVars(object, plotType, ptSize, gene, clusterRes)
     
-<<<<<<< Updated upstream:R/spatialPlot.R
-    # convert shp NULL
-    if(shp == "NULL"){shp = NULL}
-    # convert size legend to logical
-        showSizeLegend = ifelse(showSizeLegend == "TRUE", TRUE, FALSE)
-    # convert sz to numeric
-    if (!is.na(as.numeric(sz))){
-        sz = as.numeric(sz)
-    }
-=======
+
     shp <- convertIfNULL(shp)
     showSizeLegend <- convertIfTRUE(showSizeLegend)
     sz <- convertSize(sz)
->>>>>>> Stashed changes:R/spanielPlot.R
+
     
     ### create data.frame for ggplot
     tmp <- makeGGDF(object, plotType, colPlot, cl)
