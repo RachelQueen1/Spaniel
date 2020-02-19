@@ -1,10 +1,10 @@
 ---
-title: "Spaniel 10X Visium"
+title: "Spaniel 10X Visium Import"
 author: "Rachel Queen"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
-vignette: 
-    %\VignetteIndexEntry{Visium Spaniel}
+vignette: >
+    %\VignetteIndexEntry{10X Visium Import}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
 ---
@@ -29,36 +29,29 @@ BiocManager::install('Spaniel')
 
 ```
 
-### Spaniel - with 10X import option
 
-This vignette refers to a development version of Spaniel (version 1.2) designed to import data from a 10X Genomics Visium experiment.  
-This version will be tested and pushed to Bioconductor early in the new year (January 2020). In the meantime, if you would like to test the features described in this vignette you can install a development Spaniel (version 1.2) using the following command:
 
 
 ```{r install_dev, eval = FALSE}
+
+### Spaniel - with 10X import option
+
+# This vignette refers to a development version of Spaniel (version 1.2) designed to import data from a 10X Genomics Visium experiment.  
+# This version will be tested and pushed to Bioconductor early in the new year (January 2020). In the meantime, if you would like to test the features described in this vignette you can install a development Spaniel (version 1.2) using the following command:
+
 
 devtools::install_github("RachelQueen1/Spaniel", ref = "Dev" )
 
 
 ```
 
-```
 
 
 ```{r, load libraries}
 library(Spaniel)
 library(DropletUtils)
 library(scater)
-
 ```
-
-=======
-
-
-```
-
-
-
 
 ## Data
 
@@ -153,8 +146,8 @@ sce <- logNormCounts(sce)
 
 gene <- "ENSMUSG00000024843"
 p2 <- spanielPlot(object = sce,
-        plotType = "Gene", 
-        gene = "ENSMUSG00000024843",
+        plotType = "Gene", gene = gene,
+        showFilter = NULL, 
         techType = "Visium", 
         ptSizeMax = 3)
 

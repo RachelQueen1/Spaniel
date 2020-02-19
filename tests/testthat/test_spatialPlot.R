@@ -9,10 +9,10 @@ plotType = "Cluster"
 clusterRes = "cluster_RNA_snn_res.0.6"
 
 test.p <- spanielPlot(object, 
-                    grob, 
-                    plotType,
-                    gene =NULL,
-                    clusterRes)
+                      grob =grob, 
+                      plotType= plotType,
+                      gene =NULL,
+                      clusterRes = clusterRes)
 
 test_that("spanielPlot creates a plot", {
     expect_is(test.p, "ggplot")
