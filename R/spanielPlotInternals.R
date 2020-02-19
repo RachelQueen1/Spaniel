@@ -75,15 +75,96 @@ setVars <- function(object,
 }
 
 
+# Convert Shape and Size if Null
 
-# Create ggplot df for each plot type
+convertIfNULL <- function(x){
+  # convert shp NULL
+  if(x == "NULL"){x = NULL}
+  return(x)}
+
+# Convert ShowSizeFactor if "TRUE"
+convertIfTRUE <- function(y){
+  y = ifelse(y == "TRUE", TRUE, FALSE)
+  return(y)
+}
+
+
+# Convert size if not equal to character
+convertSize <- function(sz){
+  if (suppressWarnings(!is.na(as.numeric(sz)))){
+  sz = as.numeric(sz)
+  }
+  return(sz)
+}
+
+
+
+# Make Coordinates
 # ------------------------------------------------------------------------------
+<<<<<<< Updated upstream:R/spaniel_plot_internals.R
 ### Make a generic function for all 4 plot types
 makeGGDF <- function(object, plotType, colPlot, cl){
     
     ### Get Metadata and Coodinates
     metaData <- getMetadata(object)
     coordinates <- metaData[, c("x", "y")]
+=======
+###
+makeCoordinates <- function(metaData, techType, byCoord, imgDims){
+    
+    if (techType == "Original" & byCoord == FALSE){
+        
+        coordinates <- metaData[, c("x", "y")]
+        ## reverse the order of the y coordinates
+        coordinates$y <- 36 - coordinates$y
+    }
+    if (techType == "Original" & byCoord == TRUE){
+        coordinates <- metaData[, c("pixel_x", "pixel_y")]
+        ## reverse the order of the pixel coordinates
+        coordinates$pixel_y <- imgDims[2] - coordinates$pixel_y
+        colnames(coordinates) <- c("x", "y")
+    }
+    if (techType == "Visium"){
+        coordinates <- metaData[, c("pixel_x", "pixel_y")]
+        colnames(coordinates) <- c("x", "y")
+    }
+    return(coordinates)
+}
+
+
+# Point Range
+# ------------------------------------------------------------------------------
+###
+
+pointRange <- function(techType, byCoord, imgDims){
+    
+    if (techType == "Original" & byCoord == FALSE){
+            x_min <- y_min <- 1
+            x_max <- 33
+            y_max <- 35
+            
+    }
+
+    if (techType == "Visium" | byCoord == TRUE){
+        x_min <- y_min <- 0
+        x_max <- as.numeric(imgDims[2])
+        y_max <- as.numeric(imgDims[1])
+    
+    }
+    return(c(x_min, x_max, y_min, y_max))
+}
+
+
+
+# Create ggplot df for each plot type
+# ------------------------------------------------------------------------------
+### Make a generic function for all 4 plot types
+makeGGDF <- function(object, plotType, colPlot, cl, techType, byCoord, imgDims){
+    
+    ### Get Metadata and Coodinates
+    metaData <- getMetadata(object)
+    coordinates <- makeCoordinates(metaData, techType, byCoord)
+>>>>>>> Stashed changes:R/spanielPlotInternals.R
     coordinates$spot <- rownames(metaData)
     
     if (plotType == "Gene"){
@@ -123,6 +204,7 @@ plotImage <- function(grob, tmp, pointColour, pointSize, plotTitle = NULL,
                         ){
     p <- ggplot2::ggplot(tmp ,ggplot2::aes_string("x", "y", 
                                                   color = pointColour, 
+<<<<<<< Updated upstream:R/spaniel_plot_internals.R
                                                   size = pointSize)) +
         ggplot2::xlim(1, 33) +
         ggplot2::ylim(1, 35) +
@@ -131,6 +213,25 @@ plotImage <- function(grob, tmp, pointColour, pointSize, plotTitle = NULL,
         ggplot2::geom_point(alpha = 0.6)  +
         ggplot2::labs(title = plotTitle) +
         ggplot2::theme(axis.title.x=ggplot2::element_blank(),
+=======
+                                                  size = pointSize)) 
+    ## get min and max coordinates for plotting
+    plotDims <- pointRange(techType, 
+                           byCoord, 
+                           imgDims)
+    
+    ungroupVars(x_min,x_max,y_min,y_max) %=% 
+        plotDims
+    
+    p <- p + ggplot2::xlim(x_min, x_max) +
+        ggplot2::ylim(y_min, y_max) +
+        ggplot2::annotation_custom(grob, xmin = x_min, xmax = x_max,
+                                   ymin = y_min, ymax = y_max)
+      ## add theme to plot
+    p <- p + ggplot2::geom_point(alpha = 0.6)  +
+                ggplot2::labs(title = plotTitle) +
+                ggplot2::theme(axis.title.x=ggplot2::element_blank(),
+>>>>>>> Stashed changes:R/spanielPlotInternals.R
                         axis.text.x=ggplot2::element_blank(),
                         axis.ticks.x=ggplot2::element_blank(),
                         axis.title.y=ggplot2::element_blank(),
@@ -145,4 +246,7 @@ plotImage <- function(grob, tmp, pointColour, pointSize, plotTitle = NULL,
     p + ggplot2::guides(color = ggplot2::guide_legend(), 
                         size = ggplot2::guide_legend())
 }
+
+
+
 
