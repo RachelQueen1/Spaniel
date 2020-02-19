@@ -145,7 +145,7 @@ pointRange <- function(techType, byCoord, imgDims){
     return(c(x_min, x_max, y_min, y_max))
 }
 
-
+utils::globalVariables(c("x_min", "x_max", "y_min", "y_max"))
 
 # Create ggplot df for each plot type
 # ------------------------------------------------------------------------------

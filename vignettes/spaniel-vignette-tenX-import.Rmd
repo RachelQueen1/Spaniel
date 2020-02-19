@@ -42,8 +42,6 @@ devtools::install_github("RachelQueen1/Spaniel", ref = "Dev" )
 
 ```
 
-```
-
 
 ```{r, load libraries}
 library(Spaniel)
@@ -51,13 +49,6 @@ library(DropletUtils)
 library(scater)
 
 ```
-
-=======
-
-
-```
-
-
 
 
 ## Data
@@ -77,7 +68,8 @@ The output from from the "spaceranger testrun" is used as an example here.
 Spaniel can directly load the output from SpaceRanger output using the createVisiumSCE function. This imports the gene expression data, spatial barcodes, and image dimensions into the SingleCellExperiment object. 
 
 ```{r counts}
-pathToTenXOuts <- file.path(system.file(package = "Spaniel"), "extData/outs")
+pathToTenXOuts <- file.path(system.file(package = "Spaniel"), "extdata/outs")
+
 sce <- createVisiumSCE(tenXDir=pathToTenXOuts, 
                             resolution="Low")
 

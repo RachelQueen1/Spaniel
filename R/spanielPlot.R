@@ -159,8 +159,8 @@ spanielPlot <- function (object,
     
     ### TO DO! add in option for seurat object
     if (techType == "Visium"){
-        grob <- metadata(sce)$Grob
-        imgDims <- metadata(sce)$ImgDims
+        grob <- S4Vectors::metadata(object)$Grob
+        imgDims <- S4Vectors::metadata(object)$ImgDims
     }
     
     

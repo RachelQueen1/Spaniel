@@ -29,6 +29,7 @@ BiocManager::install('Spaniel')
 ```{r, load libraries}
 library(Spaniel)
 library(Seurat)
+library(SingleCellExperiment)
 ```
 
 ## Load data

@@ -1,4 +1,4 @@
-#'@import Seurat
+#'@rawNamespace import(Seurat, except = "Assays")
 #'@import SingleCellExperiment
 #'@import SummarizedExperiment
 

@@ -17,7 +17,8 @@ Can be either "High", or "Low". Default is "Low".}
 A function to select to import 10X data into an SCE object
 }
 \examples{
-sce <- createVisiumSCE(tenXDir, resolution)
+tenXDir <- file.path(system.file(package = "Spaniel"), "extdata/outs")
+sce <- createVisiumSCE(tenXDir, resolution = "Low")
 
 
 }

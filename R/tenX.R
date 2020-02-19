@@ -33,7 +33,7 @@ read10XBarcodes <- function(spatialDir, imageDims, resolution){
 
 
 parseVisumImage <-  function(imgFile) {
-    img <- png::readJPEG(imgFile)
+    img <- png::readPNG(imgFile)
     g <-grid::rasterGrob(
         img,
         interpolate = FALSE,
@@ -52,7 +52,8 @@ parseVisumImage <-  function(imgFile) {
 #' @param resolution Resolution of the tissue image to be used for plotting. 
 #' Can be either "High", or "Low". Default is "Low".
 #' @examples
-#' sce <- createVisiumSCE(tenXDir, resolution)
+#' tenXDir <- file.path(system.file(package = "Spaniel"), "extdata/outs")
+#' sce <- createVisiumSCE(tenXDir, resolution = "Low")
 #' 
 #' 
 #' @export
@@ -88,7 +89,7 @@ createVisiumSCE <- function(tenXDir="../outs",
     sce@colData <- sce@colData %>% 
         data.frame() %>% 
         left_join(barcodes) %>% 
-        DataFrame()
+      S4Vectors::DataFrame()
     
     ## add QC metrics to sce
     per.cell <- scater::perCellQCMetrics(sce)

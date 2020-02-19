@@ -5,7 +5,7 @@
 # ------------------------------------------------------------------------------
 
 
-pathToTenXOuts <- file.path(system.file(package = "Spaniel"), "extData/outs")
+pathToTenXOuts <- file.path(system.file(package = "Spaniel"), "extdata/outs")
 object <- createVisiumSCE(tenXDir=pathToTenXOuts, 
                        resolution="Low")
 
