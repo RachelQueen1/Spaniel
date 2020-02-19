@@ -101,14 +101,6 @@ convertSize <- function(sz){
 
 # Make Coordinates
 # ------------------------------------------------------------------------------
-<<<<<<< Updated upstream:R/spaniel_plot_internals.R
-### Make a generic function for all 4 plot types
-makeGGDF <- function(object, plotType, colPlot, cl){
-    
-    ### Get Metadata and Coodinates
-    metaData <- getMetadata(object)
-    coordinates <- metaData[, c("x", "y")]
-=======
 ###
 makeCoordinates <- function(metaData, techType, byCoord, imgDims){
     
@@ -135,7 +127,6 @@ makeCoordinates <- function(metaData, techType, byCoord, imgDims){
 # Point Range
 # ------------------------------------------------------------------------------
 ###
-
 pointRange <- function(techType, byCoord, imgDims){
     
     if (techType == "Original" & byCoord == FALSE){
@@ -164,7 +155,6 @@ makeGGDF <- function(object, plotType, colPlot, cl, techType, byCoord, imgDims){
     ### Get Metadata and Coodinates
     metaData <- getMetadata(object)
     coordinates <- makeCoordinates(metaData, techType, byCoord)
->>>>>>> Stashed changes:R/spanielPlotInternals.R
     coordinates$spot <- rownames(metaData)
     
     if (plotType == "Gene"){
@@ -204,16 +194,7 @@ plotImage <- function(grob, tmp, pointColour, pointSize, plotTitle = NULL,
                         ){
     p <- ggplot2::ggplot(tmp ,ggplot2::aes_string("x", "y", 
                                                   color = pointColour, 
-<<<<<<< Updated upstream:R/spaniel_plot_internals.R
-                                                  size = pointSize)) +
-        ggplot2::xlim(1, 33) +
-        ggplot2::ylim(1, 35) +
-        ggplot2::annotation_custom(grob, xmin = 1, xmax = 33, 
-                                    ymin = 1, ymax = 35) +
-        ggplot2::geom_point(alpha = 0.6)  +
-        ggplot2::labs(title = plotTitle) +
-        ggplot2::theme(axis.title.x=ggplot2::element_blank(),
-=======
+
                                                   size = pointSize)) 
     ## get min and max coordinates for plotting
     plotDims <- pointRange(techType, 
@@ -231,7 +212,6 @@ plotImage <- function(grob, tmp, pointColour, pointSize, plotTitle = NULL,
     p <- p + ggplot2::geom_point(alpha = 0.6)  +
                 ggplot2::labs(title = plotTitle) +
                 ggplot2::theme(axis.title.x=ggplot2::element_blank(),
->>>>>>> Stashed changes:R/spanielPlotInternals.R
                         axis.text.x=ggplot2::element_blank(),
                         axis.ticks.x=ggplot2::element_blank(),
                         axis.title.y=ggplot2::element_blank(),
