@@ -10,17 +10,20 @@
 #' been reduced in size after the coordinates were generated. For example if 
 #' the image to be used is 10 percent the size of the original factor
 #' scaleFactor = 10
+#'
 #' @return object
 #' @export
+#'
 #' @examples
+#' 
 #' ### load a Seurat Object 
 #' SeuratObj <- readRDS(file.path(system.file(package = "Spaniel"),
 #'                         "extdata/SeuratData.rds"))
 #' ### path to coordinates file exported from spot detector                        
 #' coordinatesFile <-  file.path(system.file(package = "Spaniel"),
 #'                         "spot_positions.tsv")                        
-#' SeuratObj <- addCoordinates(SeuratObj, coordinatesFile)                         
-
+#' SeuratObj <- addCoordinates(SeuratObj, coordinatesFile)  
+#' 
 addCoordinates <- function(object, coordinatesFile, scaleFactor = NULL){
     testObject(object)
     

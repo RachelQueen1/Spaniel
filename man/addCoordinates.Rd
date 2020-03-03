@@ -31,11 +31,13 @@ how to use Spot Detector can be found:
 https://github.com/SpatialTranscriptomicsResearch/st_spot_detector
 }
 \examples{
+
 ### load a Seurat Object 
 SeuratObj <- readRDS(file.path(system.file(package = "Spaniel"),
                         "extdata/SeuratData.rds"))
 ### path to coordinates file exported from spot detector                        
 coordinatesFile <-  file.path(system.file(package = "Spaniel"),
                         "spot_positions.tsv")                        
-SeuratObj <- addCoordinates(SeuratObj, coordinatesFile)                         
+SeuratObj <- addCoordinates(SeuratObj, coordinatesFile)  
+
 }

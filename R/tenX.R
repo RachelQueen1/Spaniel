@@ -51,6 +51,7 @@ parseVisumImage <-  function(imgFile) {
 #' directory and filtered_feature_bc_matric
 #' @param resolution Resolution of the tissue image to be used for plotting. 
 #' Can be either "High", or "Low". Default is "Low".
+#' @return SingleCellExperimentObject
 #' @examples
 #' tenXDir <- file.path(system.file(package = "Spaniel"), "extdata/outs")
 #' sce <- createVisiumSCE(tenXDir, resolution = "Low")

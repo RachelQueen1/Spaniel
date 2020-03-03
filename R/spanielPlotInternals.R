@@ -154,7 +154,7 @@ makeGGDF <- function(object, plotType, colPlot, cl, techType, byCoord, imgDims){
     
     ### Get Metadata and Coodinates
     metaData <- getMetadata(object)
-    coordinates <- makeCoordinates(metaData, techType, byCoord)
+    coordinates <- makeCoordinates(metaData, techType, byCoord, imgDims)
 
     coordinates$spot <- rownames(metaData)
     

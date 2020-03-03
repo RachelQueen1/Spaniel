@@ -13,6 +13,9 @@ directory and filtered_feature_bc_matric}
 \item{resolution}{Resolution of the tissue image to be used for plotting. 
 Can be either "High", or "Low". Default is "Low".}
 }
+\value{
+SingleCellExperimentObject
+}
 \description{
 A function to select to import 10X data into an SCE object
 }
