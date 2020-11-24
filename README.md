@@ -19,3 +19,25 @@ BiocManager::install("Spaniel")
 # View Vignette Online:
 
 https://bioconductor.org/packages/devel/bioc/vignettes/Spaniel/inst/doc/spaniel-vignette.html
+
+
+
+
+### Spaniel - with 10X import option
+
+The development version of Spaniel (version 1.2) designed to import data from a 10X Genomics Visium experiment.  
+This version will be tested and pushed to Bioconductor. In the meantime, if you would like to test the features described in this vignette you can install a development Spaniel (version 1.2) using the following command:
+
+
+```{r install_dev, eval = FALSE}
+
+devtools::install_github("RachelQueen1/Spaniel", ref = "Development" )
+
+
+```
+
+You can read more about the features in the development version here:
+
+https://github.com/RachelQueen1/Spaniel/tree/Development
+
+
