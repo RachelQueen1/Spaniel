@@ -135,7 +135,6 @@ spanielPlot <- function (object,
     shp <- convertIfNULL(shp)
     showSizeLegend <- convertIfTRUE(showSizeLegend)
     sz <- convertSize(sz)
-
    
     ### create data.frame for ggplot
     tmp <- makeGGDF(object, 
@@ -162,9 +161,6 @@ spanielPlot <- function (object,
         grob <- S4Vectors::metadata(object)$Grob
         imgDims <- S4Vectors::metadata(object)$ImgDims
     }
-    
-    
-    
     
     ### Create plot
     p <- plotImage(grob, 
