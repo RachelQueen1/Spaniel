@@ -37,7 +37,7 @@ This version will be tested and pushed to Bioconductor early in the new year (Ja
 
 ```{r install_dev, eval = FALSE}
 
-devtools::install_github("RachelQueen1/Spaniel", ref = "Dev" )
+devtools::install_github("RachelQueen1/Spaniel", ref = "Development" )
 
 
 ```
