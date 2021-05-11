@@ -120,7 +120,7 @@ createSCE <- function(counts,
     #     sce
     # )
     
-    sce <- scater::addQCPerCell(
+    sce <- scater::addPerCellQC(
         sce
     )
     
