@@ -17,3 +17,6 @@ parseImage <-  function(imgFile) {
     )
     return(g)
 }
+
+
+

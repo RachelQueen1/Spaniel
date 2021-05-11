@@ -1,48 +1,54 @@
 Package: Spaniel
 Type: Package
 Title: Spatial Transcriptomics Analysis
-Version: 1.5.0
+Version: 1.2.0
 Author: Rachel Queen <rachel.queen@newcastle.ac.uk>
 Maintainer: Rachel Queen <rachel.queen@newcastle.ac.uk>
 Description: Spaniel includes a series of tools to aid the quality control and 
-    analysis of Spatial Transcriptomics data. The package contains functions to 
-    create either a Seurat object or SingleCellExperiment from a count matrix
-    and spatial barcode file and provides a method of loading a histologial 
-    image into R. The spanielPlot function allows visualisation of metrics contained 
-    within the S4 object overlaid onto the image of the tissue. 
+    analysis of Spatial Transcriptomics data. Spaniel can import data from either the 
+    original Spatial Transcriptomics system or 10X Visium technology. 
+    The package contains functions to create a SingleCellExperiment Seurat object  and 
+    provides a method of loading a histologial image into R. The spanielPlot function 
+    allows visualisation of metrics contained within the S4 object overlaid onto the 
+    image of the tissue. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Depends: R (>= 3.6),
-         Seurat,
+Depends: R (>= 3.6)
+Imports: Seurat,
          SingleCellExperiment,
          SummarizedExperiment,
-         dplyr
-Imports: methods,
+         dplyr,
+         methods,
          ggplot2,
-         scater (>= 1.13.27),
+         scater (>= 1.13),
          shiny,
          jpeg,
          magrittr,
          utils,
-         S4Vectors
+         S4Vectors,
+         DropletUtils,
+         jsonlite,
+         png
 Suggests: 
     knitr,
     rmarkdown,
     testthat,
     devtools
 VignetteBuilder: knitr
-RoxygenNote: 6.1.1.9000
-Collate: 
-    'utilities.R'
-    'addClusterCols.R'
-    'parseImage.R'
-    'readData.R'
-    'removeSpots.R'
-    'spaniel_plot_internals.R'
-    'spatialPlot.R'
-    'shinySpaniel.R'
+RoxygenNote: 7.0.2
 biocViews: SingleCell, RNASeq, QualityControl, 
             Preprocessing, Normalization, Visualization, Transcriptomics, 
             GeneExpression, Sequencing, Software, DataImport,
             DataRepresentation, Infrastructure, Coverage, Clustering
+Collate: 
+    'utilities.R'
+    'addClusterCols.R'
+    'addCoordinates.R'
+    'createObjects.R'
+    'parseImage.R'
+    'removeSpots.R'
+    'spanielPlotInternals.R'
+    'spanielPlot.R'
+    'shinySpaniel.R'
+    'tenX.R'

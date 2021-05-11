@@ -1,5 +1,5 @@
 #' @include addClusterCols.R
-#' @include spatialPlot.R
+#' @include spanielPlot.R
 #' @import shiny
 #'
 NULL

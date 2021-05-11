@@ -2,6 +2,8 @@
 #'@import methods
 #'@import dplyr
 #'@importFrom utils read.csv
+#'@importFrom utils globalVariables
+
 
 ### get expression data
 getExprs <- function(object){

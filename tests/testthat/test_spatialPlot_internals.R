@@ -1,4 +1,4 @@
-#' @include spaniel_plot_internals.R
+#' @include spanielPlotInternals.R
 #' @include utilities.R
 
 # Tests for functions used by Spatial Plot internal functions
@@ -130,7 +130,13 @@ plotType <- "CountsPerSpot"
 colPlot <- colnames(object@meta.data)[2]
 cl <- "Exprs"
 
-testTmp <- makeGGDF(object, plotType, colPlot, cl)
+testTmp <- makeGGDF(object, 
+                    plotType, 
+                    colPlot, 
+                    cl,
+                    techType = "Original", 
+                    byCoord = FALSE, 
+                    imgDims = NULL )
 
 test_that("setVars sets the correct variables", {
     expect_is(testTmp, "data.frame")
@@ -143,7 +149,13 @@ plotType <- "Gene"
 colPlot <- rownames(object)[2]
 cl <- "Exprs"
 
-testTmp <- makeGGDF(object, plotType, colPlot, cl)
+testTmp <- makeGGDF(object, 
+                    plotType, 
+                    colPlot, 
+                    cl, 
+                    techType = "Original", 
+                    byCoord = FALSE, 
+                    imgDims = NULL)
 
 test_that("setVars sets the correct variables", {
     expect_is(testTmp, "data.frame")
@@ -166,7 +178,10 @@ testPlot <- plotImage(grob = grid::roundrectGrob(),
                        tmp = testCood, 
                        pointColour = "plotCols", 
                        pointSize = "plotSize",
-                       plotTitle = "Title")
+                       plotTitle = "Title",
+                      techType = "Original", 
+                      byCoord = FALSE, 
+                      imgDims = NULL)
 
 test_that("plotImages test plotting function", {
     expect_is(testPlot , c("gg","ggplot"))
