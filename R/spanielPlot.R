@@ -67,10 +67,16 @@ NULL
 #'             plotType = "Gene", 
 #'             gene = "ENSMUSG00000024843",
 #'             techType = "Visium", 
-#'             ptSizeMax = 3)
-
-
-
+#'             ptSizeMax = 3,
+#'             grob = NULL,
+#'             byCoord = FALSE,
+#'             imgDims = NULL,
+#'             clusterRes = NULL,
+#'             customTitle = NULL,
+#'             scaleData =TRUE, 
+#'             showFilter = NULL, 
+#'             ptSize = 2, 
+#'             ptSizeMin = 0)
 # Main Spaniel Plot Function
 # ------------------------------------------------------------------------------
 spanielPlot <- function (object, 
