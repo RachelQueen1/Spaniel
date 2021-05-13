@@ -23,13 +23,10 @@ NULL
 #' ## mark the columns of metadata/colData that contain clustering 
 #' ## information see ?markClusterCol for more details#'  
 #' sObj <-  readRDS(file.path(system.file(package = "Spaniel"),
-#'                     "extdata/SeuratData.rds"))
-#' sObj <- markClusterCol(sObj, "res")
+#'                     "extdata/sceData.rds"))
 #' 
-#' ### parse background image
-#' imgFile <- file.path(system.file(package = "Spaniel"),
-#'             "HE_Rep1_resized.jpg")
-#' img <- parseImage(imgFile)
+#' img <- readRDS(file.path(system.file(package = "Spaniel"),
+#'                     "extdata/image.rds"))
 #' 
 #' ## run shinySpaniel (upload data.rds and image.rds in the shiny app)
 #' ## Not Run:

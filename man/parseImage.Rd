@@ -19,6 +19,6 @@ This function parses a HE image to use as the background for plots
 }
 \examples{
 imgFile <- file.path(system.file(package = "Spaniel"),
-                    "HE_Rep1_resized.jpg")
+                    "extdata/outs/spatial/tissue_lowres_image.png")
 img <- parseImage(imgFile, imgType = "png")
 }
