@@ -1,5 +1,7 @@
 #'@importFrom magrittr %>%
 #'@import methods
+#'@import scran
+#'@import igraph
 #'@import dplyr
 #'@importFrom utils read.csv
 #'@importFrom utils globalVariables

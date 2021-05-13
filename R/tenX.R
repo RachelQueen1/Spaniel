@@ -70,7 +70,7 @@ createVisiumSCE <- function(tenXDir="../outs",
     ### parse image, create grob and get image dimensions
     spatialDir =  file.path(tenXDir, "spatial")
     img <- getImage(spatialDir, resolution)
-    imgageDims <- dim(img)[1:2]
+    imgageDims <- dim(img)[c(1,2)]
     grob <-grid::rasterGrob(
         img,
         interpolate = FALSE,
