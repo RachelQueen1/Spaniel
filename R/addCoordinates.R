@@ -16,13 +16,13 @@
 #'
 #' @examples
 #' 
-#' ### load a Seurat Object 
-#' SeuratObj <- readRDS(file.path(system.file(package = "Spaniel"),
-#'                         "extdata/SeuratData.rds"))
+#' ### load a SingleCellExperiment Object 
+#' sceObj <- readRDS(file.path(system.file(package = "Spaniel"),
+#'                         "extdata/sceData.rds"))
 #' ### path to coordinates file exported from spot detector                        
 #' coordinatesFile <-  file.path(system.file(package = "Spaniel"),
 #'                         "spot_positions.tsv")                        
-#' SeuratObj <- addCoordinates(SeuratObj, coordinatesFile)  
+#' sceObj <- addCoordinates(sceObj, coordinatesFile)  
 #' 
 addCoordinates <- function(object, coordinatesFile, scaleFactor = NULL){
     testObject(object)
@@ -56,7 +56,7 @@ addCoordinates <- function(object, coordinatesFile, scaleFactor = NULL){
         object$x_y <- paste0(colData(object)$x, "_", colData(object)$y)
         md <- colData(object) %>% data.frame %>% left_join(coordinates)
         rownames(md) <- colnames(object)
-        md <- md %>% S4Vectors::DataFrame
+        md <-S4Vectors::DataFrame(md)
         colData(object) <- md
         colData(object)$selected[is.na(colData(object)$selected)] <- 0
         

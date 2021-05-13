@@ -3,8 +3,8 @@ title: "Spaniel 10X Visium"
 author: "Rachel Queen"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
-vignette: 
-    %\VignetteIndexEntry{Visium Spaniel}
+vignette: >
+    %\VignetteIndexEntry{Spaniel 10X Visium}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
 ---
@@ -20,7 +20,7 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE, include = TRUE,
 ## About Spaniel
 
 Spaniel is an R package designed to visualise results of Spatial Transcriptomics
-experiments. The current stable (or kennel!) version of Spaniel (1.1.0) is available from Bioconductor:
+experiments. The current stable (or kennel!) version of Spaniel is available from Bioconductor:
 
 ```{r install, eval = FALSE}
 
@@ -31,22 +31,13 @@ BiocManager::install('Spaniel')
 
 ### Spaniel - with 10X import option
 
-This vignette refers to a development version of Spaniel (version 1.2) designed to import data from a 10X Genomics Visium experiment.  
-This version will be tested and pushed to Bioconductor early in the new year (January 2020). In the meantime, if you would like to test the features described in this vignette you can install a development Spaniel (version 1.2) using the following command:
-
-
-```{r install_dev, eval = FALSE}
-
-devtools::install_github("RachelQueen1/Spaniel", ref = "Development" )
-
-
-```
-
+This vignette refers uses data from a 10X Genomics Visium experiment. 
 
 ```{r, load libraries}
 library(Spaniel)
 library(DropletUtils)
 library(scater)
+library(scran)
 
 ```
 
@@ -154,4 +145,43 @@ p2
 
 ```
 
+## Cluster Spots
+
+The spots can be clustered based on transcriptomic similarities. 
+There are mulitple single cell clustering methods available. 
+He we use a nearest-neighbor graph based approach available in the 
+scrna Bioconductor library.
+
+
+```{r}
+library(scran)
+sce <- logNormCounts(sce)
+sce <- runPCA(sce)
+sce <- runUMAP(sce)
+g <- buildSNNGraph(sce, k = 70)
+
+clust <- igraph::cluster_walktrap(g)$membership
+sce$clust <- factor(clust)
+```
+
+These clusters can be visualised on a UMAP plot:
+
+```{r}
+
+p3 <- plotReducedDim(sce, "UMAP", colour_by="clust") 
+p3
+```
+
+Or overlaid onto the the tissue section using Spaniel
+
+```{r}
+p4 <- spanielPlot(object = sce,
+        plotType = "Cluster", 
+        clusterRes = "clust",
+        showFilter = NULL, 
+        techType = "Visium", 
+        ptSizeMax = 1, customTitle = "Section A")  
+
+p4
+```
 

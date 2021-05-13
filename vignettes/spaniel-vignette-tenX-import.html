@@ -12,9 +12,9 @@
 
 <meta name="author" content="Rachel Queen" />
 
-<meta name="date" content="2020-11-24" />
+<meta name="date" content="2021-05-12" />
 
-<title>Spaniel 10X Visium Import</title>
+<title>Spaniel 10X Visium</title>
 
 
 
@@ -299,9 +299,9 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<h1 class="title toc-ignore">Spaniel 10X Visium Import</h1>
+<h1 class="title toc-ignore">Spaniel 10X Visium</h1>
 <h4 class="author">Rachel Queen</h4>
-<h4 class="date">2020-11-24</h4>
+<h4 class="date">2021-05-12</h4>
 
 
 
@@ -309,16 +309,15 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h2>About Spaniel</h2>
 <p>Spaniel is an R package designed to visualise results of Spatial Transcriptomics experiments. The current stable (or kennel!) version of Spaniel (1.1.0) is available from Bioconductor:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">BiocManager<span class="op">::</span><span class="kw">install</span>(<span class="st">&#39;Spaniel&#39;</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="co">### Spaniel - with 10X import option</span></a>
-<a class="sourceLine" id="cb2-2" title="2"></a>
-<a class="sourceLine" id="cb2-3" title="3"><span class="co"># This vignette refers to a development version of Spaniel (version 1.2) designed to import data from a 10X Genomics Visium experiment.  </span></a>
-<a class="sourceLine" id="cb2-4" title="4"><span class="co"># This version will be tested and pushed to Bioconductor. In the meantime, if you would like to test the features described in this vignette you can install a development Spaniel (version 1.2) using the following command:</span></a>
-<a class="sourceLine" id="cb2-5" title="5"></a>
-<a class="sourceLine" id="cb2-6" title="6"></a>
-<a class="sourceLine" id="cb2-7" title="7">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;RachelQueen1/Spaniel&quot;</span>, <span class="dt">ref =</span> <span class="st">&quot;Development&quot;</span> )</a></code></pre></div>
+<div id="spaniel---with-10x-import-option" class="section level3">
+<h3>Spaniel - with 10X import option</h3>
+<p>This vignette refers to a development version of Spaniel (version 1.2) designed to import data from a 10X Genomics Visium experiment.<br />
+This version will be tested and pushed to Bioconductor early in the new year (January 2020). In the meantime, if you would like to test the features described in this vignette you can install a development Spaniel (version 1.2) using the following command:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;RachelQueen1/Spaniel&quot;</span>, <span class="dt">ref =</span> <span class="st">&quot;Development&quot;</span> )</a></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">library</span>(Spaniel)</a>
 <a class="sourceLine" id="cb3-2" title="2"><span class="kw">library</span>(DropletUtils)</a>
 <a class="sourceLine" id="cb3-3" title="3"><span class="kw">library</span>(scater)</a></code></pre></div>
+</div>
 </div>
 <div id="data" class="section level2">
 <h2>Data</h2>
@@ -328,9 +327,10 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div id="import-the-expression-data" class="section level3">
 <h3>Import the expression data</h3>
 <p>Spaniel can directly load the output from SpaceRanger output using the createVisiumSCE function. This imports the gene expression data, spatial barcodes, and image dimensions into the SingleCellExperiment object.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">pathToTenXOuts &lt;-<span class="st"> </span><span class="kw">file.path</span>(<span class="kw">system.file</span>(<span class="dt">package =</span> <span class="st">&quot;Spaniel&quot;</span>), <span class="st">&quot;extData/outs&quot;</span>)</a>
-<a class="sourceLine" id="cb4-2" title="2">sce &lt;-<span class="st"> </span><span class="kw">createVisiumSCE</span>(<span class="dt">tenXDir=</span>pathToTenXOuts, </a>
-<a class="sourceLine" id="cb4-3" title="3">                            <span class="dt">resolution=</span><span class="st">&quot;Low&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">pathToTenXOuts &lt;-<span class="st"> </span><span class="kw">file.path</span>(<span class="kw">system.file</span>(<span class="dt">package =</span> <span class="st">&quot;Spaniel&quot;</span>), <span class="st">&quot;extdata/outs&quot;</span>)</a>
+<a class="sourceLine" id="cb4-2" title="2"></a>
+<a class="sourceLine" id="cb4-3" title="3">sce &lt;-<span class="st"> </span><span class="kw">createVisiumSCE</span>(<span class="dt">tenXDir=</span>pathToTenXOuts, </a>
+<a class="sourceLine" id="cb4-4" title="4">                            <span class="dt">resolution=</span><span class="st">&quot;Low&quot;</span>)</a></code></pre></div>
 </div>
 <div id="sce-object" class="section level3">
 <h3>SCE Object</h3>
@@ -380,8 +380,8 @@ The filter thresholds will be experiment specific and should be adjusted as nece
 <a class="sourceLine" id="cb13-2" title="2"></a>
 <a class="sourceLine" id="cb13-3" title="3">gene &lt;-<span class="st"> &quot;ENSMUSG00000024843&quot;</span></a>
 <a class="sourceLine" id="cb13-4" title="4">p2 &lt;-<span class="st"> </span><span class="kw">spanielPlot</span>(<span class="dt">object =</span> sce,</a>
-<a class="sourceLine" id="cb13-5" title="5">        <span class="dt">plotType =</span> <span class="st">&quot;Gene&quot;</span>, <span class="dt">gene =</span> gene,</a>
-<a class="sourceLine" id="cb13-6" title="6">        <span class="dt">showFilter =</span> <span class="ot">NULL</span>, </a>
+<a class="sourceLine" id="cb13-5" title="5">        <span class="dt">plotType =</span> <span class="st">&quot;Gene&quot;</span>, </a>
+<a class="sourceLine" id="cb13-6" title="6">        <span class="dt">gene =</span> <span class="st">&quot;ENSMUSG00000024843&quot;</span>,</a>
 <a class="sourceLine" id="cb13-7" title="7">        <span class="dt">techType =</span> <span class="st">&quot;Visium&quot;</span>, </a>
 <a class="sourceLine" id="cb13-8" title="8">        <span class="dt">ptSizeMax =</span> <span class="dv">3</span>)</a>
 <a class="sourceLine" id="cb13-9" title="9"></a>
