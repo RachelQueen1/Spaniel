@@ -23,6 +23,7 @@ Imports: Seurat,
          ggplot2,
          scater (>= 1.13),
          scran,
+         igraph,
          shiny,
          jpeg,
          magrittr,
@@ -37,7 +38,6 @@ Suggests:
     testthat,
     devtools
 VignetteBuilder: knitr
-RoxygenNote: 7.0.2
 biocViews: SingleCell, RNASeq, QualityControl, 
             Preprocessing, Normalization, Visualization, Transcriptomics, 
             GeneExpression, Sequencing, Software, DataImport,
@@ -53,3 +53,4 @@ Collate:
     'spanielPlot.R'
     'shinySpaniel.R'
     'tenX.R'
+RoxygenNote: 7.1.1

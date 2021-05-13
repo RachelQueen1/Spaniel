@@ -22,9 +22,9 @@ A function to filter spots from analysis. It requires selectSpots to be
 run first.
 }
 \examples{
-seuratObj <- readRDS(file.path(system.file(package = "Spaniel"),
-                        "extdata/SeuratData.rds"))
+sceObj <- readRDS(file.path(system.file(package = "Spaniel"),
+                        "extdata/sceData.rds"))
 toRemove <- file.path(system.file(package = "Spaniel"),
                         "points_to_remove.txt")
-sObjFiltered <- removeSpots(sObj = seuratObj, pointsToRemove = toRemove)
+sceObj_filtered <- removeSpots(sObj = sceObj, pointsToRemove = toRemove)
 }

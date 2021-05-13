@@ -13,9 +13,9 @@ NULL
 #' @param pattern pattern indicating which columns contain cluster information
 #' @return A Seurat or SCE object
 #' @examples 
-#' SeuratObj <- readRDS(file.path(system.file(package = "Spaniel"), 
-#'                                 "extdata/SeuratData.rds"))
-#' SeuratObj <- markClusterCol(SeuratObj, "res")
+#' sceObj <- readRDS(file.path(system.file(package = "Spaniel"),
+#'                         "extdata/sceData.rds"))
+#' sceObj <- markClusterCol(sceObj, "res")
 #' @export
 markClusterCol <- function(object, pattern) {
     metaData <- getMetadata(object)

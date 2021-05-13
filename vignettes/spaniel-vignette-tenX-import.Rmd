@@ -150,7 +150,7 @@ p2
 The spots can be clustered based on transcriptomic similarities. 
 There are mulitple single cell clustering methods available. 
 He we use a nearest-neighbor graph based approach available in the 
-scrna Bioconductor library.
+scran Bioconductor library.
 
 
 ```{r}

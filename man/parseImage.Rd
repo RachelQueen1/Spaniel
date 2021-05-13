@@ -4,10 +4,12 @@
 \alias{parseImage}
 \title{This function parses a HE image to use as the background for plots}
 \usage{
-parseImage(imgFile)
+parseImage(imgFile, imgType = "jpg")
 }
 \arguments{
 \item{imgFile}{Path to the image file}
+
+\item{imgType}{Type of image options jpg (default), png}
 }
 \value{
 A rasterized grob
@@ -18,5 +20,5 @@ This function parses a HE image to use as the background for plots
 \examples{
 imgFile <- file.path(system.file(package = "Spaniel"),
                     "HE_Rep1_resized.jpg")
-img <- parseImage(imgFile)
+img <- parseImage(imgFile, imgType = "png")
 }

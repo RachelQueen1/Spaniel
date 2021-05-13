@@ -4,19 +4,11 @@
 \alias{spanielPlot}
 \title{Spatial Transcriptomics Plot}
 \usage{
-spanielPlot(object, grob = NULL, techType = "Original", 
- byCoord = FALSE, imgDims = NULL, plotType = c("NoGenes", 
-              "CountsPerSpot", 
-              "Cluster", 
-              "Gene"),
-               gene= NULL, 
-               clusterRes = NULL, 
-               customTitle = NULL,
-               scaleData = TRUE, 
-               showFilter = NULL, 
-               ptSize = 2,
-               ptSizeMin = 0, 
-               ptSizeMax = 5)
+spanielPlot(object = sceObj,
+            plotType = "Gene", 
+            gene = "ENSMUSG00000024843",
+            techType = "Visium", 
+            ptSizeMax = 3)
 }
 \arguments{
 \item{object}{Either a Seurat object (version 3) or a SingleCellExperiment 
@@ -85,29 +77,12 @@ c) clustering results, d) the gene expression of a selected gene.
 }
 \examples{
 
-
-## Data is taken from DOI: 10.1126/science.aaf2403
-SeuratObj <- readRDS(file.path(system.file(package = "Spaniel"),
-                        "extdata/SeuratData.rds"))
-imgFile <- readRDS(file.path(system.file(package = "Spaniel"),
-                        "extdata/image.rds"))
-
-## Counts per spot with a QC filter
-minGenes <- 2000
-minUMI <- 300000
-filter <- SeuratObj$nFeature_RNA > minGenes &
-            SeuratObj$nCount_RNA > minUMI
-spanielPlot(object = SeuratObj, grob = imgFile,
-        plotType = "CountsPerSpot",
-        showFilter = filter)
-
-## Cluster plot
-spanielPlot(object = SeuratObj, grob = imgFile,
-        plotType = "Cluster",
-        clusterRes = "cluster_RNA_snn_res.0.6")
-
-## Gene plot
-spanielPlot(object = SeuratObj, grob = imgFile,
-        plotType = "Gene",
-        gene= "Nrgn")
+pathToTenXOuts <- file.path(system.file(package = "Spaniel"), "extdata/outs")
+sceObj <- createVisiumSCE(tenXDir=pathToTenXOuts, 
+                       resolution="Low") 
+spanielPlot(object = sceObj,
+            plotType = "Gene", 
+            gene = "ENSMUSG00000024843",
+            techType = "Visium", 
+            ptSizeMax = 3)
 }

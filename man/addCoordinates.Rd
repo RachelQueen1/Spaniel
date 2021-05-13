@@ -32,12 +32,12 @@ https://github.com/SpatialTranscriptomicsResearch/st_spot_detector
 }
 \examples{
 
-### load a Seurat Object 
-SeuratObj <- readRDS(file.path(system.file(package = "Spaniel"),
-                        "extdata/SeuratData.rds"))
+### load a SingleCellExperiment Object 
+sceObj <- readRDS(file.path(system.file(package = "Spaniel"),
+                        "extdata/sceData.rds"))
 ### path to coordinates file exported from spot detector                        
 coordinatesFile <-  file.path(system.file(package = "Spaniel"),
                         "spot_positions.tsv")                        
-SeuratObj <- addCoordinates(SeuratObj, coordinatesFile)  
+sceObj <- addCoordinates(sceObj, coordinatesFile)  
 
 }

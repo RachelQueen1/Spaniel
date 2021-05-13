@@ -20,7 +20,7 @@ or colData of a Seurat or SCE object. Columns are marked with "cluster_"
 prefix.
 }
 \examples{
-SeuratObj <- readRDS(file.path(system.file(package = "Spaniel"), 
-                                "extdata/SeuratData.rds"))
-SeuratObj <- markClusterCol(SeuratObj, "res")
+sceObj <- readRDS(file.path(system.file(package = "Spaniel"),
+                        "extdata/sceData.rds"))
+sceObj <- markClusterCol(sceObj, "res")
 }
