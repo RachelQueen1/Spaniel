@@ -15,8 +15,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends: R (>= 4.0)
-Imports: Seurat,
-         SingleCellExperiment,
+Imports: SingleCellExperiment,
          SummarizedExperiment,
          dplyr,
          methods,
@@ -53,4 +52,4 @@ Collate:
     'spanielPlot.R'
     'shinySpaniel.R'
     'tenX.R'
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.1
