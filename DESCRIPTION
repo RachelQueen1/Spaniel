@@ -1,7 +1,7 @@
 Package: Spaniel
 Type: Package
 Title: Spatial Transcriptomics Analysis
-Version: 1.12.0
+Version: 1.13.0
 Authors@R: 
     c(person("Rachel", "Queen", role = c("aut", "cre"), email = "rachel.queen@newcastle.ac.uk"))
 Description: Spaniel includes a series of tools to aid the quality control and 
