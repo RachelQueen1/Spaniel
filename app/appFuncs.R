@@ -1,6 +1,5 @@
 library(Spaniel)
 library(ggplot2)
-library(ggpubr)
 library(dplyr)
 library(SpatialFeatureExperiment)
 library(scran)
@@ -8,7 +7,6 @@ library(scater)
 library(scuttle)
 library(cowplot)
 library(bluster)
-library(ggspavis)
 
 
 
@@ -48,10 +46,10 @@ SpClusters <- function(dataIn){
 }
 
 Markers <- function(data, colLabelName, cluster){
-  marker.info <- scoreMarkers(data, colData(data)[colLabelName] %>% unlist())
-  chosen <- marker.info[[cluster]]
-  ordered <- chosen[order(chosen$rank.logFC.cohen),]
-  top.ranked <- ordered[ordered$rank.logFC.cohen <= 5,]
+  markers <- findMarkers(data, colData(data)[colLabelName] %>% unlist(), test.type = "wilcox", pval.type = "all")
+  # need to add support for other clusters etc
+  markers <- markers[[1]]
+  top.ranked <- row.names(markers)[1:10]
   return(top.ranked)
 }
 
