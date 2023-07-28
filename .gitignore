@@ -4,3 +4,7 @@
 .Ruserdata
 .Rproj
 .old
+SpanielTest.Rproj
+testScripts
+vignettes/.gitignore
+.gitignore
